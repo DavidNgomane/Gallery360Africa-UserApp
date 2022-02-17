@@ -4,7 +4,7 @@ import { globalStyles } from '../assets/styles/GlobalStyles';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import firestore from '@react-native-firebase/firestore';
 
-const ShippingAddress = () => {
+const ShippingAddress = ({navigation}) => {
 
   const [recipientName, setRecipientName] = useState('');
   const [mobile, setMobile] = useState('');
@@ -77,7 +77,7 @@ const ShippingAddress = () => {
       </View>
       <View style={globalStyles.shippingFooter}>
         <TouchableOpacity
-            onPress={() => navigation.navigate('ShippingAddress')}
+            onPress={() => navigation.navigate('DeliveryAddress')}
             style={{backgroundColor:'black', width:250, height:50, borderRadius:12}}>
             <Text style={{color:'white', textAlign:'center', fontSize:14, top:15, }}>Save Address</Text>
           </TouchableOpacity>

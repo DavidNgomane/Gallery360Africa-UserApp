@@ -11,6 +11,7 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 // Import screens
 import Market from './src/screens/Market';
 import Exhibition from './src/screens/Exhibition';
+import ExhibitionDetails from './src/screens/ExhibitionDetails';
 import Splash from './src/screens/Splash';
 import Onboarding from './src/screens/Onboarding';
 import SignIn from './src/screens/SignIn';
@@ -73,7 +74,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='Home'
+        initialRouteName='Splash'
       >
         <Stack.Screen options={{headerShown: false}} name='Splash' component={Splash} />
         <Stack.Screen options={{headerShown: false}} name='Onboarding' component={Onboarding} />
@@ -110,6 +111,8 @@ const App = () => {
         <Stack.Screen options={{headerShown: false}} name='PaymentForm' component={PaymentForm} />
         <Stack.Screen options={{headerShown: false}} name='DeliveryAddress' component={DeliveryAddress} />
         <Stack.Screen options={{headerShown: false}} name='ShippingAddress' component={ShippingAddress} />
+        <Stack.Screen options={{headerShown: false}} name='ExhibitionDetails' component={ExhibitionDetails} />
+
       </Stack.Navigator>
     </NavigationContainer>
   )
