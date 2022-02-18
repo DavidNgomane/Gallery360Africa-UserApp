@@ -25,6 +25,8 @@ import PaymentFailure from './src/screens/PaymentFailure';
 import PaymentForm from './src/screens/PaymentForm';
 import DeliveryAddress from './src/screens/DeliveryAddress';
 import ShippingAddress from './src/screens/ShippingAddress';
+import Notifications from './src/screens/Notifications';
+import NotificationDetails from './src/screens/NotificationsDetails'
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -74,7 +76,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='Splash'
+        initialRouteName='ArtPreview'
       >
         <Stack.Screen options={{headerShown: false}} name='Splash' component={Splash} />
         <Stack.Screen options={{headerShown: false}} name='Onboarding' component={Onboarding} />
@@ -112,7 +114,8 @@ const App = () => {
         <Stack.Screen options={{headerShown: false}} name='DeliveryAddress' component={DeliveryAddress} />
         <Stack.Screen options={{headerShown: false}} name='ShippingAddress' component={ShippingAddress} />
         <Stack.Screen options={{headerShown: false}} name='ExhibitionDetails' component={ExhibitionDetails} />
-
+        <Stack.Screen options={{headerShown: false}} name='Notifications' component={Notifications} />
+        <Stack.Screen options={{headerShown: false}} name='NotificationDetails' component={NotificationDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -2,6 +2,7 @@ import { View, Text, FlatList, Dimensions, TouchableWithoutFeedback, Image, Touc
 import React, { useState, useEffect } from 'react';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 // icons
 import Entypo from 'react-native-vector-icons/Entypo';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -12,11 +13,13 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const ArtPreview = ({route, navigation}) => {
 
-  const { artistUid } = route.params;
+  //const { artistUid } = route.params;
+  const artistUid = "3RcDICKP55zQEqBHHdXl"
 
   const [post, setPost] = useState(null);
   const [like, setLike] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
+  const [following, setFollowing] = useState(false);
 
     const onLikePress = (likes, artKey) => {
     const likesToAdd = isLiked ? -1 : 1;
@@ -54,6 +57,25 @@ const ArtPreview = ({route, navigation}) => {
       isMounted = false;
     }
 }, []);
+
+const onFollow = () => {
+  firestore()
+  .collection('following'
+  ).doc(auth().currentUser.uid)
+  .collection('userFollowing')
+  .doc(artistUid)
+  .set({})
+  alert('followed!')
+}
+
+const onUnFollow = () => {
+  firestore()
+  .collection('following'
+  ).doc(auth().currentUser.uid)
+  .collection('userFollowing')
+  .doc(artistUid)
+  .delete({})
+}
 
   return (
     <View
@@ -100,11 +122,24 @@ const ArtPreview = ({route, navigation}) => {
         
               <View style={globalStyles.uiContainer}>
                 <View style={globalStyles.rightContainer}>
-                  <TouchableOpacity 
+                 
+                 {following ? (
+                    <TouchableOpacity 
                     style={{marginVertical: 12}}
+                    title="following"
+                    onPress={() => onFollow()}
                   >
                     <SimpleLineIcons name="user-follow" size={24} color={'#FFFFFF'} />
                   </TouchableOpacity>
+                 ): (
+                  <TouchableOpacity 
+                  style={{marginVertical: 12}}
+                  title="follow"
+                  onPress={() => onFollow()}
+                >
+                  <SimpleLineIcons name="user-follow" size={24} color={'#FFFFFF'} />
+                </TouchableOpacity>
+                 )}
 
                   <TouchableOpacity 
                     style={{marginVertical: 12}}

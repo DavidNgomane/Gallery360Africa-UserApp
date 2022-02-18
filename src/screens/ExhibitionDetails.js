@@ -2,7 +2,6 @@ import React from 'react';
 import {View, Text, ScrollView, Image, ImageBackground, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import { StatusBar } from 'react-native'
 import Entypo from 'react-native-vector-icons/Entypo';
-//import { Exhibition } from '../data/StaticData';
 
 const image = require('../assets/images/dannie-jing-3GZlhROZIQg-unsplash.jpg');
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
