@@ -1,6 +1,7 @@
 import { View, Text, FlatList, Dimensions, TouchableWithoutFeedback, Image, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { globalStyles } from '../assets/styles/GlobalStyles';
+import CommentsModal from './CommentsModal';
 import firestore from '@react-native-firebase/firestore';
 // icons
 import Entypo from 'react-native-vector-icons/Entypo';
