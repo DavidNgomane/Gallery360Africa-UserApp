@@ -15,14 +15,13 @@ const Market = ({navigation, route}) => {
   }
   useEffect(() => {
     let isMounted = true;
-    getArtist();
+     getArtist();
     return () => {
       isMounted = false;
     }
   }, [])
 
   // 
-
   return (
     <View style={globalStyles.container}>
       {/*  */}

@@ -2,9 +2,12 @@ import { ImageBackground, StyleSheet, Text, View, TouchableOpacity, TextInput } 
 import React, { useState } from 'react';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import firestore from '@react-native-firebase/firestore';
 
-const ShippingAddress = () => {
+// firebase
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
+
+const ShippingAddress = ({navigation}) => {
 
   const [recipientName, setRecipientName] = useState('');
   const [mobile, setMobile] = useState('');
@@ -12,6 +15,24 @@ const ShippingAddress = () => {
   const [city, setCity] = useState('');
   const [province, setProvince] = useState('');
   const [postalCode, setPostalCode] = useState('');
+
+   const register = () => {
+    if (recipientName !== "" && mobile !== ""  && streetName !== "" && city !== '' && province !== '' && postalCode !== '') {
+        
+        firestore().collection('address').doc(user.uid).set({
+            
+            recipientName: recipientName,
+            mobile: mobile,
+            streetName: streetName,
+            city: city,
+            province: province,
+            postalCode: postalCode 
+          }).then(() => {
+                      alert("You are successfully registered");
+                      navigation.navigate("DeliveryAddress");
+                    }).catch((error) => alert(error));
+    }
+  }
 
   return (
     <ImageBackground
@@ -27,6 +48,7 @@ const ShippingAddress = () => {
             <Text style={{color: '#22180E', fontWeight: '600', fontSize: 22, alignSelf: 'center', width: 190, marginLeft: 50}}>Shipping Address</Text>
       </View>
       <View style={globalStyles.body}>
+        
         <TextInput
                 style={styles.textField}
                 value={recipientName}  
@@ -77,7 +99,7 @@ const ShippingAddress = () => {
       </View>
       <View style={globalStyles.shippingFooter}>
         <TouchableOpacity
-            onPress={() => navigation.navigate('ShippingAddress')}
+            onPress={register}
             style={{backgroundColor:'black', width:250, height:50, borderRadius:12}}>
             <Text style={{color:'white', textAlign:'center', fontSize:14, top:15, }}>Save Address</Text>
           </TouchableOpacity>
