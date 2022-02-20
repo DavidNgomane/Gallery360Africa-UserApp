@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {View, Text, TextInput, Modal, StyleSheet, Animated, TouchableWithoutFeedback, Image, KeyboardAvoidingView} from 'react-native';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -9,12 +9,14 @@ import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunity
 const CommentsModal = ({isVisible, onClose}) => { 
 
   const [comments, setComments] = React.useState('');
+  const [post, setPost] = useState(post.artistUid)
 
   const modalAnimatedValue = React.useRef(new Animated.Value(0)).current
 
   const [isModalVisible, setModalVisible] = React.useState(isVisible);
 
   React.useEffect(() => {
+    console.log(post + "   this is the uid")
        if(isModalVisible) {
            Animated.timing(modalAnimatedValue, {
                toValue: 1,
@@ -86,7 +88,7 @@ const CommentsModal = ({isVisible, onClose}) => {
            <Text style={{color: '#000', textAlign: 'center', fontSize: 18}}>2 Comments</Text>
          <View>
            <View style={{flexDirection: 'row', marginVertical: 20}}> 
-           <View style={styles.profilePic}><Image source={require('../assets/person1.png')}/></View>
+           <View style={styles.profilePic}><Image source={require('../assets/images/modal/person1.png')}/></View>
            <View>
              <Text style={styles.textStyle}>John Wick</Text>
              </View>
@@ -99,7 +101,7 @@ const CommentsModal = ({isVisible, onClose}) => {
 
             <View>
            <View style={{flexDirection: 'row', marginVertical: 20}}> 
-           <View style={styles.profilePic}><Image source={require('../assets/person2.png')}/></View>
+           <View style={styles.profilePic}><Image source={require('../assets/images/modal/person2.png')}/></View>
            <View><Text style={styles.textStyle}>John Wick</Text></View>
          </View>
          <View style={{alignSelf: 'flex-end', marginVertical: -20}}>
@@ -110,7 +112,7 @@ const CommentsModal = ({isVisible, onClose}) => {
         </View> 
           
           <View style={{flex: 3, flexDirection: 'row'}}>
-            <View style={styles.userProfile}><Image source={require('../assets/person3.png')}/></View>
+            <View style={styles.userProfile}><Image source={require('../assets/images/modal/person3.png')}/></View>
           <View style={styles.inputStyle}>
            <View style={{flexDirection: 'row'}}>   
           <TextInput

@@ -13,6 +13,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const ArtPreview = ({route, navigation}) => {
 
+  const [isModalVisible, setModalVisible] = React.useState(false);
+
   const { artistUid } = route.params;
 
   const [post, setPost] = useState(null);
@@ -39,6 +41,7 @@ const ArtPreview = ({route, navigation}) => {
   };
   // 
   const getArtDetails = () => {
+  
     return firestore()
       .collection('Market')
       .where("ArtistUid", "==", artistUid).onSnapshot((snapShot) => {
@@ -100,6 +103,13 @@ const ArtPreview = ({route, navigation}) => {
               </View>             
         
               <View style={globalStyles.uiContainer}>
+              {isModalVisible &&
+                 <CommentsModal
+                 post={artistUid}
+                   isVisible={isModalVisible}
+                   onClose={() => setModalVisible(false)}
+                />
+              }
                 <View style={globalStyles.rightContainer}>
                   <TouchableOpacity 
                     style={{marginVertical: 12}}
