@@ -20,6 +20,7 @@ const ArtPreview = ({route, navigation}) => {
   const [like, setLike] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [following, setFollowing] = useState(false);
+  
 
     const onLikePress = (likes, artKey) => {
     const likesToAdd = isLiked ? -1 : 1;
@@ -65,7 +66,10 @@ const onFollow = () => {
   .collection('userFollowing')
   .doc(artistUid)
   .set({})
-  alert('followed!')
+  .then((snapShot) => {
+    setFollowing(!following)
+    alert('followed!')
+  })
 }
 
 const onUnFollow = () => {
@@ -75,6 +79,11 @@ const onUnFollow = () => {
   .collection('userFollowing')
   .doc(artistUid)
   .delete({})
+  .then((snapShot) => {
+    setFollowing(!following)
+    alert('Unfollowed!')
+  })
+  
 }
 
   return (
@@ -135,7 +144,7 @@ const onUnFollow = () => {
                   <TouchableOpacity 
                   style={{marginVertical: 12}}
                   title="follow"
-                  onPress={() => onFollow()}
+                  onPress={() => onUnFollow()}
                 >
                   <SimpleLineIcons name="user-follow" size={24} color={'#FFFFFF'} />
                 </TouchableOpacity>
