@@ -83,6 +83,7 @@ const PaymentForm = ({navigation}) => {
                 <TouchableOpacity
                     style={styles.buttonStyle}
                     activeOpacity={0.5}
+                    onPress={() => navigation.navigate('PaymentSuccesful')}
                 >
                     <Text style={styles.buttonTextStyle}>Pay ZAR 350000.00</Text>
                 </TouchableOpacity>

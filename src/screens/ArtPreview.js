@@ -138,7 +138,7 @@ const onUnFollow = () => {
                     title="following"
                     onPress={() => onFollow()}
                   >
-                    <SimpleLineIcons name="user-follow" size={24} color={'#FFFFFF'} />
+                    <SimpleLineIcons name="user-follow" size={24} color={following ? 'white' : 'blue'}/>
                   </TouchableOpacity>
                  ): (
                   <TouchableOpacity 
@@ -146,7 +146,7 @@ const onUnFollow = () => {
                   title="follow"
                   onPress={() => onUnFollow()}
                 >
-                  <SimpleLineIcons name="user-follow" size={24} color={'#FFFFFF'} />
+                  <SimpleLineIcons name="user-follow" size={24} color={following ? 'white' : 'blue'} />
                 </TouchableOpacity>
                  )}
 

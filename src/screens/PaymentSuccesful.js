@@ -3,7 +3,7 @@ import React from 'react';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore from '@react-native-firebase/firestore';
 
-const PaymentSuccesful = () => {
+const PaymentSuccesful = ({navigation}) => {
   return (
     <ImageBackground
       source={require('../assets/images/payments/succesful.png')}
@@ -23,7 +23,7 @@ const PaymentSuccesful = () => {
       </View>
       
       <View style={globalStyles.splashFooter}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Market')}>
           <Image
             source={require('../assets/images/payments/image.png')}
             style={{alignSelf: 'center', width: 320, }}

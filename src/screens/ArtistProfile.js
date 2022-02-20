@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, ImageBackground, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth";
 import { globalStyles } from "../assets/styles/GlobalStyles";
 
 // icons
@@ -8,6 +9,8 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const ArtistProfile = ({route, navigation}) => {
+
+  const [following, setFollowing] = useState(false);
 
   const { artistUid, artistPhoto, artistName, artistDescription } = route.params;
   // 
@@ -21,6 +24,34 @@ const ArtistProfile = ({route, navigation}) => {
   useEffect(() => {
     getArt();
   }, [])
+
+  const onFollow = () => {
+    firestore()
+    .collection('following'
+    ).doc(auth().currentUser.uid)
+    .collection('userFollowing')
+    .doc(artistUid)
+    .set({})
+    .then((snapShot) => {
+      setFollowing(!following)
+      alert('followed!')
+    })
+  }
+  
+  const onUnFollow = () => {
+    firestore()
+    .collection('following'
+    ).doc(auth().currentUser.uid)
+    .collection('userFollowing')
+    .doc(artistUid)
+    .delete({})
+    .then((snapShot) => {
+      setFollowing(!following)
+      alert('Unfollowed!')
+    })
+    
+  }
+  
 
   return (
     <ImageBackground 
@@ -68,6 +99,30 @@ const ArtistProfile = ({route, navigation}) => {
                             style={{alignSelf: 'flex-end', marginVertical: -25, marginHorizontal: 70, bottom: 3}}
                           />
                         </TouchableOpacity>
+
+                        {following ? (
+                            <TouchableOpacity 
+                              onPress={() => onFollow()}
+                            >
+                              <Ionicons 
+                                name="md-person-add" size={24} 
+                                color={following ? 'black' : 'blue'}
+                                style={{alignSelf: 'flex-end', marginVertical: -25, marginHorizontal: 70, bottom: 3}}
+                              />
+                          </TouchableOpacity>
+                        ): (
+                          <TouchableOpacity 
+                          onPress={() => onUnFollow()}
+                          >
+                            <Ionicons 
+                              name="md-person-add" size={24} 
+                              color={following ? 'black' : 'blue'}
+                              style={{alignSelf: 'flex-end', marginVertical: -25, marginHorizontal: 70, bottom: 3}}
+                            />
+                        </TouchableOpacity>
+                        )}
+
+
                       </View>
                     </View>
 

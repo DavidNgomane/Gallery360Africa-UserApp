@@ -44,13 +44,13 @@ const TabNavigator = () => {
           borderRadius: 20,
           marginHorizontal: 12,
           width: 'auto',
-          backgroundColor: '#ceb89e',
+          backgroundColor: '#fff',
           headerShadowVisible: false,
           margin: 5
         },
         tabBarActiveTintColor: '#000',
-        tabBarInactiveTintColor: '#fff',
-        tabBarPressColor: '#000',
+        tabBarInactiveTintColor: '#ceb89e',
+        tabBarPressColor: '#ceb89e',
       }}
     >
       <Tab.Screen name='Market' component={Market} />
