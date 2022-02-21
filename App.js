@@ -25,6 +25,8 @@ import PaymentForm from './src/screens/PaymentForm';
 import DeliveryAddress from './src/screens/DeliveryAddress';
 import ShippingAddress from './src/screens/ShippingAddress';
 import Preview from './src/screens/Preview';
+import UserProfile from './src/screens/UserProfile';
+import ExhibitionDetails from './src/screens/ExhibitionDetails';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -82,7 +84,8 @@ const App = () => {
           name='Home' 
           component={TabNavigator}
           options={({navigation}) => ({
-            headerLeft: () => {return null;},
+            // headerLeft: () => {return null;},
+            // headerBackVisible: false,
             title: 'Hi Sibusiso',
             headerRight: () => (
               <View style={{flexDirection: 'row', width: 74, justifyContent: 'space-between', }}>
@@ -93,6 +96,7 @@ const App = () => {
                 <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
                   <MaterialIcons name='shopping-cart' size={29} color={'#000'}/>
                 </TouchableOpacity>
+
                 <TouchableOpacity>
                   <EvilIcons name='user' size={39} color={'#000'} />
                 </TouchableOpacity>
@@ -112,6 +116,8 @@ const App = () => {
         <Stack.Screen options={{headerShown: false}} name='DeliveryAddress' component={DeliveryAddress} />
         <Stack.Screen options={{headerShown: false}} name='ShippingAddress' component={ShippingAddress} />
         <Stack.Screen options={{headerShown: false}} name='Preview' component={Preview} />
+        <Stack.Screen options={{headerShown: false}} name='ExhibitionDetails' component={ExhibitionDetails} />
+        {/* <Stack.Screen options={{headerShown: false}} name='UserProfile' component={UserProfile} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   )

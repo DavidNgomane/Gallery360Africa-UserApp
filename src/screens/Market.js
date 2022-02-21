@@ -6,11 +6,12 @@ import firestore from '@react-native-firebase/firestore';
 const Market = ({navigation, route}) => {
   // 
   const [artist, setArtist] = useState(null);
-
+  
   const getArtist = () => {
     return firestore().collection('artists').onSnapshot((snapShot) => {
       const allArtists = snapShot.docs.map(docSnap => docSnap.data());
-      setArtist(allArtists);
+      
+      setArtist(allArtists)
     })
   }
   useEffect(() => {

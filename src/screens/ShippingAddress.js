@@ -20,7 +20,6 @@ const ShippingAddress = ({navigation}) => {
     if (recipientName !== "" && mobile !== ""  && streetName !== "" && city !== '' && province !== '' && postalCode !== '') {
         
         firestore().collection('address').doc(user.uid).set({
-            
             recipientName: recipientName,
             mobile: mobile,
             streetName: streetName,
@@ -28,9 +27,11 @@ const ShippingAddress = ({navigation}) => {
             province: province,
             postalCode: postalCode 
           }).then(() => {
-                      alert("You are successfully registered");
-                      navigation.navigate("DeliveryAddress");
-                    }).catch((error) => alert(error));
+            alert("You are successfully registered");
+              navigation.navigate("DeliveryAddress");
+          }).catch((error) => alert(error));
+    } else {
+      alert('Fill all fields!')
     }
   }
 

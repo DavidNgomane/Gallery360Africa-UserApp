@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, ImageBackground, SafeAreaView, FlatList, TouchableOpacity} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import firestore from '@react-native-firebase/firestore';
+import { globalStyles } from "../assets/styles/GlobalStyles";
 
 const data = [
     {
@@ -47,23 +48,23 @@ const DeliveryAddress = ({navigation}) => {
     return(
     <View>
       <ImageBackground 
-        source={require('../assets/images/home.png')} 
+        source={bg} 
         style={{width:'100%', height:'100%'}} 
         resizeMode='stretch'
     >
-        <View style={{flex:1, flexDirection:'row', maxWidth:'80%', justifyContent:'space-around', top:10 }}>
+        <View style={{flex:1, flexDirection:'row', maxWidth:'80%', justifyContent:'space-around', top:20 }}>
           
-          <View style={{height:40, width:40, borderColor:'black', borderWidth:0.5, borderRadius:10 }}>
+          <View style={{height:40, width:40, borderColor:'black', borderWidth:1, borderRadius:10 }}>
             <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
                 <MaterialIcons
                     name="arrow-back-ios" size={25} 
                     color="black" 
-                    style={{top:5, textAlign:'center', left:5}}
-                    />
+                    style={{top:6, textAlign:'center', left:5}}
+                />
             </TouchableOpacity>
            
           </View>
-               <Text style={{fontSize:20, color:'black', top:5, }}>Delivery Address</Text>
+               <Text style={{fontSize:20, color:'black', top:10, }}>Delivery Address</Text>
 
         </View>
         <SafeAreaView style={{flex:4}}>
@@ -94,5 +95,6 @@ const DeliveryAddress = ({navigation}) => {
   )
 };
 
+const bg = require('../assets/images/home.png');
 
 export default DeliveryAddress

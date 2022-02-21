@@ -50,7 +50,7 @@ const Exhibition = ({navigation, route}) => {
             renderItem={({item}) => {
               return (
                 <View>
-                  <TouchableOpacity onPress={() => navigation.navigate('', {artistUid: item.artistUid})}>
+                  <TouchableOpacity onPress={() => navigation.navigate('ExhibitionDetails', {artistUid: item.artistUid, })}>
                     <Image 
                       source={{uri: item.exhibitionImage}} 
                       style={globalStyles.artImage}

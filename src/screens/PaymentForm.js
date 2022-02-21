@@ -4,12 +4,33 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore from '@react-native-firebase/firestore';
 
-const PaymentForm = ({navigation}) => {
+const PaymentForm = ({route, navigation}) => {
 
     const [name, setName] = useState('');
     const [cardNumber, setCardNumber] = useState('');
     const [expiration, setExpiration] = useState('');
     const [cvv, setCvv] = useState('')
+
+    const submitForm = () => {
+      if(name == '' || cardNumber == '' || expiration == '' || cvv == '') {
+        alert('Fill in all fields')
+      } else {
+        navigation.navigate('PaymentSuccesful')
+
+        return(
+          firestore().collection('paymentDetails').add({
+            name: name,
+            cardNumber: cardNumber,
+            expiration: expiration,
+            cvv: cvv,
+          })
+          .catch((error) => {
+            alert(error);
+          })
+        )
+      }
+      
+    }
 
   return (
     <KeyboardAvoidingView 
@@ -65,8 +86,8 @@ const PaymentForm = ({navigation}) => {
                 <TextInput
                     style={[styles.textField,
                         {
-                            marginRight: 20,
-                            width: 140
+                          marginRight: 20,
+                          width: 140
                         },
                     ]}
                 value={cvv}
@@ -83,6 +104,7 @@ const PaymentForm = ({navigation}) => {
                 <TouchableOpacity
                     style={styles.buttonStyle}
                     activeOpacity={0.5}
+                    onPress={submitForm}
                 >
                     <Text style={styles.buttonTextStyle}>Pay ZAR 350000.00</Text>
                 </TouchableOpacity>

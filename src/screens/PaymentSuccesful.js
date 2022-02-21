@@ -3,29 +3,29 @@ import React from 'react';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore from '@react-native-firebase/firestore';
 
-const PaymentSuccesful = () => {
+const PaymentSuccesful = ({navigation}) => {
   return (
     <ImageBackground
-      source={require('../assets/images/payments/succesful.png')}
+      source={bg}
       style={globalStyles.container}
       resizeMode='stretch'
     >
       <View style={{flex: 1}}> 
-        
+        {/*  */}
       </View>
 
       <View style={globalStyles.body}>
           <Image
-            source={require('../assets/images/payments/right.png')}
+            source={logo}
             style={globalStyles.wrongLogo}
           />
           <Text style={globalStyles.paymeyntSuccess}>Payment Success</Text>
       </View>
       
       <View style={globalStyles.splashFooter}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Market')}>
           <Image
-            source={require('../assets/images/payments/image.png')}
+            source={btn}
             style={{alignSelf: 'center', width: 320, }}
             resizeMode='contain'
           />
@@ -35,6 +35,10 @@ const PaymentSuccesful = () => {
     </ImageBackground>
   );
 };
+
+const bg = require('../assets/images/payments/succesful.png');
+const logo = require('../assets/images/payments/right.png');
+const btn = require('../assets/images/payments/image.png');
 
 export default PaymentSuccesful;
 

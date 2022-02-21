@@ -29,8 +29,9 @@ const SignIn = ({navigation}) => {
       .then((user) => {
         console.log(user);
         alert('User logged-in successfully!')
+        const userCredential = user.user;
         // If server response message same as Data Matched
-        if (user) navigation.replace("Home");
+        if (user) navigation.replace("Home", { userUid: userCredential.uid });
       })
       .catch((error) => {
         console.log(error);
@@ -135,7 +136,7 @@ const SignIn = ({navigation}) => {
               Don't have an account?
            </Text>
            <Text>
-           <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+           <TouchableOpacity onPress={() => navigation.navigate('SignUp', {  })}>
                 <Text style={{color: '#22180E'}}>
                   {' '}
                   Sign Up

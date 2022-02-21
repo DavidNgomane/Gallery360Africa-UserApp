@@ -183,8 +183,15 @@ const globalStyles = StyleSheet.create({
     artTypeTxt: {
         position: 'absolute', 
         zIndex: 2, 
-        color: 'grey', 
+        color: '#fff', 
         left: 20, 
+        top: 45
+    },
+    artTypeTxt2: {
+        position: 'absolute', 
+        zIndex: 2, 
+        color: '#fff', 
+        left: 180, 
         top: 45
     },
 
@@ -476,7 +483,7 @@ const globalStyles = StyleSheet.create({
     cardFooter: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 20,
+        marginVertical: 10,
         // backgroundColor: 'red',  // used as an indicator, it can be deleted.
         // padding: 20
     },

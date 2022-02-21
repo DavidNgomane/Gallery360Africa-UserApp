@@ -63,7 +63,7 @@ const Cart = ({navigation}) => {
         <View style={globalStyles.Top}>
           <View style={globalStyles.backButtonView}>
             <TouchableOpacity 
-              onPress={() =>navigation.replace('Home')}
+              onPress={() => navigation.goBack(null)}
               style={globalStyles.backButton}
             >
               <Entypo
