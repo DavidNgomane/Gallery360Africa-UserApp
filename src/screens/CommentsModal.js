@@ -1,19 +1,34 @@
 import React, { useState } from 'react';
-import {View, Text, TextInput, Modal, StyleSheet, Animated, TouchableWithoutFeedback, Image, KeyboardAvoidingView} from 'react-native';
+import {View, Text, TextInput, Modal, StyleSheet, Animated, TouchableWithoutFeedback, Image, KeyboardAvoidingView, TouchableOpacity} from 'react-native';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const CommentsModal = ({isVisible, onClose}) => { 
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
-  const [comments, setComments] = React.useState('');
-  const [post, setPost] = useState(post.artistUid)
+const CommentsModal = ({ImageUid, route, isVisible, onClose }) => { 
+
+  const [comments, setComments] = useState('');
+  const [post, setPost] = useState('')
+  const [user, setUsers] = useState('')
+
+  //const { ImageUid } = route.params;
 
   const modalAnimatedValue = React.useRef(new Animated.Value(0)).current
 
   const [isModalVisible, setModalVisible] = React.useState(isVisible);
+
+  const addComments = () => {
+      const uid = auth()?.currentUser?.uid;
+     const ImageUid = ImageUid;
+      firestore().collection('comments').doc(user.uid).set({
+            comments: comments,
+            uid: uid
+     })
+  }
 
   React.useEffect(() => {
     console.log(post + "   this is the uid")
@@ -121,9 +136,11 @@ const CommentsModal = ({isVisible, onClose}) => {
               placeholderTextColor="#828282"
               autoCapitalize="sentences"
             />
-             <View style={{flexDirection: 'row', marginHorizontal: 85}}>
-             <Ionicons style={{marginRight: 5, alignSelf: 'center'}} name="at" color="#000" size={30}/> 
+             <View style={{flexDirection: 'row', marginHorizontal: 85, width: '29%',justifyContent: 'space-between'}}>
              <Entypo style={{alignSelf: 'center'}} name="emoji-happy" color="#000" size={25}/> 
+              <TouchableOpacity onPress={addComments}>
+              <MaterialCommunityIcons style={{marginRight: 5, alignSelf: 'center', marginVertical: 7}} name="send-outline" color="#000" size={30}/>
+               </TouchableOpacity> 
              </View>
             </View>
           </View>

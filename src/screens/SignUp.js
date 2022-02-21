@@ -33,10 +33,10 @@ const SignUp = ({navigation}) => {
       .then((userCredential) => {
         const user = userCredential.user;
         firestore().collection('users').doc(user.uid).set({
-                        uid: user.uid,
                         fullName: fullName,
                         email: user.email,
-                    }).then(() => {
+                         uid: user.uid,
+                   }).then(() => {
                       alert("You are successfully registered");
                       navigation.navigate("SignIn");
                     }).catch((error) => alert(error));

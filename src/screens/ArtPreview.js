@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import CommentsModal from './CommentsModal';
 import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 // icons
 import Entypo from 'react-native-vector-icons/Entypo';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -11,15 +12,33 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const ArtPreview = ({route, navigation}) => {
+const ArtPreview = ({route, navigation, ImageUid }) => {
 
   const [isModalVisible, setModalVisible] = React.useState(false);
 
   const { artistUid } = route.params;
+  //const ImageUid = ImageUid;
 
   const [post, setPost] = useState(null);
   const [like, setLike] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
+  const [users, setUsers] = useState('');
+
+  const getAllUsers = () => {
+     const uid = auth()?.currentUser?.uid;
+     return firestore().collection('users').onSnapshot((snapShot) => {
+     const allUsers = snapShot.docs.map(docSnap => docSnap.data());
+     setUsers(allUsers);
+    })
+  }
+
+  useEffect(() => {
+    let isMounted = true;
+     getAllUsers();
+    return () => {
+      isMounted = false;
+    }
+  }, [])
 
     const onLikePress = (likes, artKey) => {
     const likesToAdd = isLiked ? -1 : 1;
@@ -105,10 +124,10 @@ const ArtPreview = ({route, navigation}) => {
               <View style={globalStyles.uiContainer}>
               {isModalVisible &&
                  <CommentsModal
-                 post={artistUid}
                    isVisible={isModalVisible}
                    onClose={() => setModalVisible(false)}
                 />
+                
               }
                 <View style={globalStyles.rightContainer}>
                   <TouchableOpacity 
@@ -119,7 +138,10 @@ const ArtPreview = ({route, navigation}) => {
 
                   <TouchableOpacity 
                     style={{marginVertical: 12}}
-                    onPress={() => setModalVisible(true)} 
+                    onPress={() => setModalVisible(true, {
+                      ImageUid: item.ImageUid,
+                      users: users
+                    })} 
                     activeOpacity={0.5}
                   >
                     <Fontisto name="comments" size={24} color={'#FFFFFF'} />
