@@ -46,6 +46,7 @@ const Exhibition = ({navigation, route}) => {
 
   // 
   const [exhibition, setExhibition] = useState(null);
+
   const getExhibition = () => {
     return firestore().collection('exhibition').onSnapshot((snapShot) => {
       const allExhibitions = snapShot.docs.map(docSnap => docSnap.data());

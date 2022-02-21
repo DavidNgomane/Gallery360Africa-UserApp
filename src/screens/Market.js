@@ -2,10 +2,13 @@ import { Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 const Market = ({navigation, route}) => {
   // 
   const [artist, setArtist] = useState(null);
+  const [follow, setFollow] = useState(null);
+
 
   const getArtist = () => {
     return firestore().collection('artists').onSnapshot((snapShot) => {
@@ -14,6 +17,10 @@ const Market = ({navigation, route}) => {
     })
   }
   useEffect(() => {
+      firestore().collection("following").where("uuid", "==", auth().currentUser.uid).onSnapshot((snapShot) => {
+        const follows = snapShot.docs.map((document) => document.id);
+        setFollow(follows);
+      })
     let isMounted = true;
     getArtist();
     return () => {
@@ -38,7 +45,7 @@ const Market = ({navigation, route}) => {
             renderItem={({item}) => {
               return (
                 <View>
-                  <TouchableOpacity onPress={() => navigation.navigate('ArtPreview', {artistUid: item.artistUid})}>
+                  <TouchableOpacity onPress={() => navigation.navigate('ArtPreview', {artistUid: item.artistUid, "keyy" :"follow"})}>
                     <Image 
                       source={{uri: item.artUrl}} 
                       style={globalStyles.artImage}

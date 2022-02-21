@@ -13,8 +13,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const ArtPreview = ({route, navigation}) => {
 
-  //const { artistUid } = route.params;
-  const artistUid = "3RcDICKP55zQEqBHHdXl"
+  const { artistUid } = route.params;
+  //const artistUid = "3RcDICKP55zQEqBHHdXl"
 
   const [post, setPost] = useState(null);
   const [like, setLike] = useState(0);
