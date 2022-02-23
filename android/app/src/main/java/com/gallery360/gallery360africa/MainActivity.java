@@ -1,4 +1,4 @@
-package com.gallery360;
+package com.gallery360.gallery360africa;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "Gallery360";
+    return "gallery360africa";
   }
 }
