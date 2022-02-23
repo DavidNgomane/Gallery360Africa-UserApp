@@ -25,7 +25,7 @@ import PaymentForm from './src/screens/PaymentForm';
 import DeliveryAddress from './src/screens/DeliveryAddress';
 import ShippingAddress from './src/screens/ShippingAddress';
 import Preview from './src/screens/Preview';
-import UserProfile from './src/screens/UserProfile';
+//import UserProfile from './src/screens/UserProfile';
 import ExhibitionDetails from './src/screens/ExhibitionDetails';
 
 const Tab = createMaterialTopTabNavigator();
