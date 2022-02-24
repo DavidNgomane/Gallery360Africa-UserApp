@@ -9,18 +9,18 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const ArtistProfile = ({route, navigation}) => {
 
-  const { artistUid, artistPhoto, artistName, artistDescription } = route.params;
+  //const { artistUid, artistPhoto, artistName, artistDescription } = route.params;
   
-  const[art, setArt] = useState(null)
-  const getArt = () => {
-    return firestore().collection('Market').where("ArtistUid", "==", artistUid).onSnapshot((snapshot) => {
-      const allArt = snapshot.docs.map(docSnap => docSnap.data());
-      setArt(allArt);
-    }) 
-  }
-  useEffect(() => {
-    getArt();
-  }, [])
+  // const[art, setArt] = useState(null)
+  // const getArt = () => {
+  //   return firestore().collection('Market').where("ArtistUid", "==", artistUid).onSnapshot((snapshot) => {
+  //     const allArt = snapshot.docs.map(docSnap => docSnap.data());
+  //     setArt(allArt);
+  //   }) 
+  // }
+  // useEffect(() => {
+  //   getArt();
+  // }, [])
 
   return (
     <ImageBackground 

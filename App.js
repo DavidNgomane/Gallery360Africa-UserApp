@@ -15,9 +15,9 @@ import Splash from './src/screens/Splash';
 import Onboarding from './src/screens/Onboarding';
 import SignIn from './src/screens/SignIn';
 import SignUp from './src/screens/SignUp';
-import Home from './src/screens/Home';
+//import Home from './src/screens/Home';
 import ArtPreview from './src/screens/ArtPreview';
-import ArtistProfile from './src/screens/ArtistProfile';
+//import ArtistProfile from './src/screens/ArtistProfile';
 import Cart from './src/screens/Cart';
 import PaymentSuccesful from './src/screens/PaymentSuccesful';
 import PaymentFailure from './src/screens/PaymentFailure';
@@ -25,6 +25,7 @@ import PaymentForm from './src/screens/PaymentForm';
 import DeliveryAddress from './src/screens/DeliveryAddress';
 import ShippingAddress from './src/screens/ShippingAddress';
 import Preview from './src/screens/Preview';
+import ArtistprofileScreen from './src/screens/ArtistProfileScreen';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -74,7 +75,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='Splash'
+        initialRouteName='Market'
       >
         <Stack.Screen options={{headerShown: false}} name='Splash' component={Splash} />
         <Stack.Screen options={{headerShown: false}} name='Onboarding' component={Onboarding} />
@@ -101,7 +102,8 @@ const App = () => {
           })}
           
         />
-        <Stack.Screen options={{headerShown: false}} name='ArtistProfile' component={ArtistProfile}/>
+        {/* <Stack.Screen options={{headerShown: false}} name='ArtistProfile' component={ArtistProfile}/> */}
+        <Stack.Screen options={{headerShown: false}} name='ArtistProfile' component={ArtistprofileScreen} />
         <Stack.Screen options={{headerShown: false}} name='SignIn' component={SignIn} />
         <Stack.Screen options={{headerShown: false}} name="ArtPreview" component={ArtPreview} />
         <Stack.Screen options={{headerShown: false}} name='Cart' component={Cart} />
