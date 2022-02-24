@@ -1,56 +1,28 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, ScrollView, Image, ImageBackground, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import { StatusBar } from 'react-native'
 import Entypo from 'react-native-vector-icons/Entypo';
+import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth"
 
 const image = require('../assets/images/dannie-jing-3GZlhROZIQg-unsplash.jpg');
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 
-const Items = ({ title, date, address, description}) => {
-  return (
-    <View style={styles.DetailsContainer} >
-       <Text style={{color: "#000000", paddingBottom: 15, fontSize: 28, fontWeight: "bold"}}>{title}</Text>
-       <Text style={{color: "#000000", paddingBottom: 15, fontSize: 14}}>{date}</Text>
-       <Text style={{color: "#000000", paddingBottom: 15, fontSize: 14}}>{address}</Text>
-       <Text style={{color: "#000000", paddingBottom: 40, fontSize: 14}}>{description}</Text>
+export default function ExhibitionDetails({route, navigation}) {
 
-       <View style={{flexDirection: "row"}}>
-       <TouchableOpacity style={styles.VisitLocation}>
-          <Text  style={styles.VisitLocationtxt}>Visit Location</Text>
-        </TouchableOpacity>
+  //const { exhibitionUid } = route.params;
+  const exhibitionUid = "H4SpBE9qBETbsmaKL5IQ"
 
-        <TouchableOpacity style={styles.Heart}>
-              <Entypo
-                name="share"
-                size={30}
-                color={"#000000"}
-                />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.Heart}>
-              <Entypo
-                name="heart"
-                size={30}
-                color={"#000000"}
-                />
-        </TouchableOpacity>
-       </View>
-      
-    </View>
-  );
-}
-
-export default function ExhibitionDetails({navigation}) {
-
-  const ExhibitionD = [ 
-    {
-        id: 1,
-        title: "Artscapes Exhibition",
-        date: "10 July - 22 July 22, 2022",
-        address: "354 Jan Smuts Ave, Craighall, Johannesburg, 2024",
-        description: "Suspendisse blandit magna ipsum, malesuada pellentesque est sagittis at. Pellentesque eu mi quis ante consectetur aliquam id eu felis. Nam vehicula risus vel tempus aliquet.",
-    }
-]
+  const [ExhibitionDetails, setExhibitionDetails] = useState(null);
+  const getExhibitionDetails = () => {
+    return firestore().collection('exhibition').where("exhibitionUid", "==", exhibitionUid).onSnapshot((snapShot) => {
+      const allExhibitionDetails = snapShot.docs.map(docSnap => docSnap.data());
+      setExhibitionDetails(allExhibitionDetails);
+    })
+  }
+  useEffect(() => {
+    getExhibitionDetails();
+  }, [])
 
   return (
     <View style={styles.container}> 
@@ -73,10 +45,38 @@ export default function ExhibitionDetails({navigation}) {
 
               <FlatList 
                 horizontal={true}
-                data={ ExhibitionD }
+                data={ ExhibitionDetails }
                 renderItem={({ item }) => {
                   return(
-                  <Items title={item.title} date={item.date} address={item.address} description={item.description}/>
+                    <View style={styles.DetailsContainer} >
+                    <Text style={{color: "#000000", paddingBottom: 15, fontSize: 28, fontWeight: "bold"}}>{item.exhibitionTitle}</Text>
+                    <Text style={{color: "#000000", paddingBottom: 15, fontSize: 14}}>{item.date}</Text>
+                    <Text style={{color: "#000000", paddingBottom: 15, fontSize: 14}}>{item.address}</Text>
+                    <Text style={{color: "#000000", paddingBottom: 40, fontSize: 14}}>{item.description}</Text>
+             
+                    <View style={{flexDirection: "row"}}>
+                    <TouchableOpacity style={styles.VisitLocation} onPress={() => navigation.navigate('Map', {address: item.address})}>
+                       <Text  style={styles.VisitLocationtxt}>Visit Location</Text>
+                     </TouchableOpacity>
+             
+                     <TouchableOpacity style={styles.Heart}>
+                           <Entypo
+                             name="share"
+                             size={30}
+                             color={"#000000"}
+                             />
+                     </TouchableOpacity>
+             
+                     <TouchableOpacity style={styles.Heart} >
+                           <Entypo
+                             name="heart"
+                             size={30}
+                             color={"black"}
+                             />
+                     </TouchableOpacity>
+                    </View>
+                   
+                 </View>
                   )}
               }
                   keyExtractor = {(item) => item.id}
