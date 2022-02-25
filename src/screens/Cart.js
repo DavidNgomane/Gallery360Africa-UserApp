@@ -8,9 +8,10 @@ import firestore from '@react-native-firebase/firestore';
 const Cart = ({navigation}) => {
 
   const[market, setMarket] = useState(null)
+  const ArtistUid = "VaSfAfPTbktJ3o6jCG1O"
   
   const getMarket = async () => {
-    const querySanp = await firestore().collection('Market').get()
+    const querySanp = await firestore().collection('Market').where("ArtistUid", "==", ArtistUid).get()
     const allmarket = querySanp.docs.map(docSnap=>docSnap.data())
     setMarket(allmarket)
   }
@@ -97,7 +98,7 @@ const Cart = ({navigation}) => {
           <View style={{flexDirection: "row", marginHorizontal: 20, marginVertical: 5}}>
             <View style={{flexDirection: "column", justifyContent: "center",  width: 150, marginVertical: 10}}>
                 <Text style={{ fontSize: 16,  color: "gray"}}>Items</Text>
-                <Text style={{ fontSize: 16, color: "black"}}>6 Items</Text>
+                <Text style={{ fontSize: 16, color: "black"}}>2 Items</Text>
             </View>
             <View style={{flexDirection: "column", justifyContent: "center", width: 140, marginVertical: 10}}>
                 <Text style={{ fontSize: 16,  color: "gray"}}>Total Amount</Text>

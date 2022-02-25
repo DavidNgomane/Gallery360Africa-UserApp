@@ -48,8 +48,8 @@ const ShippingAddress = ({navigation}) => {
             /> 
             <Text style={{color: '#22180E', fontWeight: '600', fontSize: 22, alignSelf: 'center', width: 190, marginLeft: 50}}>Shipping Address</Text>
       </View>
+
       <View style={globalStyles.body}>
-        
         <TextInput
                 style={styles.textField}
                 value={recipientName}  

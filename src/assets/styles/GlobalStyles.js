@@ -376,7 +376,7 @@ const globalStyles = StyleSheet.create({
     // CART STYLES
     flatlistView: {
         borderRadius: '10', 
-        marginTop: 20, 
+        marginTop: 10, 
         marginVertical: -70
     },
     cancelIcon: {
@@ -494,7 +494,7 @@ const globalStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         // backgroundColor: 'red',
-        marginVertical: 20
+        bottom: 55
     }
 })
 
