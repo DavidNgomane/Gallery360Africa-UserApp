@@ -42,15 +42,15 @@ const TabNavigator = () => {
         tabBarStyle: {
           height: 50,
           minHeight: 0,
-          borderRadius: 20,
-          marginHorizontal: 12,
+          //borderRadius: 20,
+          marginHorizontal: -1,
           width: 'auto',
-          backgroundColor: '#ceb89e',
+          backgroundColor: '#fff',
           headerShadowVisible: false,
           margin: 5
         },
         tabBarActiveTintColor: '#000',
-        tabBarInactiveTintColor: '#fff',
+        tabBarInactiveTintColor: '#ceb89e',
         tabBarPressColor: '#000',
       }}
     >
@@ -77,7 +77,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='Splash'
+        initialRouteName='ExhibitionDetails'
       >
         <Stack.Screen options={{headerShown: false}} name='Splash' component={Splash} />
         <Stack.Screen options={{headerShown: false}} name='Onboarding' component={Onboarding} />

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, ScrollView, Image, ImageBackground, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import {View, Text, ScrollView, Image, ImageBackground, StyleSheet, FlatList, TouchableOpacity, Share} from 'react-native';
 import { StatusBar } from 'react-native'
 import Entypo from 'react-native-vector-icons/Entypo';
 import firestore from "@react-native-firebase/firestore";
@@ -23,6 +23,25 @@ export default function ExhibitionDetails({route, navigation}) {
   useEffect(() => {
     getExhibitionDetails();
   }, [])
+
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+       message: "Exhibition Details"
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   return (
     <View style={styles.container}> 
@@ -59,7 +78,7 @@ export default function ExhibitionDetails({route, navigation}) {
                        <Text  style={styles.VisitLocationtxt}>Visit Location</Text>
                      </TouchableOpacity>
              
-                     <TouchableOpacity style={styles.Heart}>
+                     <TouchableOpacity style={styles.Heart} onPress={() => onShare()}>
                            <Entypo
                              name="share"
                              size={30}
