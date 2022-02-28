@@ -21,7 +21,7 @@ export default function UserProfile({route, navigation}) {
   const [imageUri, setimageUri] = useState("");
   const [submit, setSubmit] = useState(false);
 
-  const {photoURL, fullName}= route.params
+  const {photoURL, fullName, uUID}= route.params
   const openImageLibrary = async () =>{
 
     const options = {
@@ -78,7 +78,7 @@ export default function UserProfile({route, navigation}) {
 
   const updateUser = () => {
   
-      firestore().collection("users").doc(auth().currentUser.uid).update({
+      firestore().collection("users").doc(uUID).update({
         fullName: userName,
         photoURL: imageUri,
       }).then(() => {alert("you have successfully update your profile");
