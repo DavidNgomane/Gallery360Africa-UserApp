@@ -82,7 +82,7 @@ const Exhibition = ({navigation, route}) => {
               keyExtractor={item => `${item.artistUid}`}
               renderItem={({item}) => {
                 return (
-                  <TouchableOpacity onPress={() => navigation.navigate('ArtistProfile', { artistDescription: item.description, artistUid: item.artistUid, artistPhoto: item.artistPhoto, artistName: item.artistName})}>
+                  <TouchableOpacity onPress={() => navigation.navigate('ArtistProfile', { artistDescription: item.description, artistUid: item.artistUid, artistPhoto: item.artistPhoto, artistName: item.artistName, })}>
                     <View style={{paddingHorizontal: 10}}>
                       <Image 
                         source={{uri: item.artistPhoto}} 

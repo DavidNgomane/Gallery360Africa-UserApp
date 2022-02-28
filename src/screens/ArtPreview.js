@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+
+//libraries
+import ZoomView from "react-native-border-zoom-view";
 // icons
 import Entypo from 'react-native-vector-icons/Entypo';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -13,39 +16,79 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import CommentsModal from '../assets/component/CommentsModal';
 
-const ArtPreview = ({route, navigation}) => {
+function ArtPreview({route, navigation}) {
 
    const [isModalVisible, setModalVisible] = React.useState(false);
 
-  const { artistUid } = route.params;
+  const { artistUid, imageUID } = route.params;
   
   //const artistUid = "3RcDICKP55zQEqBHHdXl"
 
   const [post, setPost] = useState(null);
   const [like, setLike] = useState(0);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState({state: false});
   const [following, setFollowing] = useState(false);
   const [items, SetItems] = useState(0);
-  
+  const [image, setImage] = useState("");
+  const [commentNumber, setCommentNumber] = useState(0);
 
-    const onLikePress = (likes, artKey) => {
+
+  const onLikePress = (likes, imageUid, artistUid) => {
     const likesToAdd = isLiked ? -1 : 1;
     // setPost({
     //   ...post,
     //   likes: likes + likesToAdd,
     // });
-  firestore().collection("Market").doc(artKey).update({
-      likes: likes + likesToAdd,
-    }).then(() =>{
-      if(artKey) {
-        setIsLiked(!isLiked);
-      }
-      if (!artKey) {
-        setIsLiked(isLiked);
-      }
+      try {
+   firestore().collection("Market").doc(imageUid).update({
+      likes :likes + likesToAdd,
+    }).then((documentSnap) =>{
       }).catch((error) => alert(error));
-    
+    // console.log(artistUid+ "  thid is ht thiings")
+      // setIsLiked(!isLiked);
+      updateLikes(likes, imageUid, artistUid);
+    }
+     catch(error) {
+       alert(error);
+     }
   };
+
+  const componentWillReceiveProps = () => {
+    updateLikes();
+  }
+  //
+  const updateLikes = (likes, imageUid, artistUid) => {
+  //   try {
+  //   firestore().collection("likes").doc(imageUid).set({
+  //     uUID : auth().currentUser.uid,
+  //     imageUID: imageUid,
+  //     artistUID: artistUid,
+  //     isLiked :Boolean = true,
+  //   }).then(() => {}).catch((error) => alert(error));
+  // }
+  // catch(error) {
+  //   alert(error);
+  // }
+  };
+  //
+  // const getLikes = async () => {
+  //  await firestore().collection("likes").where("uUID", "==", auth().currentUser.uid).onSnapshot((snapShot) => {
+    
+  //   const likes = snapShot.docs.map((document) =>document.data().likes);
+  //    const imageuid = snapShot.docs.map((document) => document.exists)
+  //   setLike(likes)
+  //   console.log(likes + " the like boolean like")
+  
+  //   if(imageuid) {
+  //     setIsLiked(!isLiked);
+
+  //   } 
+    
+   
+
+  //  });
+  
+  
   // 
   const getArtDetails = () => {
     return firestore()
@@ -55,6 +98,11 @@ const ArtPreview = ({route, navigation}) => {
           documentSnap.data()
         );
         setPost(query);
+
+        const imageUID = snapShot.docs.map((docSnap) => docSnap.data().ImageUid);
+        // console.log(imageUID + "  this is the first Image UId");
+        setImage(imageUID);
+        
       });
     }
 
@@ -79,8 +127,6 @@ const ArtPreview = ({route, navigation}) => {
       }
     }
 
-
-
     const getCartItemNumber = () => {
       const uuid = auth()?.currentUser?.uid;
   
@@ -90,11 +136,20 @@ const ArtPreview = ({route, navigation}) => {
         SetItems(cartItems);
       });
     }
+
+    const getComentsNumber = () => {
+      firestore().collection("comments").where("imageUID", "==", "9bM0wbzVqUJDgP9Lt5Iy").onSnapshot((snapShot) => {
+            const commentNumbers = snapShot.size;
+            setCommentNumber(commentNumbers);
+      })
+    }
     
   useEffect(() => {
     let isMounted = true;
     getCartItemNumber();
     getArtDetails();
+    getComentsNumber();
+    // getLikes();
     return () => {
       isMounted = false;
     }
@@ -128,23 +183,22 @@ const onUnFollow = () => {
 }
 
   return (
-    <View
-      style={{ height: Dimensions.get('window').height - 1}}
-    >
+    <View>
       <FlatList
         data={post}
         keyExtractor={item => `${item.ImageUid}`}
         renderItem={({item}) => {
+          
           return (
             <View style={globalStyles.tikTokContainer}>
-              <TouchableWithoutFeedback>
+              
+                  <ZoomView style={globalStyles.video}>
                  <Image 
                   source={{uri: item.artUrl}} 
                   resizeMode="cover" 
                   style={globalStyles.video}
                 />
-              </TouchableWithoutFeedback>
-
+                </ZoomView>
               <View style={globalStyles.topIconView}>
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Market')}
@@ -158,7 +212,7 @@ const onUnFollow = () => {
                   />
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Cart', {Auid : artistUid})}
+                  onPress={() => navigation.navigate('Cart', {Auid : artistUid, cartItem: items})}
                   style={globalStyles.cartIcon}
                 >
                   <View style={[Platform.OS == 'android' ? globalStyles.iconContainer : null]}>
@@ -172,7 +226,7 @@ const onUnFollow = () => {
               </Text>
         </View>): (<View></View>)
         }
-
+            {/* {setImage(item.ImageUid)} */}
         <MaterialCommunityIcons
                 name="cart"
                 size={24}
@@ -185,8 +239,11 @@ const onUnFollow = () => {
               </View>             
         
               <View style={globalStyles.uiContainer}>
-                  { isModalVisible &&
+                  { isModalVisible 
+
+                  &&
                     <CommentsModal
+                    ImageUid={item.ImageUid}
                       isVisible={isModalVisible}
                       onClose={() => setModalVisible(false)}
                     />
@@ -217,11 +274,11 @@ const onUnFollow = () => {
                     activeOpacity={0.5}
                   >
                     <Fontisto name="comments" size={24} color={'#FFFFFF'} />
-                    <Text style={{color: '#FFFFFF'}}>12.5K</Text>
+                    <Text style={{color: '#FFFFFF'}}>{commentNumber}</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={{marginVertical: 12}}  onPress={() => onLikePress(item.likes, item.ImageUid)}>
-                  <AntDesign name="heart" size={24} color={isLiked ? 'red' : 'white'} />
+                  <TouchableOpacity style={{marginVertical: 12}}  onPress={() => onLikePress(item.likes, item.ImageUid, item.ArtistUid)}>
+                  <AntDesign name="heart" size={24} color={like ? 'red' : 'white'} />
                   <Text style={{color: '#FFFFFF'}}>{item.likes}</Text>
                   </TouchableOpacity>
 
@@ -257,7 +314,7 @@ const onUnFollow = () => {
                           </Text>
                         </TouchableOpacity>
 
-                        <Text style={globalStyles.price}>{item.price}</Text>
+                        <Text style={globalStyles.price}>{`R${item.price}.00`}</Text>
                       </View>
                     </View>
                     
@@ -268,7 +325,7 @@ const onUnFollow = () => {
                         {item.description}
                       </Text>
                     </View>
-                  </View>         
+                  </View>
                 </View>
             </View>
         </View>

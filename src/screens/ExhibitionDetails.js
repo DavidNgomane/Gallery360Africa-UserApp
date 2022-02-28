@@ -10,8 +10,8 @@ const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 
 export default function ExhibitionDetails({route, navigation}) {
 
-  //const { exhibitionUid } = route.params;
-  const exhibitionUid = "H4SpBE9qBETbsmaKL5IQ"
+  const { exhibitionUid, date, address, description, exhibitionTitle } = route.params;
+  //const exhibitionUid = "H4SpBE9qBETbsmaKL5IQ"
 
   const [ExhibitionDetails, setExhibitionDetails] = useState(null);
   const getExhibitionDetails = () => {
@@ -27,7 +27,9 @@ export default function ExhibitionDetails({route, navigation}) {
   const onShare = async () => {
     try {
       const result = await Share.share({
-       message: "Exhibition Details"
+        
+       message: `${address}, ${date}, ${description}`
+       
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -78,7 +80,7 @@ export default function ExhibitionDetails({route, navigation}) {
                        <Text  style={styles.VisitLocationtxt}>Visit Location</Text>
                      </TouchableOpacity>
              
-                     <TouchableOpacity style={styles.Heart} onPress={() => onShare()}>
+                     <TouchableOpacity style={styles.Heart} onPress={() => onShare({date: item.date, address: item.address, description: item.description})}>
                            <Entypo
                              name="share"
                              size={30}

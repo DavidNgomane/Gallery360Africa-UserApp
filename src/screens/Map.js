@@ -4,6 +4,8 @@ import MapView from 'react-native-maps';
 
 const Map = ({route, navigation}) => {
 
+const { address } = route.params
+
   return (
     <View>
       <Text>Gallery 360 Africa</Text>
