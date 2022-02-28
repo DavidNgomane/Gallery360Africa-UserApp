@@ -15,6 +15,7 @@ import * as yup from 'yup';
 import LinearGradient from 'react-native-linear-gradient';
 import auth from '@react-native-firebase/auth';
 import { globalStyles } from '../assets/styles/GlobalStyles';
+import Home from './Home';
 
 const SignIn = ({navigation}) => {
 
@@ -31,7 +32,7 @@ const SignIn = ({navigation}) => {
         alert('User logged-in successfully!')
         const userCredential = user.user;
         // If server response message same as Data Matched
-        if (user) navigation.replace("Home", { userUid: userCredential.uid });
+        if (user) navigation.replace("Home", { userUid: userCredential.uid, uUID: user.user.uid });
       })
       .catch((error) => {
         console.log(error);
