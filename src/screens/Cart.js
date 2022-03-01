@@ -21,21 +21,25 @@ const Cart = ({navigation}) => {
   const Items = ({ name, price, imageUrl }) => {
     return (
       <View style={globalStyles.flatlistView}>
-        <View style={globalStyles.cancelIcon}>
-          <TouchableOpacity>
+        
+        
+        
+        <View style={{flex:1, }}>
+        <TouchableOpacity style={globalStyles.closeIconStyle}>
             <Ionicons 
               name='close-outline' 
               size={25} 
               color="#FFFFFF" 
-              style={globalStyles.closeIconStyle}
+              
             />
           </TouchableOpacity>
-        </View>
-        <Image 
-          source={{uri: imageUrl}} 
-          style={globalStyles.cartImage}
-        />
-        <View style={globalStyles.priceContainer}>
+                <View>
+                <Image 
+                  source={{uri: imageUrl}} 
+                  style={globalStyles.cartImage}
+                />
+                </View>
+                <View style={globalStyles.priceContainer}>
           <Text style={globalStyles.artTxtName}>{name}</Text>
           <Text style={globalStyles.priceTxt}>{price}</Text>
 
@@ -49,17 +53,20 @@ const Cart = ({navigation}) => {
               </View>
             </View> */}
         </View>
+        </View>
+        
+        
       </View>
     );
   }
 
   return (
     <ImageBackground 
-      source={image} 
+      source={require('../backgroundImage/home.png')} 
       resizeMode="cover" 
       style={globalStyles.container}
     >
-      <View style={{flex: 5}}>
+      <View style={{flex: 5 }}>
         <View style={globalStyles.Top}>
           <View style={globalStyles.backButtonView}>
             <TouchableOpacity 
@@ -85,7 +92,7 @@ const Cart = ({navigation}) => {
           keyExtractor={item => `${item.ImageUid}`}
           renderItem={({item}) => {
             return (
-              <ScrollView>
+              <ScrollView style={{height:'14%'}}>
                 <Items imageUrl={item.artUrl} name={item.name} price={item.price}/>
               </ScrollView>
             )

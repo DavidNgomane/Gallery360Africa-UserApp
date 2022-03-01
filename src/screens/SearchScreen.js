@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList, Image} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import auth from "@react-native-firebase/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
-// import { MaterialIcons } from 'react-native-vector-icons/MaterialIcons';
+ import  MaterialIcons  from 'react-native-vector-icons/MaterialIcons';
+ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 
 
 export default function SearchScreen(){
 
-    const [data, setData] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [data, setData] = useState(null);
+    
  
 
 const getArtist = () =>{
+    
     return firestore().collection('artists').where('artistUid', '!=', 'artistUid').onSnapshot((snapshot) =>{
      const allArtists = snapshot.docs.map(docSnap => docSnap.data());  
      setData(allArtists)
@@ -23,7 +26,7 @@ useEffect(()=>{
     getArtist()
 }, [])
 
-   
+
 
     
 
@@ -56,17 +59,18 @@ useEffect(()=>{
 
             <View style={styles.iconContainer}>
 
-                 {/* <MaterialIcons name="arrow-back" size={35} color="black" /> */}
+                  <MaterialIcons name="arrow-back" size={25} color="black" /> 
 
             </View>
 
             <View style={styles.searchBarContainer}>
-
+        
+                <Ionicons style={{left:55, top:10}} name="search" size={25} color={'black'} />
                         <TextInput
                         placeholder="Search" 
-                        onChangeText={text => filterSearch(text)}
+                        placeholderTextColor={'black'}
                         style={styles.searchInput}/>
-                 
+                
                  
 
                  <TouchableOpacity>
@@ -94,7 +98,7 @@ useEffect(()=>{
                         </SafeAreaView>
                     )
                 }}
-                style={{paddingTop: 35}}/>
+                style={{paddingTop: 55}}/>
             </SafeAreaView>
 
         </View>
@@ -124,7 +128,7 @@ searchInput:{
     borderColor:'black',
     borderWidth:0.5,
     borderRadius: 7,
-    left:7
+    paddingHorizontal: 50
 
 },
 

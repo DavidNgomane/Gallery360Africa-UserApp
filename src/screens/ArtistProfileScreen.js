@@ -5,14 +5,17 @@ import { globalStyles } from "../assets/styles/GlobalStyles";
 import { create } from "yup/lib/Reference";
 
 
+//const imageBg = require('../assets/images/home.png')
+
 
 export default function ArtistprofileScreen(){
     return(
-        <ImageBackground source={require('../src/backgroundImage/home.png')} style={styles.backgroundImg}>
-               
-        </ImageBackground>
-          
-       
+        <View>
+            {/* <ImageBackground source={} style={styles.backgroundImg} >
+
+
+            </ImageBackground> */}
+        </View>
     )
 }
 

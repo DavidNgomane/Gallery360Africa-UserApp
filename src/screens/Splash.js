@@ -4,9 +4,9 @@ import { globalStyles } from '../assets/styles/GlobalStyles';
 
 const Splash = ({navigation}) => {
 
-  setTimeout(()=>{
-    navigation.replace('Onboarding')
-  },3000)
+  // setTimeout(()=>{
+  //   navigation.replace('Onboarding')
+  // },3000)
 
   return (
    <ImageBackground 

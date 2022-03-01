@@ -75,7 +75,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='Market'
+        initialRouteName='ShippingAddress'
       >
         <Stack.Screen options={{headerShown: false}} name='Splash' component={Splash} />
         <Stack.Screen options={{headerShown: false}} name='Onboarding' component={Onboarding} />
@@ -103,7 +103,7 @@ const App = () => {
           
         />
         {/* <Stack.Screen options={{headerShown: false}} name='ArtistProfile' component={ArtistProfile}/> */}
-        <Stack.Screen options={{headerShown: false}} name='ArtistProfile' component={ArtistprofileScreen} />
+        {/* <Stack.Screen options={{headerShown: false}} name='ArtistProfile' component={ArtistprofileScreen} /> */}
         <Stack.Screen options={{headerShown: false}} name='SignIn' component={SignIn} />
         <Stack.Screen options={{headerShown: false}} name="ArtPreview" component={ArtPreview} />
         <Stack.Screen options={{headerShown: false}} name='Cart' component={Cart} />

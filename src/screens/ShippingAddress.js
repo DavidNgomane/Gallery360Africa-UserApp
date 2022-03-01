@@ -1,11 +1,13 @@
-import { ImageBackground, StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
 import React, { useState } from 'react';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
+
 // firebase
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const ShippingAddress = ({navigation}) => {
 
@@ -35,11 +37,16 @@ const ShippingAddress = ({navigation}) => {
   }
 
   return (
+   
+
+    
     <ImageBackground
-      source={require('../assets/images/home.png')}
+      source={require('../backgroundImage/home.png')}
       style={globalStyles.container}
       resizeMode='stretch'
     >
+       
+      
         <View style={styles.backButton}>
             <MaterialIcons 
                 onPress={() => navigation.navigate('DeliveryAddress')}
@@ -100,11 +107,15 @@ const ShippingAddress = ({navigation}) => {
       <View style={globalStyles.shippingFooter}>
         <TouchableOpacity
             onPress={register}
-            style={{backgroundColor:'black', width:250, height:50, borderRadius:12}}>
+            style={{backgroundColor:'black', width:'80%', height:50, borderRadius:20, bottom:15}}>
             <Text style={{color:'white', textAlign:'center', fontSize:14, top:15, }}>Save Address</Text>
           </TouchableOpacity>
       </View>
+      
+     
     </ImageBackground>
+    
+    
   );
 };
 
@@ -117,7 +128,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: '#22180E',
         height: 47,
-        width: 300,
+        width: '80%',
         alignSelf: 'center',
         color: '#000',
         paddingLeft: 15,

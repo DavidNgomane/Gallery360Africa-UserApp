@@ -11,6 +11,7 @@ const globalStyles = StyleSheet.create({
         flex: 6,
         justifyContent: 'center',
         alignItems: 'center',
+        paddingTop:95
     },
     footer: {
         justifyContent: 'center',
@@ -367,12 +368,18 @@ const globalStyles = StyleSheet.create({
 
 
     // CART STYLES
-    flatlistView: {
-        borderRadius: '10', 
-        marginTop: 20, 
-        marginVertical: -70
-    },
-    cancelIcon: {
+    // flatlistView: {
+ 
+    // },
+    
+        
+        
+    
+    closeIconStyle: {
+        justifyContent:'center',
+        alignItems:'center',
+        top: 5, 
+        position: "relative",
         width: 37, 
         height: 37, 
         borderRadius: 18.5, 
@@ -380,19 +387,20 @@ const globalStyles = StyleSheet.create({
         position: "absolute", 
         zIndex: 10, 
         right: 18, 
-        top: 5
-    },
-    closeIconStyle: {
-        textAlign: "center", 
-        top: 5, 
-        position: "relative"
     },
     cartImage: {
+        flex:1,
         width: "95%", 
         height: 180, 
         alignSelf: "center", 
-        borderRadius: 15
+        borderRadius: 15,
+        
+        
+        
+        
     },
+
+
     priceContainer: {
         flexDirection: "column",
         width: "90%",
