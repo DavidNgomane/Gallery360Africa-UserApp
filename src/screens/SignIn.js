@@ -15,6 +15,8 @@ import * as yup from 'yup';
 import LinearGradient from 'react-native-linear-gradient';
 import auth from '@react-native-firebase/auth';
 import { globalStyles } from '../assets/styles/GlobalStyles';
+import AppLoader from './AppLoader';
+import Toast from 'react-native-toast-message';
 
 const SignIn = ({navigation}) => {
 
@@ -22,49 +24,74 @@ const SignIn = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [errortext, setErrortext] = useState("");
 
-  const signIn = () => {
+  const [loading, setLoading] = useState(false);
+
+  const validate = () => {
+     const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+     if (email == "" && password == "") {
+       Toast.show({
+          type: 'error',
+          text1: 'Hello user',
+          text2: 'Both fields are empty',
+       })
+     } else  if (!reg.test(email)) {
+       Toast.show({
+         type: 'error',
+         text1: 'Hello user',
+         text2: 'Email is not valid',
+      })
+    } else if (password == "") {
+      Toast.show({
+         type: 'error',
+         text1: 'Hello user',
+         text2: 'Password cannot be empty',
+      })
+    } else {
+       signIn()
+    }
+  }
+
+  const signIn = async () => {
+       setLoading(true)
        if(email !== "" && password !== "") {
-         auth()
-      .signInWithEmailAndPassword(email, password)
-      .then((user) => {
+       await auth().signInWithEmailAndPassword(email, password)
+        .then((user) => {
         console.log(user);
-        alert('User logged-in successfully!')
-        // If server response message same as Data Matched
+        Toast.show({
+          type: 'success',
+          text1: 'Hello user',
+          text2: 'You have successfully loged in ',
+       })   
         if (user) navigation.replace("Home");
       })
       .catch((error) => {
         console.log(error);
         if (error.code === "auth/invalid-email")
-        alert("Email is not valid");
+        Toast.show({
+          type: 'error',
+          text1: 'Hello user',
+          text2: 'Email is not valid',
+       })
         else if (error.code === "auth/user-not-found")
-           alert("No User Found");
+           Toast.show({
+            type: 'error',
+            text1: 'Hello user',
+            text2: 'No User Found',
+         })
         else {
-          alert(
-            "Please check your email id or password"
-          );
+            Toast.show({
+              type: 'error',
+              text1: 'Hello user',
+              text2: 'Please check your email id or password',
+           })
         }
       });
        }
     }
 
-    let signInValidation = yup.object().shape({
-    email: yup.string().email('Please enter a valid email').required('Email is required'),
-    password: yup.string().min(8, ({min}) => `Password must be at least ${min} characters`)
-    .required('Password is required').matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-      "Password must contain at least 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-    ),
-  });
-
   return (
-    <>  
-    <Formik
-       initialValues={{ email: '', password: ''}}
-       onSubmit={(values) => console.log(values)}
-       validationSchema={signInValidation}
-       validateOnMount={true}
-     >  
-    {({ handleChange, handleBlur, handleSubmit, setFieldTouched, onBlur, values, touched, errors, isValid, isInitialValid }) => (
+    <> 
+    {loading ? <AppLoader/> : (
           
     <KeyboardAvoidingView behavior='position'>
     <ImageBackground
@@ -89,9 +116,6 @@ const SignIn = ({navigation}) => {
             <TextInput
               style={styles.inputStyle} 
               onChangeText={email => setEmail(email)}
-              // onChangeText={handleChange("email")}
-              // onBlur={handleBlur("email")}
-              onBlur={() => setFieldTouched('email')}
               value={email}
               underlineColorAndroid="#f000"
               placeholder="Email"
@@ -99,17 +123,11 @@ const SignIn = ({navigation}) => {
               keyboardType="email-address"
             />
           </View>
-          {/* {(errors.email && touched.email) && 
-             <Text style={styles.errors}>{errors.email}</Text>
-          } */}
          
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={password => setPassword(password)}
-              // onChangeText={handleChange("password")}
-              // onBlur={handleBlur("password")}
-              onBlur={() => setFieldTouched('password')}
               value={password}
               underlineColorAndroid="#f000"
               placeholder="Password"
@@ -118,13 +136,13 @@ const SignIn = ({navigation}) => {
               secureTextEntry={true}
             />
           </View>
-          {/* {(errors.password && touched.password) && 
-             <Text style={styles.errors}>{errors.password}</Text>
-          } */}
                  
           <TouchableOpacity
-            onPress={signIn}
-            activeOpacity={0.5}>
+            onPress={() => {
+              validate() ? signIn() : setLoading(false)
+            }}
+            activeOpacity={0.5}
+            >
            <LinearGradient start={{x: 1, y: 0}} end={{x: 1, y: 1}} colors={['#0E1822', '#181818']} style={styles.buttonStyle}>
             <Text style={styles.buttonTextStyle}>Sign In</Text>
             </LinearGradient>
@@ -146,8 +164,9 @@ const SignIn = ({navigation}) => {
         </View>
     </ImageBackground>
     </KeyboardAvoidingView> 
-    )}  
-    </Formik>
+
+    )}
+
     </>
   );
 };

@@ -2,6 +2,7 @@ import { Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore from '@react-native-firebase/firestore';
+import { firebase } from '@react-native-firebase/auth';
 
 const Market = ({navigation, route}) => {
   // 
@@ -20,6 +21,17 @@ const Market = ({navigation, route}) => {
       isMounted = false;
     }
   }, [])
+
+  const signoutUser = async () => {
+    try{
+        await firebase.auth().signOut().then(() => {
+          navigation.replace('Splash')
+        })
+     
+    }catch(e){
+      console.log(e)
+    }
+  }
 
   // 
   return (

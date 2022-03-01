@@ -3,10 +3,12 @@ import { View, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { db } from '../assets/database/Firebase';
+import auth from '@react-native-firebase/auth';
 // icons
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 
 // Import screens
 import Market from './src/screens/Market';
@@ -59,6 +61,54 @@ const TabNavigator = () => {
 
 const App = () => {
 
+  const toastConfig = {
+   
+    success: (props) => (
+      <BaseToast
+        {...props}
+        style={{ borderLeftColor: 'green' }}
+        contentContainerStyle={{ paddingHorizontal: 15 }}
+        text1Style={{
+          fontSize: 17,
+          fontWeight: '400',
+        }}
+      />
+    ),
+
+    error: (props) => (
+      <ErrorToast
+        {...props}
+        text1Style={{
+          fontSize: 17
+        }}
+        text2Style={{
+          fontSize: 15,
+          color: 'red'
+        }}
+      />
+    ),
+
+    tomatoToast: ({ text1, props }) => (
+      <View style={{ height: 60, width: '100%', backgroundColor: 'tomato' }}>
+        <Text>{text1}</Text>
+        <Text>{props.uuid}</Text>
+      </View>
+    )
+  };
+
+  const [user, setuser] = useState('')
+    useEffect(() => {
+      const unregister = auth().onAuthStateChanged(userExist=>{
+            if(userExist) setuser(userExist)
+            else setuser("")
+      })
+
+      return () => {
+        unregister()
+      }
+
+  }, [])
+  
   // const [photo, setPhoto] = useState(null);
 
   // const getPhoto = () => {
@@ -72,12 +122,12 @@ const App = () => {
   // }, [])
 
   return (
-    <NavigationContainer>
+    <>
+      <NavigationContainer>
       <Stack.Navigator
         initialRouteName='Splash'
       >
-        <Stack.Screen options={{headerShown: false}} name='Splash' component={Splash} />
-        <Stack.Screen options={{headerShown: false}} name='Onboarding' component={Onboarding} />
+    
         <Stack.Screen 
           name='Home' 
           component={TabNavigator}
@@ -101,19 +151,32 @@ const App = () => {
           })}
           
         />
-        <Stack.Screen options={{headerShown: false}} name='ArtistProfile' component={ArtistProfile}/>
-        <Stack.Screen options={{headerShown: false}} name='SignIn' component={SignIn} />
-        <Stack.Screen options={{headerShown: false}} name="ArtPreview" component={ArtPreview} />
-        <Stack.Screen options={{headerShown: false}} name='Cart' component={Cart} />
-        <Stack.Screen options={{headerShown: false}} name='PaymentSuccesful' component={PaymentSuccesful} />
-        <Stack.Screen options={{headerShown: false}} name='PaymentFailure' component={PaymentFailure} />
-        <Stack.Screen options={{headerShown: false}} name='SignUp' component={SignUp} />
-        <Stack.Screen options={{headerShown: false}} name='PaymentForm' component={PaymentForm} />
-        <Stack.Screen options={{headerShown: false}} name='DeliveryAddress' component={DeliveryAddress} />
-        <Stack.Screen options={{headerShown: false}} name='ShippingAddress' component={ShippingAddress} />
-        <Stack.Screen options={{headerShown: false}} name='Preview' component={Preview} />
+
+        {user?
+           <>
+            <Stack.Screen options={{headerShown: false}} name='ArtistProfile' component={ArtistProfile}/>   
+            <Stack.Screen options={{headerShown: false}} name="ArtPreview" component={ArtPreview} />
+            <Stack.Screen options={{headerShown: false}} name='Cart' component={Cart} />
+            <Stack.Screen options={{headerShown: false}} name='PaymentSuccesful' component={PaymentSuccesful} />
+            <Stack.Screen options={{headerShown: false}} name='PaymentFailure' component={PaymentFailure} /> 
+            <Stack.Screen options={{headerShown: false}} name='PaymentForm' component={PaymentForm} />
+            <Stack.Screen options={{headerShown: false}} name='DeliveryAddress' component={DeliveryAddress} />
+            <Stack.Screen options={{headerShown: false}} name='ShippingAddress' component={ShippingAddress} />
+            <Stack.Screen options={{headerShown: false}} name='Preview' component={Preview} />
+          </>
+          :
+          <>
+            <Stack.Screen options={{headerShown: false}} name='Splash' component={Splash} />
+            <Stack.Screen options={{headerShown: false}} name='Onboarding' component={Onboarding} />
+            <Stack.Screen options={{headerShown: false}} name='SignIn' component={SignIn} />
+            <Stack.Screen options={{headerShown: false}} name='SignUp' component={SignUp} />
+          </>
+        }
+
       </Stack.Navigator>
     </NavigationContainer>
+    <Toast config={toastConfig} />
+    </>
   )
 }
 
