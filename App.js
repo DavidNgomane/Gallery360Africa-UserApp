@@ -48,7 +48,6 @@ const TabNavigator = () => {
           marginHorizontal: 12,
           width: 'auto',
           backgroundColor: '#fff',
-          headerShadowVisible: false,
           margin: 5
         },
         tabBarActiveTintColor: '#ceb89e',
@@ -109,7 +108,11 @@ useEffect(() => {
   getUser();
 },[])
 
+//
+const uuid = auth()?.currentUser?.uid;
+
   return (
+    
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName='Splash'
@@ -123,6 +126,7 @@ useEffect(() => {
             
             // headerLeft: () => {return null;},
             // headerBackVisible: false,
+            headerShadowVisible: false,
             title: `Hi ${fullName}`,
             headerRight: () => (
               <View style={{flexDirection: 'row', width: 74, justifyContent: 'space-between', }}>
@@ -130,7 +134,7 @@ useEffect(() => {
                   <MaterialIcons name='shopping-cart' size={24} color={'white'}/>
                 </TouchableOpacity> */}
 
-                <TouchableOpacity onPress={() => navigation.navigate('Cart', {cartItem: cartItem})}>
+                <TouchableOpacity onPress={() => navigation.navigate('Cart', {cartItem: cartItem, uuid: uuid})}>
                   <MaterialIcons name='shopping-cart' size={30} color={'#000'}/>
                 </TouchableOpacity>
 

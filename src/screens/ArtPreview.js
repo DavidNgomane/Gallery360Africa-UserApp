@@ -108,17 +108,18 @@ function ArtPreview({route, navigation}) {
 
     const addToCart = async (image, name, price) => {
 
-      const uuid = auth()?.currentUser?.uid;
+      // const uuid = auth()?.currentUser?.uid;
   
         try {
        
       const uuid = auth()?.currentUser?.uid;
-  
+
         return  await firestore().collection("cartItem").add({
           artUrl: image,
           artType: name,
           price: price,
           uuid: uuid,
+          artistUid: artistUid,
         }).then((snapShot) =>{alert("your item has been added to cart");
         snapShot.update({keyy: snapShot.id})
       }).catch((error) => alert(error));
@@ -145,7 +146,7 @@ function ArtPreview({route, navigation}) {
     }
     
   useEffect(() => {
-    let isMounted = true;
+    
     getCartItemNumber();
     getArtDetails();
     getComentsNumber();
@@ -181,7 +182,8 @@ const onUnFollow = () => {
   })
   
 }
-
+  const uuid = auth()?.currentUser?.uid;
+  
   return (
     <View>
       <FlatList
@@ -212,19 +214,18 @@ const onUnFollow = () => {
                   />
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Cart', {Auid : artistUid, cartItem: items})}
+                  onPress={() => navigation.navigate('Cart', {Auid : artistUid, cartItem: items, uuid: uuid}, console.log(uuid))}
                   style={globalStyles.cartIcon}
                 >
                   <View style={[Platform.OS == 'android' ? globalStyles.iconContainer : null]}>
         {items > 0 ?
-        (<View style={{
-            position: 'absolute', height: 16, width: 16, borderRadius: 17, backgroundColor: 'rgba(95,197,123,0.9)', right:2,marginVertical:3, alignSelf:"flex-end", alignItems: 'center', justifyContent: 'center', zIndex: 2000,
-
-        }}>
-    <Text style={{ color: '#F5F5F5', fontWeight: 'bold', marginVertical:-10, fontSize:12 }}>
-    {items}
-              </Text>
-        </View>): (<View></View>)
+            (<View style={{
+              position: 'absolute', height: 16, width: 16, borderRadius: 17, backgroundColor: 'rgba(95,197,123,0.9)', right:2,marginVertical:3, alignSelf:"flex-end", alignItems: 'center', justifyContent: 'center', zIndex: 2000,
+            }}>
+            <Text style={{ color: '#F5F5F5', fontWeight: 'bold', marginVertical:-10, fontSize:12 }}>
+              {items}
+            </Text>
+            </View>): (<View></View>)
         }
             {/* {setImage(item.ImageUid)} */}
         <MaterialCommunityIcons

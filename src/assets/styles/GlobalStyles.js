@@ -5,7 +5,7 @@ const globalStyles = StyleSheet.create({
     container: {
         height: '100%',
         width: '100%',
-        backgroundColor: '#'
+        backgroundColor: '#fff'
     },
     body: {
         flex: 6,
@@ -163,28 +163,22 @@ const globalStyles = StyleSheet.create({
         backgroundColor: 'rgba(16, 18, 27, 0.4)',
         borderColor: 'rgba(255, 255, 255, 0.18)', 
         borderWidth: 1,
-        height: 80, 
-        width: '96%', 
+        height: 80,  
         borderRadius: 20, 
-        top: '79%', 
-        left: 7,
-        //alignSelf: 'center'
+        bottom: 8, 
+        right: 8,
+        left: 8,
     },
     artNameTxt: {
         fontSize: 28, 
         fontWeight: 'bold', 
-        position: 'absolute', 
-        zIndex: 2,
         color: '#fff', 
-        left: 20, 
-        top: 12
+        paddingHorizontal: 20
     },
     artTypeTxt: {
-        position: 'absolute', 
-        zIndex: 2, 
         color: '#fff', 
-        left: 20, 
-        top: 45
+        paddingHorizontal: 20,
+        bottom: 3
     },
     artTypeTxt2: {
         position: 'absolute', 
@@ -374,7 +368,7 @@ const globalStyles = StyleSheet.create({
 
     // CART STYLES
     flatlistView: {
-        borderRadius: '10', 
+        borderRadius: 10, 
         marginTop: 10, 
         marginVertical: -70
     },
@@ -423,7 +417,6 @@ const globalStyles = StyleSheet.create({
     Top: {
         flexDirection: "row",
         marginTop: "5%",
-        padding: 5,
         justifyContent: "space-around",
         marginRight: 90,
         width: "30%"

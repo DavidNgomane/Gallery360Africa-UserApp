@@ -70,38 +70,7 @@ const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 6 / 4);
         />
       </SafeAreaView>
   </View>
-      {/*  */}
-      {/* <View style={globalStyles.homeBody}>
-        <View style={globalStyles.artContainer}>
-          <FlatList
-            horizontal
-            bounces={false}
-            showsHorizontalScrollIndicator={false}
-            pagingEnabled
-            data={artist}
-            keyExtractor={item => `${item.artistUid}`}
-            renderItem={({item}) => {
-              return (
-                <View>
-                  <TouchableOpacity onPress={() => navigation.navigate('ArtPreview', {artistUid: item.artistUid})}>
-                    <Image 
-                      source={{uri: item.artUrl}} 
-                      style={globalStyles.artImage}
-                    />
-                    <View style={globalStyles.artTxtBg}>
-                      <Text style={globalStyles.artNameTxt}>{item.artName}</Text>
-                      <View>
-                        <Text style={globalStyles.artTypeTxt}>{item.artType}</Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              );
-            }}
-          />
-        </View>
-      </View> */}
-
+  
         {/*  */}
         <View style={globalStyles.homeFooter}>
             <FlatList

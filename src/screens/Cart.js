@@ -5,25 +5,60 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore from '@react-native-firebase/firestore';
 
-const Cart = ({navigation}) => {
+const Cart = ({navigation, route}) => {
 
-  const[market, setMarket] = useState(null);
-  const ArtistUid = "VaSfAfPTbktJ3o6jCG1O"
+  const { uuid, cartItem } = route.params;
+
+  //
+  const[cart, setCart] = useState(null)
+  const [artName, setArtName] = useState("");
+  // const [price, setPrice] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [artURL, setArtURL] = useState(""); 
+  const [keyy, setKey] = useState("");
   
-  const getMarket = async () => {
-    const querySanp = await firestore().collection('Market').where("ArtistUid", "==", ArtistUid).get()
-    const allmarket = querySanp.docs.map(docSnap=>docSnap.data())
-    setMarket(allmarket)
+  const getCart = () => {
+    return firestore().collection('cartItem').where("uuid", "==", uuid).onSnapshot((snapShot) => {
+      const carts = snapShot.docs.map((document) => document.data());
+       const prices = snapShot.docs.map((document) => document.data().price);
+       const artURLs = snapShot.docs.map((document) => document.data().artUrl);
+       const artnames = snapShot.docs.map((document) => document.data().artType);
+       const artkeyy= snapShot.docs.map((document) => document.data().keyy);
+
+       const initialValue = 0;
+       const totalAmounts = prices.reduce((previousValue, currentValue) => previousValue + currentValue, initialValue);
+
+       setTotalAmount(totalAmounts);
+       setCart(carts);
+        setArtName(artnames);
+        setArtURL(artURLs);
+        setKey(artkeyy);
+
+     })
+  }
+
+  const deleteCart = async (keyy) => {
+
+   return await firestore()
+      .collection('cartItem')
+      .doc(keyy)
+      .delete()
+      .then(() => {
+        alert(
+          'Your item has been deleted successfully!'
+        );
+      }).catch(error => alert(error))
   }
   useEffect(() => {
-    getMarket()
+    getCart()
   }, [])
 
-  const Items = ({ name, price, imageUrl }) => {
+  //
+  const Items = ({ name, price, imageUrl, keyy }) => {
     return (
       <View style={globalStyles.flatlistView}>
         <View style={globalStyles.cancelIcon}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => deleteCart(keyy)}>
             <Ionicons 
               name='close-outline' 
               size={25} 
@@ -38,7 +73,7 @@ const Cart = ({navigation}) => {
         />
         <View style={globalStyles.priceContainer}>
           <Text style={globalStyles.artTxtName}>{name}</Text>
-          <Text style={globalStyles.priceTxt}>{price}</Text>
+          <Text style={globalStyles.priceTxt}>{`R${price}.00`}</Text>
 
             {/*<View style={{alignSelf: "flex-end", flexDirection: "row", bottom: 40, justifyContent: "space-around", width: "47%", right: 7}}>
               <View>
@@ -60,7 +95,7 @@ const Cart = ({navigation}) => {
       resizeMode="cover" 
       style={globalStyles.container}
     >
-      <View style={{flex: 5}}>
+      <View style={{flex: 6}}>
         <View style={globalStyles.Top}>
           <View style={globalStyles.backButtonView}>
             <TouchableOpacity 
@@ -81,28 +116,36 @@ const Cart = ({navigation}) => {
         </View>
 
         <FlatList
-          data={market}
+          data={cart}
           showsHorizontalScrollIndicator={false}
-          keyExtractor={item => `${item.ImageUid}`}
+          keyExtractor={item => `${item.artUrl}`}
           renderItem={({item}) => {
             return (
               <ScrollView>
-                <Items imageUrl={item.artUrl} name={item.name} price={item.price}/>
+                <Items imageUrl={item.artUrl} name={item.artName} price={item.price} keyy={item.keyy}/>
               </ScrollView>
             )
           }}
         />
       </View>
-      <View style={{flex: 1}}>
-        <View style={{borderRadius: 30, width: "95%", height: 180, backgroundColor: "#FFFFFF", alignSelf: "center", marginVertical: -70, borderWidth: 0.4, borderColor: "lightgray"}}>
+      <View style={{flex: 2}}>
+        <View style={{borderRadius: 30, width: "95%", height: 150, backgroundColor: "#FFFFFF", alignSelf: "center", marginVertical: -45, borderWidth: 1, borderColor: "lightgray", top: 55}}>
           <View style={{flexDirection: "row", marginHorizontal: 20, marginVertical: 5}}>
             <View style={{flexDirection: "column", justifyContent: "center",  width: 150, marginVertical: 10}}>
-                <Text style={{ fontSize: 16,  color: "gray"}}>Items</Text>
-                <Text style={{ fontSize: 16, color: "black"}}>2 Items</Text>
+                 <Text style={{ fontSize: 16,  color: "gray"}}>Items</Text>
+                {cartItem > 0 ? (
+                <Text style={{ fontSize: 16, color: "black"}}>{cartItem} Items</Text>
+                ) : (
+                  <Text style={{ fontSize: 16, color: "black"}}>No Items</Text>
+                )}
             </View>
             <View style={{flexDirection: "column", justifyContent: "center", width: 140, marginVertical: 10}}>
                 <Text style={{ fontSize: 16,  color: "gray"}}>Total Amount</Text>
-                <Text style={{ fontSize: 24, color: "black", fontWeight: "bold", right: 25}}>R25 000.00</Text>
+                {totalAmount > 0 ? (
+                <Text style={{ fontSize: 24, color: "black", fontWeight: "bold", right: 25}}>{`R${totalAmount}.00`}</Text>
+                ) : (
+                  <Text  style={{ fontSize: 24, color: "black", fontWeight: "bold", right: 25}}></Text>
+                )}
             </View>
           </View>
           <View style={{width: "90%", height: 50, borderRadius: 20, backgroundColor: "black", alignSelf: "center", justifyContent: "center", marginTop: 5}}>
@@ -110,8 +153,9 @@ const Cart = ({navigation}) => {
               <Text style={{fontSize: 16, color: "#FFFFFF", textAlign: "center"}}>Proceed to Payment</Text>
             </TouchableOpacity>
           </View>
-        </View>
       </View>
+      
+        </View>
     </ImageBackground>
   );
 }
