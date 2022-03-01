@@ -9,7 +9,7 @@ const Cart = ({navigation, route}) => {
 
   const { uuid, cartItem } = route.params;
 
-  //
+  
   const[cart, setCart] = useState(null)
   const [artName, setArtName] = useState("");
   // const [price, setPrice] = useState(0);
@@ -149,7 +149,7 @@ const Cart = ({navigation, route}) => {
             </View>
           </View>
           <View style={{width: "90%", height: 50, borderRadius: 20, backgroundColor: "black", alignSelf: "center", justifyContent: "center", marginTop: 5}}>
-            <TouchableOpacity onPress={() => navigation.navigate('DeliveryAddress')}>
+            <TouchableOpacity onPress={() => navigation.navigate('DeliveryAddress', {uuid: uuid})}>
               <Text style={{fontSize: 16, color: "#FFFFFF", textAlign: "center"}}>Proceed to Payment</Text>
             </TouchableOpacity>
           </View>

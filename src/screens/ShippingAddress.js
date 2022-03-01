@@ -7,7 +7,9 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-const ShippingAddress = ({navigation}) => {
+const ShippingAddress = ({navigation, route}) => {
+
+  const { uuid } = route.params;
 
   const [recipientName, setRecipientName] = useState('');
   const [mobile, setMobile] = useState('');
@@ -47,7 +49,7 @@ const ShippingAddress = ({navigation}) => {
     >
         <View style={styles.backButton}>
             <MaterialIcons
-                onPress={() => navigation.navigate('DeliveryAddress')}
+                onPress={() => navigation.navigate('DeliveryAddress', {uuid: uuid})}
                 style={{alignSelf: 'center', marginVertical: 10, marginLeft: 14}} name="arrow-back-ios" color="#000" size={25}
             />
             <Text style={{color: '#22180E', fontWeight: '600', fontSize: 22, alignSelf: 'center', width: 190, marginLeft: 50}}>Shipping Address</Text>

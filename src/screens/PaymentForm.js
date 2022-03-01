@@ -6,6 +6,8 @@ import firestore from '@react-native-firebase/firestore';
 
 const PaymentForm = ({route, navigation}) => {
 
+  const { uuid } = route.params;
+
     const [name, setName] = useState('');
     const [cardNumber, setCardNumber] = useState('');
     const [expiration, setExpiration] = useState('');
@@ -40,7 +42,7 @@ const PaymentForm = ({route, navigation}) => {
         <View>
             <View style={styles.backButton}>
             <MaterialIcons 
-                onPress={() => navigation.navigate('DeliveryAddress')}
+                onPress={() => navigation.navigate('DeliveryAddress', {uuid: uuid})}
                 style={{alignSelf: 'center', marginVertical: 10, marginLeft: 14}} name="arrow-back-ios" color="#000" size={25}
             /> 
             <Text style={{color: '#22180E', fontWeight: '600', fontSize: 22, alignSelf: 'center', width: 190, marginLeft: 50}}>Card Confirmation</Text>

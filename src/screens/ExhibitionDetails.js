@@ -12,8 +12,8 @@ export default function ExhibitionDetails({route, navigation}) {
 
   const [liked, setLiked] = useState(false);
 
-  //const { exhibitionUid, date, address, description, exhibitionTitle } = route.params;
-  const exhibitionUid = "H4SpBE9qBETbsmaKL5IQ"
+  const { exhibitionUid, date, address, description, exhibitionTitle } = route.params;
+  //const exhibitionUid = "H4SpBE9qBETbsmaKL5IQ"
 
   const [ExhibitionDetails, setExhibitionDetails] = useState(null);
   const getExhibitionDetails = () => {

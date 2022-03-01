@@ -120,7 +120,9 @@ function ArtPreview({route, navigation}) {
           price: price,
           uuid: uuid,
           artistUid: artistUid,
-        }).then((snapShot) =>{alert("your item has been added to cart");
+        }).then((snapShot) => {
+          
+          alert("your item has been added to cart");
         snapShot.update({keyy: snapShot.id})
       }).catch((error) => alert(error));
       } catch (error) {
