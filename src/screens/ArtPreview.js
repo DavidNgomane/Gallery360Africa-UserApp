@@ -282,7 +282,7 @@ const onUnFollow = () => {
                   <Text style={{color: '#FFFFFF'}}>{item.likes}</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={{marginVertical: 12}} onPress={() => addToCart(item.artUrl, item.artType, item.price)}>
+                  <TouchableOpacity style={{marginVertical: 12}} onPress={() => addToCart(item.artUrl, item.artType, item.price, item.uuid)}>
                     <MaterialIcons
                       name="add-shopping-cart"
                       size={34}

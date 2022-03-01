@@ -29,6 +29,7 @@ import ShippingAddress from './src/screens/ShippingAddress';
 import Preview from './src/screens/Preview';
 import UserProfile from './src/screens/UserProfile';
 import ExhibitionDetails from './src/screens/ExhibitionDetails';
+import Map from './src/screens/Map';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -46,12 +47,12 @@ const TabNavigator = () => {
           borderRadius: 20,
           marginHorizontal: 12,
           width: 'auto',
-          backgroundColor: '#ceb89e',
+          backgroundColor: '#fff',
           headerShadowVisible: false,
           margin: 5
         },
-        tabBarActiveTintColor: '#000',
-        tabBarInactiveTintColor: '#fff',
+        tabBarActiveTintColor: '#ceb89e',
+        tabBarInactiveTintColor: '#000',
         tabBarPressColor: '#000',
       }}
     >
@@ -154,6 +155,8 @@ useEffect(() => {
         <Stack.Screen options={{headerShown: false}} name='Preview' component={Preview} />
         <Stack.Screen options={{headerShown: false}} name='ExhibitionDetails' component={ExhibitionDetails} />
         <Stack.Screen options={{headerShown: false}} name='UserProfile' component={UserProfile} />
+        <Stack.Screen options={{headerShown: false}} name='Map' component={Map} />
+
       </Stack.Navigator>
     </NavigationContainer>
   )

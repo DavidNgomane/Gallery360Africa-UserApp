@@ -1,50 +1,70 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { View, Text, ImageBackground, SafeAreaView, FlatList, TouchableOpacity} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 import { globalStyles } from "../assets/styles/GlobalStyles";
 
-const data = [
-    {
-      id:1,
-      address:'123 Main Street',
-      city: 'Johannesburg',
-      location: 'Home'
-    },
+// const data = [
+//     {
+//       id:1,
+//       address:'123 Main Street',
+//       city: 'Johannesburg',
+//       location: 'Home'
+//     },
 
-    {
-      id:2,
-      address:'187 Mount Street',
-      city: 'Sandton',
-      location: 'Work'
-    },
+//     {
+//       id:2,
+//       address:'187 Mount Street',
+//       city: 'Sandton',
+//       location: 'Work'
+//     },
   
-    {
-      id:3,
-      address:'995 Jov Street',
-      city: 'Soweto',
-      location: 'Apartment'
-    },
+//     {
+//       id:3,
+//       address:'995 Jov Street',
+//       city: 'Soweto',
+//       location: 'Apartment'
+//     },
   
-    {
-      id:4,
-      address:'525 Corner Avenue',
-      city: 'Johannesburg',
-      location: 'Studio'
-    },
+//     {
+//       id:4,
+//       address:'525 Corner Avenue',
+//       city: 'Johannesburg',
+//       location: 'Studio'
+//     },
   
-];
+// ];
 
-const Item = ({address, city, location}) =>{
+
+const Item = ({province, city, streetName}) =>{
      return(
        <View style={{width:'80%', height:69, backgroundColor:'#ebeced', borderRadius:20, alignSelf:'center', marginVertical:5, justifyContent: 'center',}}>
-          <Text style={{fontSize:18, left: 20, color:'black', fontWeight: 'bold'}}>{location}</Text>
-          <Text style={{color:'black', left: 20}}>{address}, {city}</Text>
+          <Text style={{fontSize:18, left: 20, color:'black', fontWeight: 'bold'}}>{streetName}</Text>
+          <Text style={{color:'black', left: 20}}>{province}, {city}</Text>
        </View>
      );
 };
 
 const DeliveryAddress = ({navigation}) => {
+
+  const [address, setAddress] = useState([]);
+  
+  const getAddress = () => {
+    return firestore().collection('address').onSnapshot((snapShot) => {
+      const allAddress = snapShot.docs.map(docSnap => docSnap.data());
+      
+      setAddress(allAddress)
+    })
+  }
+  useEffect(() => {
+    let isMounted = true;
+    getAddress();
+    return () => {
+      isMounted = false;
+    }
+  }, [])
+
     return(
     <View>
       <ImageBackground 
@@ -69,13 +89,13 @@ const DeliveryAddress = ({navigation}) => {
         </View>
         <SafeAreaView style={{flex:4}}>
           <FlatList 
-          data={data}
-          keyExtractor={item=>item.id}
+          data={address}
+          keyExtractor={item => `${item.key}`}
           renderItem={({item})=>{
             return(
               <SafeAreaView>
                   <TouchableOpacity  onPress={() => navigation.navigate('PaymentForm')}>
-                  <Item address={item.address} location={item.location} city={item.city} />
+                  <Item province={item.province} streetName={item.streetName} city={item.city} />
                   </TouchableOpacity>
               </SafeAreaView>
             );

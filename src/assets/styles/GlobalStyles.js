@@ -5,7 +5,7 @@ const globalStyles = StyleSheet.create({
     container: {
         height: '100%',
         width: '100%',
-        backgroundColor: '#fff'
+        backgroundColor: '#'
     },
     body: {
         flex: 6,
@@ -133,7 +133,6 @@ const globalStyles = StyleSheet.create({
     // MARKET & EXHIBITION STYLES
     homeBody: {
       flex: 6,
-      padding: 16,
       alignItems: 'center',
       justifyContent: 'center',
     },

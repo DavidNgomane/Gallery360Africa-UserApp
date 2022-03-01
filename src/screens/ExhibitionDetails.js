@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, ScrollView, Image, ImageBackground, StyleSheet, FlatList, TouchableOpacity, Share} from 'react-native';
+import {View, Text, ScrollView, Image, ImageBackground, StyleSheet, FlatList, TouchableOpacity, Share, Pressable} from 'react-native';
 import { StatusBar } from 'react-native'
 import Entypo from 'react-native-vector-icons/Entypo';
 import firestore from "@react-native-firebase/firestore";
@@ -10,8 +10,10 @@ const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 
 export default function ExhibitionDetails({route, navigation}) {
 
-  const { exhibitionUid, date, address, description, exhibitionTitle } = route.params;
-  //const exhibitionUid = "H4SpBE9qBETbsmaKL5IQ"
+  const [liked, setLiked] = useState(false);
+
+  //const { exhibitionUid, date, address, description, exhibitionTitle } = route.params;
+  const exhibitionUid = "H4SpBE9qBETbsmaKL5IQ"
 
   const [ExhibitionDetails, setExhibitionDetails] = useState(null);
   const getExhibitionDetails = () => {
@@ -88,11 +90,11 @@ export default function ExhibitionDetails({route, navigation}) {
                              />
                      </TouchableOpacity>
              
-                     <TouchableOpacity style={styles.Heart} >
+                     <TouchableOpacity style={styles.Heart} onPress={() => setLiked((isLiked) => !isLiked)}>
                            <Entypo
-                             name="heart"
-                             size={30}
-                             color={"black"}
+                             name={liked ? "heart" : "heart-outlined"}
+                             size={32}
+                             color={liked ? "red" : "black"}
                              />
                      </TouchableOpacity>
                     </View>

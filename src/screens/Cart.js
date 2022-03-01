@@ -7,7 +7,7 @@ import firestore from '@react-native-firebase/firestore';
 
 const Cart = ({navigation}) => {
 
-  const[market, setMarket] = useState(null)
+  const[market, setMarket] = useState(null);
   const ArtistUid = "VaSfAfPTbktJ3o6jCG1O"
   
   const getMarket = async () => {
