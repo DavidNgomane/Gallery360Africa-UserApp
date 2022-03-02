@@ -1,21 +1,22 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, ScrollView, Image, ImageBackground, StyleSheet, FlatList, TouchableOpacity, Share, Pressable} from 'react-native';
+import {View, Text, ImageBackground, StyleSheet, FlatList, TouchableOpacity, Share } from 'react-native';
 import { StatusBar } from 'react-native'
 import Entypo from 'react-native-vector-icons/Entypo';
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth"
 
-const image = require('../assets/images/dannie-jing-3GZlhROZIQg-unsplash.jpg');
+// const image = require('../assets/images/dannie-jing-3GZlhROZIQg-unsplash.jpg');
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 
 export default function ExhibitionDetails({route, navigation}) {
 
   const [liked, setLiked] = useState(false);
 
-  const { exhibitionUid, date, address, description, exhibitionTitle } = route.params;
-  //const exhibitionUid = "H4SpBE9qBETbsmaKL5IQ"
+  const { exhibitionUid, exhibitionImage, address, description, exhibitionTitle, date } = route.params;
+  // const exhibitionUid = "H4SpBE9qBETbsmaKL5IQ"
 
   const [ExhibitionDetails, setExhibitionDetails] = useState(null);
+
   const getExhibitionDetails = () => {
     return firestore().collection('exhibition').where("exhibitionUid", "==", exhibitionUid).onSnapshot((snapShot) => {
       const allExhibitionDetails = snapShot.docs.map(docSnap => docSnap.data());
@@ -29,10 +30,9 @@ export default function ExhibitionDetails({route, navigation}) {
   const onShare = async () => {
     try {
       const result = await Share.share({
-        
        message: `${address}, ${date}, ${description}`
-       
       });
+
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
           // shared with activity type of result.activityType
@@ -50,18 +50,16 @@ export default function ExhibitionDetails({route, navigation}) {
   return (
     <View style={styles.container}> 
       <View style={styles.Top}>
-        <ImageBackground source={image} style={styles.image}  imageStyle={{ borderRadius: 20}}>
-             <View style={{bottom:120, height: 70, flexDirection: "row"}}>
-                <TouchableOpacity onPress = {() => navigation.navigate("Exhibition")} style={styles.BackButton}>
+        <ImageBackground source={{uri: exhibitionImage}} style={styles.image}  imageStyle={{ borderRadius: 20}}>
+            <View style={{bottom:120, height: 70, flexDirection: "row"}}>
+              <TouchableOpacity onPress = {() => navigation.navigate("Exhibition")} style={styles.BackButton}>
                   <Entypo
                     name="chevron-small-left"
                     size={40}
                     color={"#ffffff"}
                     />
               </TouchableOpacity>
-
               <Text style={styles.ExhibitionHeaderText}>Exhibition</Text>
-
              </View>
         </ImageBackground>
       </View>
@@ -72,8 +70,8 @@ export default function ExhibitionDetails({route, navigation}) {
                 renderItem={({ item }) => {
                   return(
                     <View style={styles.DetailsContainer} >
-                    <Text style={{color: "#000000", paddingBottom: 25, fontSize: 28.5, fontWeight: "bold"}}>{item.exhibitionTitle}</Text>
-                    <Text style={{color: "#000000", paddingBottom: 15, fontSize: 14}}>{item.date}</Text>
+                    <Text style={{color: "#000000", paddingBottom: 25, fontSize: 24.5, fontWeight: "bold"}}>{item.exhibitionTitle}</Text>
+                    <Text style={{color: "#000000", paddingBottom: 15, fontSize: 14, right: 45}}>{item.date}</Text>
                     <Text style={{color: "#000000", paddingBottom: 15, fontSize: 14}}>{item.address}</Text>
                     <Text style={{color: "#000000", paddingBottom: 40, fontSize: 14}}>{item.description}</Text>
              
@@ -129,7 +127,6 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     height: "100%",
     width: "100%",
-    
   },
   BackButton: {
     padding: 5,
@@ -144,7 +141,10 @@ const styles = StyleSheet.create({
   ExhibitionHeaderText: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#fff"
+    color: "#fff",
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center'
   },
   DetailsContainer: {
     width: 290,

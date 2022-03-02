@@ -21,9 +21,9 @@ export default function UserProfile({route, navigation}) {
   const [imageUri, setimageUri] = useState("");
   const [submit, setSubmit] = useState(false);
 
-  const {photoURL, fullName, uUID}= route.params
-  const openImageLibrary = async () =>{
+  const { photoURL, fullName, uuid, cartItem } = route.params
 
+  const openImageLibrary = async () =>{
     const options = {
       storageOptions: {
         skipBackup: true,
@@ -78,7 +78,7 @@ export default function UserProfile({route, navigation}) {
 
   const updateUser = () => {
   
-      firestore().collection("users").doc(uUID).update({
+      firestore().collection("users").doc(uuid).update({
         fullName: userName,
         photoURL: imageUri,
       }).then(() => {alert("you have successfully update your profile");
@@ -86,10 +86,7 @@ export default function UserProfile({route, navigation}) {
     }).catch((error) => {
         alert(error);
       })
-
   }
-
-
 useEffect(() =>{
 }, []);
 
@@ -141,7 +138,7 @@ useEffect(() =>{
 
                     <View style={styles.optionsContainer}>
                         <TouchableOpacity 
-                        onPress={() => navigation.navigate("CartScreen")}
+                        onPress={() => navigation.navigate("Cart", {uuid: uuid, cartItem: cartItem})}
                         style={{backgroundColor:"#E3E3E3", width:"80%", height:70, flexDirection:"row", alignSelf:"center", alignItems:"center", borderRadius:20}}>
                 <MaterialCommunityIcons
                             name="cart"
@@ -306,3 +303,13 @@ flatlist:{
 },
 
 })
+
+
+
+
+
+
+
+
+
+

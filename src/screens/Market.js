@@ -4,7 +4,7 @@ import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore from '@react-native-firebase/firestore';
 import Carousel from 'react-native-snap-carousel'
 
-const Market = ({navigation, route}) => {
+const Market = ({navigation}) => {
 
 const SLIDER_WIDTH = Dimensions.get('window').width;
 const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);

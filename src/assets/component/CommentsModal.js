@@ -1,6 +1,5 @@
-
-import React, { useState } from 'react';
-import {View, Text, TextInput, Modal, StyleSheet, Animated, TouchableWithoutFeedback, Image, KeyboardAvoidingView, TouchableOpacity} from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import {View, Text, TextInput, Modal, StyleSheet, Animated, TouchableWithoutFeedback, Image, KeyboardAvoidingView, TouchableOpacity, FlatList} from 'react-native';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -9,25 +8,60 @@ import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunity
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
-const CommentsModal = ({ImageUid, route, isVisible, onClose }) => {
+function CommentsModal({ImageUid, route, isVisible, onClose }) {
   
-    const [comments, setComments] = useState('');
-  const [post, setPost] = useState('')
-  const [user, setUsers] = useState('')
-  //const { ImageUid } = route.params;
+  const [comments, setComments] = useState(null);
+  const [com, setCom] = useState("");
+  const [numCom, setNumCom] = useState(0);
+  const [post, setPost] = useState(ImageUid);
+  const [userName, setUserName] = useState("");
+  const [userImage, setUserImage] = useState("");
+  const modalAnimatedValue = useRef(new Animated.Value(0)).current
+  const [isModalVisible, setModalVisible] = useState(isVisible);
 
-  const modalAnimatedValue = React.useRef(new Animated.Value(0)).current
-  const [isModalVisible, setModalVisible] = React.useState(isVisible);
+  //
   const addComments = () => {
       const uid = auth()?.currentUser?.uid;
-     const ImageUid = ImageUid;
+     const ImageUID = ImageUid;
+     console.log(ImageUid + " the image uid 333")
       firestore().collection('comments').add({
-            comments: comments,
+            comments: com,
             uid: uid,
-     })
+            photoURL: userImage,
+            imageUID: ImageUID,
+            userName: userName,
+     }).then((key) => key.update({
+       key : key.id,
+     })).catch((error) => alert(error));
   }
-  React.useEffect(() => {
-    console.log(post + "   this is the uid")
+  
+//
+  const getComents = () => {
+    firestore().collection("comments").where("imageUID", "==", ImageUid).onSnapshot((snapShot) => {
+          const commentNumber = snapShot.size;
+          const comment = snapShot.docs.map((comment) => comment.data());
+          setComments(comment);
+          setNumCom(commentNumber);
+    })
+}
+
+
+  useEffect(() => {
+  //////
+        console.log(ImageUid + " user photo");
+
+    firestore().collection("users").where("uid", "==", auth().currentUser.uid).onSnapshot((snapShot) => {
+      const displayName = snapShot.docs.map((docs) => docs.data().fullName);
+      const userPhoto = snapShot.docs.map((docs) => docs.data().photoURL);
+      //  console.log(displayName+ "  this user image");
+      //  console.log(userPhoto + " user photo");
+      setUserName(displayName);
+      setUserImage(userPhoto);
+    });
+////////
+getComents();
+    /////
+   
        if(isModalVisible) {
            Animated.timing(modalAnimatedValue, {
                toValue: 1,
@@ -47,22 +81,26 @@ const CommentsModal = ({ImageUid, route, isVisible, onClose }) => {
       outputRange: [1000, 1000 - 720]
   })
   return (
+    
     <KeyboardAvoidingView style={{flex: 1}} behavior='position'>
     <Modal
+    
         animationType='fade'
         transparent={true}
         visible={isVisible}
       >
        <View
+       
          style={{
            flex: 1,
-           backgroundColor: 'rgba(0, 0, 0, 0.7)',
+           backgroundColor: "rgba(16,18,27,0.1)",
            shadowColor: "#000",
            shadowOffset: {width: 3, height: 9},
            shadowOpacity: 4,
            shadowRadius: 20,
            elevation: 5
          }}
+       
        >
           <TouchableWithoutFeedback
               onPress={() => setModalVisible(false)}
@@ -90,51 +128,51 @@ const CommentsModal = ({ImageUid, route, isVisible, onClose }) => {
                   backgroundColor: '#fff',
               }}
           >
-        <View style={{flex: 3}}>
-           <Text style={{color: '#000', textAlign: 'center', fontSize: 18}}>2 Comments</Text>
-         <View>
-           <View style={{flexDirection: 'row', marginVertical: 20}}>
-           <View style={styles.profilePic}><Image source={require('../images/comments/person1.png')}/></View>
-           <View>
-             <Text style={styles.textStyle}>John Wick</Text>
+          <View style={{flex: 3}}>
+           <Text style={{color: '#000', textAlign: 'center', fontSize: 18}}>{numCom > 0? (<Text>{numCom}</Text>) :(<View></View>)} Comments</Text>
+           <FlatList 
+           data={comments}
+           style={{flexDirection:"column", }}
+           renderItem = {({item}) => {return( 
+           <View style={{flexDirection: 'row', marginVertical: 10}}>
+           <View style={{flexDirection:"row"}}>
+             <Image source={require("../images/comments/person2.png")} style={styles.profilePic}/>
+             <Text style={styles.textStyle}>{item.userName}</Text>
              </View>
-         </View>
-         <View style={{alignSelf: 'flex-end', marginVertical: -20}}>
-             <MaterialIcons name="favorite-outline" color="#000" size={25}/>
-          </View>
-            <Text style={{color: '#000', width: '80%'}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit</Text>
+
+         <View style={{alignSelf: "center", marginVertical:"1%", width:"100%",flexDirection:"column" }}>
+            <Text style={{ alignSelf:"flex-start", alignItems:"flex-start" ,color: '#000', width: '77%',top:"35%", right:"17%"}}>{item.comments}</Text>
+            <MaterialIcons name="favorite-outline" color="#000" size={25} style={{marginHorizontal:"45%", left:"15%", marginVertical:"-2%", bottom:"15%"}}/>
             </View>
-            <View>
-           <View style={{flexDirection: 'row', marginVertical: 20}}>
-           <View style={styles.profilePic}><Image source={require('../images/comments/person2.png')}/></View>
-           <View><Text style={styles.textStyle}>John Wick</Text></View>
-         </View>
-         <View style={{alignSelf: 'flex-end', marginVertical: -20}}>
-             <MaterialIcons name="favorite-outline" color="#000" size={25}/>
-          </View>
-         <Text style={{color: '#000', width: '80%'}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit</Text>
-            </View>      
+         </View> 
+            )
+          }}
+            />     
         </View>
           <View style={{flex: 3, flexDirection: 'row'}}>
-            <View style={styles.userProfile}><Image source={require('../images/comments/person3.png')}/></View>
+            <View style={styles.userProfile}>
+              <Image source={require("../images/comments/person3.png")} resizeMode="contain"/>
+              </View>
           <View style={styles.inputStyle}>
            <View style={{flexDirection: 'row'}}>  
           <TextInput
-              onChangeText={(comments) => setComments(comments)}
+          style={{width:"85%"}}
+              onChangeText={(comments) => setCom(comments)}
               placeholder="Comments..."
               placeholderTextColor="#828282"
               autoCapitalize="sentences"
             />
-             <View style={{flexDirection: 'row', marginHorizontal: 85, width: '29%',justifyContent: 'space-between'}}>
-             <Entypo style={{alignSelf: 'center'}} name="emoji-happy" color="#000" size={25}/>
+             <View style={{flexDirection: 'row', width: '29%',justifyContent: 'space-between'}}>
+             {/* <Entypo style={{alignSelf: 'center'}} name="emoji-happy" color="#000" size={25}/> */}
               <TouchableOpacity onPress={addComments}>
-              <MaterialCommunityIcons style={{marginRight: 5, alignSelf: 'center', marginVertical: 7}} name="send-outline" color="#000" size={30}/>
+              <MaterialCommunityIcons style={{alignSelf: 'center', marginVertical: 7}} name="send-outline" color="#000" size={30}/>
                </TouchableOpacity>
              </View>
             </View>
           </View>
           </View>
         </Animated.View>
+      
        </View>
       </Modal>
       </KeyboardAvoidingView>
@@ -150,7 +188,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: '#676767',
     bottom: 30,
-    marginHorizontal: 15
+    marginHorizontal: 15,
+    marginVertical:7,
   },
   profilePic: {
       height: 40,
@@ -161,8 +200,10 @@ const styles = StyleSheet.create({
   },  
   textStyle: {
     color: '#000',
-    marginHorizontal: 12,
-    marginVertical: 15
+    fontSize:17,
+    fontWeight:"bold",
+    marginHorizontal: "5%",
+    marginVertical: "3%"
   },
   userProfile: {
     height: 40,

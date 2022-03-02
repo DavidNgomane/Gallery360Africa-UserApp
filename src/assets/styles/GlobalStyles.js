@@ -192,7 +192,7 @@ const globalStyles = StyleSheet.create({
     // TIKTOK SCREEN STYLES
     tikTokContainer: {
         width: '100%',
-        height: Dimensions.get('window').height,
+        height: Dimensions.get('window').height / 1,
     },
     videPlayButton: {
         position: 'absolute',
@@ -479,7 +479,6 @@ const globalStyles = StyleSheet.create({
         // backgroundColor: 'red',  // used as an indicator, it can be deleted.
         // padding: 20
     },
-
 
     // SHIPPING
     shippingFooter: {

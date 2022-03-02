@@ -138,7 +138,7 @@ const uuid = auth()?.currentUser?.uid;
                   <MaterialIcons name='shopping-cart' size={30} color={'#000'}/>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigation.navigate('UserProfile', {photoURL: user, fullName: fullName, uUID: auth().currentUser.uid})}>
+                <TouchableOpacity onPress={() => navigation.navigate('UserProfile', {photoURL: user, fullName: fullName, uuid: uuid, cartItem: cartItem})}>
                   <Image source={{uri: `${user}`}} style={{width: 30, height:30, borderRadius:30, backgroundColor:"lightgrey" }}/>
                 </TouchableOpacity>
               </View>
@@ -167,3 +167,14 @@ const uuid = auth()?.currentUser?.uid;
 }
 
 export default App;
+
+
+
+
+
+
+
+
+
+
+
