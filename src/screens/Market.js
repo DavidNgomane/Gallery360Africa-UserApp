@@ -87,6 +87,9 @@ const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 6 / 4);
                         source={{uri: item.artistPhoto}} 
                         style={globalStyles.artistImage}
                       />
+                       <View style={globalStyles.artistNameContainer}>
+                          <Text style={globalStyles.ArtistName} >{item.artistName}</Text>
+                          </View>
                     </View>
                   </TouchableOpacity>
                 );

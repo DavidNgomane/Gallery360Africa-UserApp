@@ -157,6 +157,20 @@ const globalStyles = StyleSheet.create({
         height: 100, 
         borderRadius: 10
     },
+    artistNameContainer: {
+        backgroundColor: 'rgba(16, 18, 27, 0.4)', 
+        marginVertical: -10, 
+        borderRadius: 20,
+        alignSelf: 'center',
+        height: 20,
+        width: '90%',
+        bottom: 20
+      },
+      ArtistName: {
+        color: "#ffffff", 
+        textAlign: "center", 
+        fontWeight: "bold"
+    },
     artTxtBg: {
         position: 'absolute', 
         zIndex: 1, 
