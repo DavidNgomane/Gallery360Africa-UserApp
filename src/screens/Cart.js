@@ -115,18 +115,29 @@ const Cart = ({navigation, route}) => {
           </View>
         </View>
 
-        <FlatList
+      {
+        cartItem > 0 ? 
+       ( 
+       <FlatList
+          style={{marginVertical:"-6%"}}
           data={cart}
           showsHorizontalScrollIndicator={false}
-          keyExtractor={item => `${item.artUrl}`}
+          keyExtractor={item => `${item.artURL}`}
           renderItem={({item}) => {
             return (
-              <ScrollView>
-                <Items imageUrl={item.artUrl} name={item.artName} price={item.price} keyy={item.keyy}/>
-              </ScrollView>
+              <View>
+                <Items imageUrl={item.artUrl} name={item.artType} price={item.price} keyy={item.keyy}/>
+              </View>
             )
           }}
         />
+        ) 
+        : (
+          <View style={{width:"70%", height:"10%", backgroundColor:"lightgrey", borderRadius:20, alignSelf:"center", }}>
+              <Text style={{ alignSelf:"center", marginVertical: 15}}>No art has been added to cart</Text>
+          </View>
+        )
+      }
       </View>
       <View style={{flex: 2}}>
         <View style={{borderRadius: 30, width: "95%", height: 150, backgroundColor: "#FFFFFF", alignSelf: "center", marginVertical: -45, borderWidth: 1, borderColor: "lightgray", top: 55}}>
@@ -142,9 +153,9 @@ const Cart = ({navigation, route}) => {
             <View style={{flexDirection: "column", justifyContent: "center", width: 140, marginVertical: 10}}>
                 <Text style={{ fontSize: 16,  color: "gray"}}>Total Amount</Text>
                 {totalAmount > 0 ? (
-                <Text style={{ fontSize: 24, color: "black", fontWeight: "bold", right: 25}}>{`R${totalAmount}.00`}</Text>
+                <Text style={{ fontSize: 24, color: "black", fontWeight: "bold"}}>{`R${totalAmount}.00`}</Text>
                 ) : (
-                  <Text  style={{ fontSize: 24, color: "black", fontWeight: "bold", right: 25}}></Text>
+                  <Text  style={{ fontSize: 24, color: "black", fontWeight: "bold"}}>R0</Text>
                 )}
             </View>
           </View>

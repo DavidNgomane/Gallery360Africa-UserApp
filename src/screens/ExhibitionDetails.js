@@ -70,7 +70,7 @@ export default function ExhibitionDetails({route, navigation}) {
                 renderItem={({ item }) => {
                   return(
                     <View style={styles.DetailsContainer} >
-                    <Text style={{color: "#000000", paddingBottom: 25, fontSize: 28.5, fontWeight: "bold"}}>{item.exhibitionTitle}</Text>
+                    <Text style={{color: "#000000", paddingBottom: 25, fontSize: 25, fontWeight: "bold"}}>{item.exhibitionTitle}</Text>
                     <Text style={{color: "#000000", paddingBottom: 15, fontSize: 14, right: 45}}>{item.date}</Text>
                     <Text style={{color: "#000000", paddingBottom: 15, fontSize: 14}}>{item.address}</Text>
                     <Text style={{color: "#000000", paddingBottom: 40, fontSize: 14}}>{item.description}</Text>
@@ -144,7 +144,9 @@ const styles = StyleSheet.create({
     color: "#fff",
     justifyContent: 'center',
     alignItems: 'center',
-    textAlign: 'center'
+    textAlign: 'center',
+    left: 35,
+    top: 5
   },
   DetailsContainer: {
     width: 290,

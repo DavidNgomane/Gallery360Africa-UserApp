@@ -56,7 +56,7 @@ const Exhibition = ({navigation}) => {
             style={{width: ITEM_WIDTH, height: ITEM_HEIGHT, borderRadius: 16}}
           />
           <View style={{backgroundColor: 'green', height: 65, position: 'absolute', borderRadius: 16, bottom: 8, left: 8, right: 8, justifyContent: 'center'}}>
-            <Text style={globalStyles.artNameTxt}>Artscapes Exhibition</Text>
+            <Text style={globalStyles.artNameTxt}>{item.exhibitionTitle}</Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={globalStyles.artTypeTxt}>{item.date}</Text>
               {/* <Text style={globalStyles.artTypeTxt}>{item.venue}</Text> */}
@@ -88,44 +88,12 @@ const Exhibition = ({navigation}) => {
         />
       </SafeAreaView>
 
-        {/* <View style={globalStyles.artContainer}>
-          <FlatList
-            horizontal
-            bounces={false}
-            showsHorizontalScrollIndicator={false}
-            pagingEnabled
-            data={exhibition}
-            keyExtractor={item => `${item.artistUid}`}
-            renderItem={({item}) => {
-              return (
-                <View>
-                  <TouchableOpacity onPress={() => navigation.navigate('ExhibitionDetails', {exhibitionUid: item.exhibitionUid, artistUid: item.artistUid, exhibitionTitle: item.exhibitionTitle,
-                                                                                              date: item.date, address: item.address, description: item.description
-                                                                                              })}>
-                    <Image 
-                      source={{uri: item.exhibitionImage}} 
-                      style={globalStyles.artImage}
-                    />
-                    <View style={globalStyles.artTxtBg}>
-                      <Text style={globalStyles.artNameTxt}>Artscapes Exhibition</Text>
-                      <View>
-                        <Text style={globalStyles.artTypeTxt}>{item.date}</Text>
-                        <Text style={globalStyles.artTypeTxt2}>{item.venue}</Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              );
-            }}
-          />
-        </View> */}
       </View>
 
         {/*  */}
         <View style={globalStyles.homeFooter}>
             <FlatList
               horizontal
-              // bounces={false}
               showsHorizontalScrollIndicator={false}
               data={artist}
               keyExtractor={item => `${item.artistUid}`}
@@ -137,6 +105,9 @@ const Exhibition = ({navigation}) => {
                         source={{uri: item.artistPhoto}} 
                         style={globalStyles.artistImage}
                       />
+                        <View style={globalStyles.artistNameContainer}>
+                          <Text style={globalStyles.ArtistName} >{item.artistName}</Text>
+                          </View>
                     </View>
                   </TouchableOpacity>
                 );

@@ -7,9 +7,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 function CommentsModal({ImageUid, route, isVisible, onClose }) {
-  
   const [comments, setComments] = useState(null);
   const [com, setCom] = useState("");
   const [numCom, setNumCom] = useState(0);
@@ -18,7 +17,6 @@ function CommentsModal({ImageUid, route, isVisible, onClose }) {
   const [userImage, setUserImage] = useState("");
   const modalAnimatedValue = useRef(new Animated.Value(0)).current
   const [isModalVisible, setModalVisible] = useState(isVisible);
-
   //
   const addComments = () => {
       const uid = auth()?.currentUser?.uid;
@@ -34,7 +32,6 @@ function CommentsModal({ImageUid, route, isVisible, onClose }) {
        key : key.id,
      })).catch((error) => alert(error));
   }
-  
 //
   const getComents = () => {
     firestore().collection("comments").where("imageUID", "==", ImageUid).onSnapshot((snapShot) => {
@@ -44,12 +41,9 @@ function CommentsModal({ImageUid, route, isVisible, onClose }) {
           setNumCom(commentNumber);
     })
 }
-
-
   useEffect(() => {
   //////
         console.log(ImageUid + " user photo");
-
     firestore().collection("users").where("uid", "==", auth().currentUser.uid).onSnapshot((snapShot) => {
       const displayName = snapShot.docs.map((docs) => docs.data().fullName);
       const userPhoto = snapShot.docs.map((docs) => docs.data().photoURL);
@@ -61,7 +55,6 @@ function CommentsModal({ImageUid, route, isVisible, onClose }) {
 ////////
 getComents();
     /////
-   
        if(isModalVisible) {
            Animated.timing(modalAnimatedValue, {
                toValue: 1,
@@ -81,16 +74,12 @@ getComents();
       outputRange: [1000, 1000 - 720]
   })
   return (
-    
-    <KeyboardAvoidingView style={{flex: 1}} behavior='position'>
     <Modal
-    
         animationType='fade'
         transparent={true}
         visible={isVisible}
       >
-       <View
-       
+       <KeyboardAvoidingView
          style={{
            flex: 1,
            backgroundColor: "rgba(16,18,27,0.1)",
@@ -100,7 +89,7 @@ getComents();
            shadowRadius: 20,
            elevation: 5
          }}
-       
+         behavior="padding"
        >
           <TouchableWithoutFeedback
               onPress={() => setModalVisible(false)}
@@ -114,7 +103,7 @@ getComents();
                      bottom: 0
                  }}
               />
-          </TouchableWithoutFeedback>  
+          </TouchableWithoutFeedback>
           <Animated.View
               style={{
                   position: 'absolute',
@@ -130,31 +119,30 @@ getComents();
           >
           <View style={{flex: 3}}>
            <Text style={{color: '#000', textAlign: 'center', fontSize: 18}}>{numCom > 0? (<Text>{numCom}</Text>) :(<View></View>)} Comments</Text>
-           <FlatList 
+           <FlatList
            data={comments}
            style={{flexDirection:"column", }}
-           renderItem = {({item}) => {return( 
+           renderItem = {({item}) => {return(
            <View style={{flexDirection: 'row', marginVertical: 10}}>
            <View style={{flexDirection:"row"}}>
              <Image source={require("../images/comments/person2.png")} style={styles.profilePic}/>
              <Text style={styles.textStyle}>{item.userName}</Text>
              </View>
-
          <View style={{alignSelf: "center", marginVertical:"1%", width:"100%",flexDirection:"column" }}>
             <Text style={{ alignSelf:"flex-start", alignItems:"flex-start" ,color: '#000', width: '77%',top:"35%", right:"17%"}}>{item.comments}</Text>
             <MaterialIcons name="favorite-outline" color="#000" size={25} style={{marginHorizontal:"45%", left:"15%", marginVertical:"-2%", bottom:"15%"}}/>
             </View>
-         </View> 
+         </View>
             )
           }}
-            />     
+            />
         </View>
           <View style={{flex: 3, flexDirection: 'row'}}>
             <View style={styles.userProfile}>
               <Image source={require("../images/comments/person3.png")} resizeMode="contain"/>
               </View>
           <View style={styles.inputStyle}>
-           <View style={{flexDirection: 'row'}}>  
+           <View style={{flexDirection: 'row'}}>
           <TextInput
           style={{width:"85%"}}
               onChangeText={(comments) => setCom(comments)}
@@ -172,10 +160,8 @@ getComents();
           </View>
           </View>
         </Animated.View>
-      
-       </View>
+       </KeyboardAvoidingView>
       </Modal>
-      </KeyboardAvoidingView>
   );
 }
 export default CommentsModal
@@ -196,8 +182,8 @@ const styles = StyleSheet.create({
       width: 40,
       borderRadius: 40,
       backgroundColor: '#C4C4C4',
-      alignItems: 'center',    
-  },  
+      alignItems: 'center',
+  },
   textStyle: {
     color: '#000',
     fontSize:17,

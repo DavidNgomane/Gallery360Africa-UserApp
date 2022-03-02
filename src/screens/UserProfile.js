@@ -11,6 +11,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as ImagePicker from 'react-native-image-picker';
 import storage from "@react-native-firebase/storage";
 import auth from "@react-native-firebase/auth";
+import Toast from 'react-native-toast-message';
 
 const background = require("../assets/images/home.png")
 
@@ -76,6 +77,22 @@ export default function UserProfile({route, navigation}) {
     });
   };
 
+  const signoutUser = async () => {
+    try{
+        await auth().signOut().then(() => {
+          Toast.show({
+            type: 'error',
+            text1: 'Hello',
+            text2: 'You have signed out!',
+         })
+           navigation.replace("SignIn")
+          // navigation.replace("SignIn");
+        }).catch((error) => alert(error))
+    }catch(e){
+      console.log(e)
+    }
+  }
+
   const updateUser = () => {
   
       firestore().collection("users").doc(uuid).update({
@@ -88,7 +105,9 @@ export default function UserProfile({route, navigation}) {
       })
   }
 useEffect(() =>{
+  console.log(photoURL, "   the photootdsfsdfdsfs")
 }, []);
+
 
     return(
           <View>
@@ -159,14 +178,14 @@ useEffect(() =>{
             <Text style={{marginHorizontal:10, color:"#0E1822"}}> Notifications</Text>
                   <Entypo name="chevron-small-right" size={24} style={{marginVertical:-10, marginHorizontal:"37%", color:"#0E1822"}}/>
                         </TouchableOpacity>
-                      <TouchableOpacity style={{backgroundColor:"#E3E3E3", width:"80%", height:70, flexDirection:"row", alignSelf:"center", alignItems:"center", borderRadius:20}}>
+                      <TouchableOpacity onPress={signoutUser} style={{backgroundColor:"#E3E3E3", width:"80%", height:70, flexDirection:"row", alignSelf:"center", alignItems:"center", borderRadius:20}}>
                 <Ionicons
                             name="settings-outline"
                             size={24}
                             color={'#0E1822'}
                             style={{ marginHorizontal: 10, overflow:"hidden",  color:"#0E1822"}}
                   />
-            <Text style={{marginHorizontal:10, color:"#0E1822"}}> Settings</Text>
+            <Text style={{marginHorizontal:10, color:"#0E1822"}}> Logout</Text>
                   <Entypo name="chevron-small-right" size={24} style={{marginVertical:-10, marginHorizontal:"47%",  color:"#0E1822"}}/>
                         </TouchableOpacity>
                     </View>

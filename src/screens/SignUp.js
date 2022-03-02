@@ -19,62 +19,83 @@ import { globalStyles } from '../assets/styles/GlobalStyles';
 //
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-
+import Toast from 'react-native-toast-message';
 const SignUp = ({navigation}) => {
-
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const register = () => {
-    if (fullName !== "" && email !== ""  && password !== ""){
-      auth()
-      .createUserWithEmailAndPassword(email, password)
+  const validate = () => {
+    const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (fullName == "" && email == "" && password == "") {
+      Toast.show({
+         type: 'error',
+         text1: 'Hello user',
+         text2: 'Both fields are empty',
+      })
+    } else  if (fullName == "") {
+      Toast.show({
+        type: 'error',
+        text1: 'Hello user',
+        text2: 'Full name cannot be empty',
+     })
+   } else  if (!reg.test(email)) {
+    Toast.show({
+      type: 'error',
+      text1: 'Hello user',
+      text2: 'Email is not valid',
+   })
+  }
+    else if (password == "") {
+     Toast.show({
+        type: 'error',
+        text1: 'Hello user',
+        text2: 'Password cannot be empty',
+     })
+   }
+ }
+  const register = async () => {
+    if (fullName !== "" && email !== "" && password !== ""){
+      await auth().createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         firestore().collection('users').doc(user.uid).set({
                         uid: user.uid,
                         fullName: fullName,
                         email: user.email,
+                        photoURL: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCTa1o13qHi0hBEUMcOCKQhrrNSr8pSUmAoA&usqp=CAU"
                     }).then(() => {
-                      alert("You are successfully registered");
+                      Toast.show({
+                        type: 'success',
+                        text1: 'Hello user',
+                        text2: 'You have successfully loged in ',
+                     })
                       navigation.navigate("SignIn");
                     }).catch((error) => alert(error));
        // console.log('User account created & signed in!');
       })
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
-           alert('That email address is already in use!');
+           Toast.show({
+            type: 'error',
+            text1: 'Hello user',
+            text2: 'That email address is already in use!',
+         })
         }
-    
         if (error.code === 'auth/invalid-email') {
-           alert('That email address is invalid!');
+           Toast.show({
+            type: 'error',
+            text1: 'Hello user',
+            text2: 'That email address is invalid!',
+         })
+        } else {
+           SignUp();
         }
-    
         console.error(error);
       });
     }
   }
-
-  const signinValidation = Yup.object().shape({
-    email: Yup.string().email('Please enter a valid email').required('Email is required'),
-    password: Yup.string().min(8, ({min}) => `Password must be at least ${min} characters`)
-    .required('Password is required').matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-      "Password must contain at least 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-    ),
-    fullName: Yup.string().required('Full name is required').min(4, ({min}) => `Full name must be a minimum of ${min} characters`),
-  });
-
   return (
-    <Formik
-       initialValues={{ fullName: '', email: '', password: ''}}
-       onSubmit={values => console.log(values)}
-       validationSchema={signinValidation}
-       validateOnMount={true}
-     >  
-    {({ handleChange, handleBlur, handleSubmit, setFieldTouched ,values, touched, errors, isValid, isInitialValid }) => (
-    <>  
+    <>
   <KeyboardAvoidingView behavior='position' >
   <ImageBackground
     style={{flex: 1}}
@@ -85,79 +106,60 @@ const SignUp = ({navigation}) => {
  <View style={styles.gallery360logo}>
     <Image source={require('../assets/images/signUp/signUpLogo.png')}
     />
-    </View>   
- 
+    </View>
      <View  style={{marginLeft: 33, marginTop: 10}}>
           <Text style={{fontSize: 36, color: '#22180E'}}>Sign Up</Text>
-          <Text style={{color: '#ffffff'}}>Create your new account</Text>
+          <Text style={{color: '#FFFFFF'}}>Create your new account</Text>
       </View>
-   </View>   
-
-    <View style={{flex: 1}}>   
-         
+   </View>
+    <View style={{flex: 1}}>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={fullName => setFullName(fullName)}
-              // onChangeText={handleChange("fullName")}
-              onBlur={() => setFieldTouched('fullName')}
               value={fullName}
               underlineColorAndroid="#f000"
               placeholder="Full Name"
-              placeholderTextColor="#ffffff"
+              placeholderTextColor="#FFFFFF"
               autoCapitalize="sentences"
             />
           </View>
-          {/* {(errors.fullName && touched.fullName) && 
-             <Text style={styles.errors}>{errors.fullName}</Text>
-          } */}
-
           <View style={styles.SectionStyle}>
             <TextInput
-              style={[styles.inputStyle, 
+              style={[styles.inputStyle,
                 //  {borderColor: values.email.length < 1 || Validator.validate(values.email) ? '#fff' : 'red'}
               ]}
               onChangeText={email => setEmail(email)}
-              // onChangeText={handleChange("email")}
-              onBlur={() => setFieldTouched('email')}
               value={email}
               underlineColorAndroid="#f000"
               placeholder="Email"
-              placeholderTextColor="#ffffff"
+              placeholderTextColor="#FFFFFF"
               keyboardType="email-address"
               textContentType='emailAddress'
             />
           </View>
-          {/* {(errors.email && touched.email) && 
-             <Text style={styles.errors}>{errors.email}</Text>
-          } */}
-
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={password => setPassword(password)}
-              // onChangeText={handleChange("password")}
-              onBlur={() => setFieldTouched('password')}
               value={password}
               underlineColorAndroid="#f000"
               placeholder="Password"
-              placeholderTextColor="#ffffff"
+              placeholderTextColor="#FFFFFF"
               returnKeyType="next"
               secureTextEntry={true}
               textContentType="password"
             />
           </View>
-          {/* {(errors.password && touched.password) && 
-            <Text style={styles.errors}>{errors.password}</Text>
-          }
-      */}
           <TouchableOpacity
-            onPress={register}
+            onPress={() => {
+              validate();
+              register()
+            }}
             style={styles.buttonStyle}
             activeOpacity={0.5}>
             <Text style={styles.buttonTextStyle}>Sign Up</Text>
           </TouchableOpacity>
-     
         <View style={{flexDirection: 'row', alignSelf: 'center'}}>
            <Text style={{}}>
               Already have an account?
@@ -175,13 +177,9 @@ const SignUp = ({navigation}) => {
     </ImageBackground>
     </KeyboardAvoidingView>
      </>
-     )}  
-     </Formik>
   );
 }
-
 export default SignUp;
-
 const styles = StyleSheet.create({
   SectionStyle: {
     flexDirection: 'row',
@@ -191,7 +189,6 @@ const styles = StyleSheet.create({
     marginRight: 35,
     margin: 10,
   },
-  
   buttonStyle: {
     backgroundColor: '#0E1822',
     borderWidth: 0,
@@ -205,13 +202,11 @@ const styles = StyleSheet.create({
     marginTop: 25,
     marginBottom: 20,
   },
-
   buttonTextStyle: {
     color: '#FFFFFF',
     paddingVertical: 13,
     fontSize: 16,
   },
-
   inputStyle: {
     flex: 1,
     color: 'white',
@@ -222,19 +217,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: '#FFFFFF',
   },
-
   imageBack: {
     height: Dimensions.get('window').height / 1,
   },
-
   gallery360logo: {
       height: 226,
       width: 166,
       alignSelf: 'center',
       alignItems: 'center',
-      marginTop: 30,    
+      marginTop: 30,
   },
-
   errors: {
     fontSize: 12,
     color: 'red',
