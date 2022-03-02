@@ -170,7 +170,7 @@ const globalStyles = StyleSheet.create({
         left: 8,
     },
     artNameTxt: {
-        fontSize: 28, 
+        fontSize: 23, 
         fontWeight: 'bold', 
         color: '#fff', 
         paddingHorizontal: 20
