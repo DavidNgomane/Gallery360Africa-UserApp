@@ -127,6 +127,9 @@ const App = () => {
       <Stack.Navigator
         initialRouteName='Splash'
       >
+
+<Stack.Screen options={{headerShown: false}} name='Splash' component={Splash} />
+            <Stack.Screen options={{headerShown: false}} name='Onboarding' component={Onboarding} />
     
         <Stack.Screen 
           name='Home' 
@@ -166,8 +169,7 @@ const App = () => {
           </>
           :
           <>
-            <Stack.Screen options={{headerShown: false}} name='Splash' component={Splash} />
-            <Stack.Screen options={{headerShown: false}} name='Onboarding' component={Onboarding} />
+            
             <Stack.Screen options={{headerShown: false}} name='SignIn' component={SignIn} />
             <Stack.Screen options={{headerShown: false}} name='SignUp' component={SignUp} />
           </>

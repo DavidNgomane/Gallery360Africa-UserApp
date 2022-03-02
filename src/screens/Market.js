@@ -1,4 +1,4 @@
-import { Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity, Image, Button } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore from '@react-native-firebase/firestore';
@@ -25,9 +25,9 @@ const Market = ({navigation, route}) => {
   const signoutUser = async () => {
     try{
         await firebase.auth().signOut().then(() => {
-          navigation.replace('Splash')
+          console.log('User signed out!')
         })
-     
+        navigation.replace('Onboarding')
     }catch(e){
       console.log(e)
     }
@@ -38,6 +38,11 @@ const Market = ({navigation, route}) => {
     <View style={globalStyles.container}>
       {/*  */}
       <View style={globalStyles.homeBody}>
+              <Button
+          onPress={signoutUser}
+          title="Sign Out"
+          color="#841584"
+        />
         <View style={globalStyles.artContainer}>
           <FlatList
             horizontal
