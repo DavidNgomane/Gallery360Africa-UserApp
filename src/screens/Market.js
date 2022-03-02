@@ -2,7 +2,8 @@ import { Text, View, FlatList, TouchableOpacity, Image, Button } from 'react-nat
 import React, { useEffect, useState } from 'react';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore from '@react-native-firebase/firestore';
-import { firebase } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
+import Toast from 'react-native-toast-message';
 
 const Market = ({navigation, route}) => {
   // 
@@ -24,10 +25,16 @@ const Market = ({navigation, route}) => {
 
   const signoutUser = async () => {
     try{
-        await firebase.auth().signOut().then(() => {
-          console.log('User signed out!')
-        })
-        navigation.replace('Onboarding')
+        await auth().signOut().then(() => {
+          Toast.show({
+            type: 'error',
+            text1: 'Hello',
+            text2: 'You have signed out!',
+         })
+           navigation.replace("SignIn")
+          // navigation.replace("SignIn");
+        }).catch((error) => alert(error))
+        
     }catch(e){
       console.log(e)
     }

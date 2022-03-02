@@ -73,11 +73,15 @@ const SignIn = ({navigation}) => {
           text2: 'Email is not valid',
        })
         else if (error.code === "auth/user-not-found")
+         {
            Toast.show({
             type: 'error',
             text1: 'Hello user',
             text2: 'No User Found',
-         })
+         });
+
+        setLoading(false)
+        }
         else {
             Toast.show({
               type: 'error',
@@ -139,7 +143,7 @@ const SignIn = ({navigation}) => {
                  
           <TouchableOpacity
             onPress={() => {
-              validate() ? signIn() : setLoading(false)
+              validate()
             }}
             activeOpacity={0.5}
             >

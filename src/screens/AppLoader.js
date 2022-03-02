@@ -17,6 +17,7 @@ class AppLoader extends Component {
                color = '#bc2b78'
                size = "large"
                style = {styles.activityIndicator}/>
+               <Text style={{fontSize: 18, color: '#fff'}}>loading...</Text>
          </View>
       )
    }

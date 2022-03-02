@@ -72,6 +72,10 @@ const App = () => {
           fontSize: 17,
           fontWeight: '400',
         }}
+        text2Style={{
+          fontSize: 13,
+          color: 'green'
+        }}
       />
     ),
 
@@ -79,10 +83,10 @@ const App = () => {
       <ErrorToast
         {...props}
         text1Style={{
-          fontSize: 17
+          fontSize: 17,
         }}
         text2Style={{
-          fontSize: 15,
+          fontSize: 13,
           color: 'red'
         }}
       />
@@ -127,9 +131,6 @@ const App = () => {
       <Stack.Navigator
         initialRouteName='Splash'
       >
-
-<Stack.Screen options={{headerShown: false}} name='Splash' component={Splash} />
-            <Stack.Screen options={{headerShown: false}} name='Onboarding' component={Onboarding} />
     
         <Stack.Screen 
           name='Home' 
@@ -169,11 +170,14 @@ const App = () => {
           </>
           :
           <>
-            
-            <Stack.Screen options={{headerShown: false}} name='SignIn' component={SignIn} />
+            <Stack.Screen options={{headerShown: false}} name='Splash' component={Splash} />
+            <Stack.Screen options={{headerShown: false}} name='Onboarding' component={Onboarding} /> 
             <Stack.Screen options={{headerShown: false}} name='SignUp' component={SignUp} />
           </>
+              
         }
+
+        <Stack.Screen options={{headerShown: false}} name='SignIn' component={SignIn} />
 
       </Stack.Navigator>
     </NavigationContainer>

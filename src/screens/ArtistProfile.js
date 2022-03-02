@@ -7,6 +7,8 @@ import { globalStyles } from "../assets/styles/GlobalStyles";
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import VideoPlayer from "react-native-video-player";
+
 const ArtistProfile = ({route, navigation}) => {
 
   const { artistUid, artistPhoto, artistName, artistDescription } = route.params;
@@ -43,10 +45,17 @@ const ArtistProfile = ({route, navigation}) => {
         </View>
 
         <View style={styles.VideoContainer}>
-          <Image 
+          {/* <Image 
             source={{uri: 'https://images.unsplash.com/photo-1614315394848-b3375bf3f39c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8ODF8fHZpZGVvfGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60'}}
             style={{width: 325, height: 250, borderRadius: 15}}
-          />
+          /> */}
+           <VideoPlayer
+             video={{uri: 'https://www.youtube.com/watch?v=O433Arp-l0E'}}
+             autoplay={false}
+             defaultMuted={false}
+             thumbnail={require('../assets/images/splash/logo.png')}
+             style={{width: 325, height: 250, borderRadius: 15}}
+           />
           </View>
       </View>
 
