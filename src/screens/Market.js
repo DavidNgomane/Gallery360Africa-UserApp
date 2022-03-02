@@ -40,7 +40,7 @@ const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 6 / 4);
             source={{uri: item.artUrl}}
             style={{width: ITEM_WIDTH, height: ITEM_HEIGHT, borderRadius: 16}}
           />
-          <View style={{backgroundColor: 'rgba(16, 18, 27, 0.5)', height: 65, position: 'absolute', borderRadius: 16, bottom: 8, left: 8, right: 8, justifyContent: 'center'}}>
+          <View style={{backgroundColor: '#fff', height: 65, position: 'absolute', borderRadius: 16, bottom: 8, left: 8, right: 8, justifyContent: 'center'}}>
             <Text style={globalStyles.artNameTxt}>{item.artName}</Text>
             <Text style={globalStyles.artTypeTxt}>{item.artType}</Text>
           </View>

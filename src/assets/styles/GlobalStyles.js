@@ -186,11 +186,11 @@ const globalStyles = StyleSheet.create({
     artNameTxt: {
         fontSize: 23, 
         fontWeight: 'bold', 
-        color: '#fff', 
+        color: '#000', 
         paddingHorizontal: 20
     },
     artTypeTxt: {
-        color: '#fff', 
+        color: 'gray', 
         paddingHorizontal: 20,
         bottom: 3
     },

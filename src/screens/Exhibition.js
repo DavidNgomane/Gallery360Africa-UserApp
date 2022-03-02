@@ -55,7 +55,7 @@ const Exhibition = ({navigation}) => {
             source={{uri: item.exhibitionImage}}
             style={{width: ITEM_WIDTH, height: ITEM_HEIGHT, borderRadius: 16}}
           />
-          <View style={{backgroundColor: 'green', height: 65, position: 'absolute', borderRadius: 16, bottom: 8, left: 8, right: 8, justifyContent: 'center'}}>
+          <View style={{backgroundColor: '#fff', height: 65, position: 'absolute', borderRadius: 16, bottom: 8, left: 8, right: 8, justifyContent: 'center'}}>
             <Text style={globalStyles.artNameTxt}>{item.exhibitionTitle}</Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={globalStyles.artTypeTxt}>{item.date}</Text>
