@@ -144,16 +144,10 @@ const uuid = auth()?.currentUser?.uid;
       <NavigationContainer>
       <Stack.Navigator
         initialRouteName='Splash'
+        
         screenOptions={{
           headerTitleAlign: 'center',
-
-          headerStyle: {
-            //backgroundColor: '#7159c1'
-          },
-          headerTintColor: '#fff',
           headerTitleStyle: {
-            alignSelf: 'center',
-            alignItems: 'center',
             color: '#000',
           },
         }}>
@@ -163,8 +157,11 @@ const uuid = auth()?.currentUser?.uid;
           name='Home' 
           component={TabNavigator}
           options={({navigation}) => ({
+
+           
+              headerTitleAlign: 'left', 
+              color: '#000',
             
-            // headerLeft: () => {return null;},
             headerBackVisible: false,
             headerShadowVisible: false,
             title: `Hi ${fullName}`,
@@ -184,7 +181,12 @@ const uuid = auth()?.currentUser?.uid;
           
         />
         
-			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='ArtistProfile' component={ArtistProfile}/>
+			<Stack.Screen options={{headerShown: true,  headerTransparent: true,  navigationOptions: {
+      title: 'Flashcards',
+      headerBackTitleStyle: {
+       color: '#000'
+      }
+    },}} name='ArtistProfile' component={ArtistProfile}/>
 			<Stack.Screen options={{headerShown: false}} name="ArtPreview" component={ArtPreview} />
 			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='Cart' component={Cart} />
 			<Stack.Screen options={{headerShown: false}} name='PaymentSuccesful' component={PaymentSuccesful} />
