@@ -122,35 +122,11 @@ const App = ({navigation}) => {
                 // console.log(cartItems + "  this the number of item added to cart")
                 setCartItem(cartItems);
               });
-
-
-            //setUID(userExist.uid);
           }
-            else {setuser("");
-            //setUID(userExist.uid);
-            
+            else {
+              setuser("");
           }
       });
-
-      // const uuid = auth().currentUser?.uid;
-      // const getCartItemNumber = firestore().collection("cartItem").where("uuid", "==",uid).onSnapshot((snapShot) => {
-      //     const cartItems = snapShot.size;
-      //     // console.log(cartItems + "  this the number of item added to cart")
-      //     setCartItem(cartItems);
-      //   });
-    
-      // const   getUser = firestore().collection("users").where("uid", "==",uid).onSnapshot((snapShot) => {
-      //   const users = snapShot.docs.map((document) => document.data().photoURL);
-      //   const uName = snapShot.docs.map((document) => document.data().fullName);
-      //   // console.log(cartItems + "  this the number of item added to cart")
-      //   setUser(users);
-      //   setFullName(uName);
-      // });
-    
-      // return () => {getCartItemNumber()}
-      // return () => {getUser()}
-      
-
 
       return () => {
         unregister()
@@ -180,9 +156,6 @@ const uuid = auth()?.currentUser?.uid;
             title: `Hi ${fullName}`,
             headerRight: () => (
               <View style={{flexDirection: 'row', width: 74, justifyContent: 'space-between'}}>
-                {/* <TouchableOpacity style={{borderWidth: 1, borderRadius: 20, borderColor: '#fff', width: 50, height: 50, alignItems: 'center', paddingTop: 12, }}>
-                  <MaterialIcons name='shopping-cart' size={24} color={'white'}/>
-                </TouchableOpacity> */}
 
                 <TouchableOpacity onPress={() => navigation.navigate('Cart', {cartItem: cartItem, uuid: uuid})}>
                   <MaterialIcons name='shopping-cart' size={30} color={'#000'}/>
