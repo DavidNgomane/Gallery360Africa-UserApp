@@ -112,6 +112,7 @@ useEffect(() =>{
     return(
           <View>
               <ImageBackground source={background} style={styles.backgroundImg}>
+                <View style={{top: 150}}>
                 <Modal visible={modalOpen}>
                      <View style={styles.modalContainer}>
                        <View style={styles.closeBtnContaainer}>
@@ -137,7 +138,7 @@ useEffect(() =>{
                      </View>
                 </Modal>
                 {/* the end of the modal */}
-                  <TouchableOpacity style={styles.topLeftIcon}>
+                  {/* <TouchableOpacity style={styles.topLeftIcon}>
                           <Entypo
                             onPress={() =>navigation.navigate("Home")}
                             name="chevron-thin-left"
@@ -145,7 +146,7 @@ useEffect(() =>{
                             color={'#0E1822'}
                             style={{alignSelf: 'center', marginVertical: 10}}
                           />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                
                     <View style={styles.profileImgContainer}>
                          <Image source={{uri: `${photoURL}`}} style={styles.profileImg}/>
@@ -189,6 +190,7 @@ useEffect(() =>{
                   <Entypo name="chevron-small-right" size={24} style={{marginVertical:-10, marginHorizontal:"47%",  color:"#0E1822"}}/>
                         </TouchableOpacity>
                     </View>
+                    </View>
               </ImageBackground>
           </View>
     );
@@ -198,7 +200,7 @@ const styles= StyleSheet.create({
 
 backgroundImg:{
    width:'100%',
-   height:'100%'
+   height:'100%',
 },
 
 profileImg:{

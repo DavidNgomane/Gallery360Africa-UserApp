@@ -86,7 +86,7 @@ const ArtistProfile = ({route, navigation}) => {
                       renderItem={({ item }) => {
                         return(
                           <View style={styles.listItem2} >
-                            <TouchableOpacity onPress={() => navigation.navigate('Preview', {artistUid, likes: item.likes, price: item.price, description: item.description, artUrl: item.artUrl, artistPhoto: item.artistPhoto, artistName: item.artistName, ImageUid: item.ImageUid, artType: item.artType, artistDescription: artistDescription})} >
+                            <TouchableOpacity onPress={() => navigation.navigate('ArtPreview', {artistUid, likes: item.likes, price: item.price, description: item.description, artUrl: item.artUrl, artistPhoto: item.artistPhoto, artistName: item.artistName, ImageUid: item.ImageUid, artType: item.artType, artistDescription: artistDescription})} >
                               <Image 
                                 source={{uri:item.artUrl}} 
                                 style={styles.img}

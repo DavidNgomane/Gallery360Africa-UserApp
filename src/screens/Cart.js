@@ -7,7 +7,7 @@ import firestore from '@react-native-firebase/firestore';
 
 const Cart = ({navigation, route}) => {
 
-  const { uuid, cartItem } = route.params;
+  const { uuid, artistUid, cartItem } = route.params;
 
   
   const[cart, setCart] = useState(null)
@@ -18,7 +18,7 @@ const Cart = ({navigation, route}) => {
   const [keyy, setKey] = useState("");
   
   const getCart = () => {
-    return firestore().collection('cartItem').where("uuid", "==", uuid).onSnapshot((snapShot) => {
+    return firestore().collection('cartItem').where("artistUid", "==", artistUid).onSnapshot((snapShot) => {
       const carts = snapShot.docs.map((document) => document.data());
        const prices = snapShot.docs.map((document) => document.data().price);
        const artURLs = snapShot.docs.map((document) => document.data().artUrl);

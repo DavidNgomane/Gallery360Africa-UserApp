@@ -204,8 +204,9 @@ const onUnFollow = () => {
                 />
                 </ZoomView>
               <View style={globalStyles.topIconView}>
+
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Market')}
+                  onPress={() => navigation.goBack(null)}
                   style={globalStyles.topLeftIcon}
                 >
                   <Entypo 
@@ -215,6 +216,7 @@ const onUnFollow = () => {
                     style={{alignSelf: 'center', marginVertical: 10}}
                   />
                 </TouchableOpacity>
+
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Cart', {Auid : artistUid, cartItem: items, uuid: uuid}, console.log(uuid))}
                   style={globalStyles.cartIcon}
