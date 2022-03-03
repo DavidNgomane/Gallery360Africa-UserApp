@@ -96,54 +96,70 @@ const App = ({navigation}) => {
       </View>
     )
   };
-  const [user, setuser] = useState('')
-    useEffect(() => {
-      const unregister = auth().onAuthStateChanged(userExist=>{
-            if(userExist) setuser(userExist)
-            else setuser("")
-      })
-      return () => {
-        unregister()
-      }
-  }, [])
-
-  
+  const [user, setuser] = useState('');
+  const [uid, setUID] = useState("");
   const [cartItem, setCartItem] = useState(null);
   const [User, setUser] = useState(null);
   const [fullName, setFullName] = useState(null);
 
 
-  const getCartItemNumber = () => {
-    const uuid = auth()?.currentUser?.uid;
+    useEffect(() => {
+      const unregister = auth().onAuthStateChanged(userExist=>{
+        
+            if(userExist) {
+               setuser(userExist);
 
-    return firestore().collection("cartItem").where("uuid", "==",uuid).onSnapshot((snapShot) => {
-      const cartItems = snapShot.size;
-      // console.log(cartItems + "  this the number of item added to cart")
-      setCartItem(cartItems);
-    });
-  }
+               firestore().collection("users").where("uid", "==",userExist.uid).onSnapshot((snapShot) => {
+                const users = snapShot.docs.map((document) => document.data().photoURL);
+                const uName = snapShot.docs.map((document) => document.data().fullName);
+                // console.log(cartItems + "  this the number of item added to cart")
+                setUser(users);
+                setFullName(uName);
+              });
+            
+              firestore().collection("cartItem").where("uuid", "==",userExist.uid).onSnapshot((snapShot) => {
+                const cartItems = snapShot.size;
+                // console.log(cartItems + "  this the number of item added to cart")
+                setCartItem(cartItems);
+              });
 
-  const getUser = () => {
-    const uuid = auth()?.currentUser?.uid;
 
-    return firestore().collection("users").where("uid", "==",uuid).onSnapshot((snapShot) => {
-      const users = snapShot.docs.map((document) => document.data().photoURL);
-      const uName = snapShot.docs.map((document) => document.data().fullName);
-      // console.log(cartItems + "  this the number of item added to cart")
-      setUser(users);
-      setFullName(uName);
-    });
-  }
+            //setUID(userExist.uid);
+          }
+            else {setuser("");
+            //setUID(userExist.uid);
+            
+          }
+      });
 
+      // const uuid = auth().currentUser?.uid;
+      // const getCartItemNumber = firestore().collection("cartItem").where("uuid", "==",uid).onSnapshot((snapShot) => {
+      //     const cartItems = snapShot.size;
+      //     // console.log(cartItems + "  this the number of item added to cart")
+      //     setCartItem(cartItems);
+      //   });
+    
+      // const   getUser = firestore().collection("users").where("uid", "==",uid).onSnapshot((snapShot) => {
+      //   const users = snapShot.docs.map((document) => document.data().photoURL);
+      //   const uName = snapShot.docs.map((document) => document.data().fullName);
+      //   // console.log(cartItems + "  this the number of item added to cart")
+      //   setUser(users);
+      //   setFullName(uName);
+      // });
+    
+      // return () => {getCartItemNumber()}
+      // return () => {getUser()}
+      
+
+
+      return () => {
+        unregister()
+      }
+  }, [])
 
   useEffect(() => {
-    let isMounted = true;
-     getCartItemNumber();
-     getUser();
-    return () => {
-      isMounted = false;
-    }
-  }, [])
+ 
+  },[])
 
 const uuid = auth()?.currentUser?.uid;
   
