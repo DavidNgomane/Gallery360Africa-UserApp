@@ -144,7 +144,19 @@ const uuid = auth()?.currentUser?.uid;
       <NavigationContainer>
       <Stack.Navigator
         initialRouteName='Splash'
-      >
+        screenOptions={{
+          headerTitleAlign: 'center',
+
+          headerStyle: {
+            //backgroundColor: '#7159c1'
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            alignSelf: 'center',
+            alignItems: 'center',
+            color: '#000',
+          },
+        }}>
         {user?
            <>
        <Stack.Screen 

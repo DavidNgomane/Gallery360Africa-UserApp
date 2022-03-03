@@ -67,7 +67,7 @@ const SignUp = ({navigation}) => {
                       Toast.show({
                         type: 'success',
                         text1: 'Hello user',
-                        text2: 'You have successfully loged in ',
+                        text2: 'You have successfully registered ',
                      })
                       navigation.navigate("SignIn");
                     }).catch((error) => alert(error));
@@ -88,7 +88,7 @@ const SignUp = ({navigation}) => {
             text2: 'That email address is invalid!',
          })
         } else {
-           SignUp();
+           register()
         }
         console.error(error);
       });
@@ -153,8 +153,7 @@ const SignUp = ({navigation}) => {
           </View>
           <TouchableOpacity
             onPress={() => {
-              validate();
-              register()
+              validate()
             }}
             style={styles.buttonStyle}
             activeOpacity={0.5}>

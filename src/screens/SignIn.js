@@ -82,6 +82,7 @@ const SignIn = ({navigation}) => {
               text1: 'Hello user',
               text2: 'Please check your email id or password',
            })
+           setLoading(false)
         }
       });
        }
