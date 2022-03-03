@@ -29,7 +29,7 @@ const ArtistProfile = ({route, navigation}) => {
       style={globalStyles.container}
     >
       <View style={styles.TopContainer}>
-        <View style={{justifyContent: "center", height: 70}}>
+        {/* <View style={{justifyContent: "center", height: 70}}>
           <TouchableOpacity
             onPress={() =>navigation.navigate("Home")}
             style={styles.BackButton}
@@ -40,7 +40,7 @@ const ArtistProfile = ({route, navigation}) => {
               color={"#000"}
             />
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <View style={styles.VideoContainer}>
           <Image 
@@ -109,8 +109,12 @@ const imageBg = require('../assets/images/home.png')
 export default ArtistProfile;
 
 const styles = StyleSheet.create({
+  TopContainer: {
+    top: 50
+  },
     MiddleContainer: {
         flex: 6,
+        top: 65
         // backgroundColor: "red"
     },
     BottomContainer: {

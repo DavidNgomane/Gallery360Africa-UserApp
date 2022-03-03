@@ -97,7 +97,7 @@ const Cart = ({navigation, route}) => {
     >
       <View style={{flex: 6}}>
         <View style={globalStyles.Top}>
-          <View style={globalStyles.backButtonView}>
+          {/* <View style={globalStyles.backButtonView}>
             <TouchableOpacity 
               onPress={() => navigation.goBack(null)}
               style={globalStyles.backButton}
@@ -108,11 +108,11 @@ const Cart = ({navigation, route}) => {
                 color={"#000"}
               />
             </TouchableOpacity>
-          </View>
+          </View> */}
 
-          <View>
+          {/* <View>
             <Text style={globalStyles.title}>Cart</Text>
-          </View>
+          </View> */}
         </View>
 
       {
@@ -133,7 +133,7 @@ const Cart = ({navigation, route}) => {
         />
         ) 
         : (
-          <View style={{width:"70%", height:"10%", backgroundColor:"lightgrey", borderRadius:20, alignSelf:"center", }}>
+          <View style={{width:"70%", height:"10%", backgroundColor:"lightgrey", borderRadius:20, alignSelf:"center", top: 55}}>
               <Text style={{ alignSelf:"center", marginVertical: 15}}>No art has been added to cart</Text>
           </View>
         )

@@ -28,6 +28,9 @@ import DeliveryAddress from './src/screens/DeliveryAddress';
 import ShippingAddress from './src/screens/ShippingAddress';
 import Preview from './src/screens/Preview';
 import UserProfile from './src/screens/UserProfile';
+import Map from './src/screens/Map';
+
+
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 const TabNavigator = () => {
@@ -133,12 +136,14 @@ const App = ({navigation}) => {
   }
 
 
-useEffect(() => {
-  getCartItemNumber();
-  getUser();
- return () => { getCartItemNumber();
-  getUser();}
-},[])
+  useEffect(() => {
+    getCartItemNumber();
+      getUser();
+    return () => {
+      getCartItemNumber();
+      getUser();
+    }
+  },[])
 
 const uuid = auth()?.currentUser?.uid;
   
@@ -177,18 +182,19 @@ const uuid = auth()?.currentUser?.uid;
         />
         {user?
            <>
-			<Stack.Screen options={{headerShown: false}} name='ArtistProfile' component={ArtistProfile}/>
+			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='ArtistProfile' component={ArtistProfile}/>
 			<Stack.Screen options={{headerShown: false}} name="ArtPreview" component={ArtPreview} />
-			<Stack.Screen options={{headerShown: false}} name='Cart' component={Cart} />
+			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='Cart' component={Cart} />
 			<Stack.Screen options={{headerShown: false}} name='PaymentSuccesful' component={PaymentSuccesful} />
 			<Stack.Screen options={{headerShown: false}} name='PaymentFailure' component={PaymentFailure} />
-			<Stack.Screen options={{headerShown: false}} name='PaymentForm' component={PaymentForm} />
-			<Stack.Screen options={{headerShown: false}} name='DeliveryAddress' component={DeliveryAddress} />
-			<Stack.Screen options={{headerShown: false}} name='ShippingAddress' component={ShippingAddress} />
+			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='PaymentForm' component={PaymentForm} />
+			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='DeliveryAddress' component={DeliveryAddress} />
+			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='ShippingAddress' component={ShippingAddress} />
 			<Stack.Screen options={{headerShown: false}} name='Preview' component={Preview} />
-			<Stack.Screen options={{headerShown: false}} name='ExhibitionDetails' component={ExhibitionDetails} />
-			<Stack.Screen options={{headerShown: false}} name='UserProfile' component={UserProfile} />
-			{/* <Stack.Screen options={{headerShown: false}} name='Map' component={Map} /> */}
+			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='ExhrribitionDetails' component={ExhibitionDetails} />
+			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='UserProfile' component={UserProfile} />
+			<Stack.Screen options={{headerShown: false}} name='Map' component={Map} /> 
+			<Stack.Screen options={{headerShown: false}} name='Exhibition' component={Exhibition} /> 
           </>
           :
           <>

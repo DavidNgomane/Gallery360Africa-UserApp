@@ -31,7 +31,7 @@ const ShippingAddress = ({navigation, route}) => {
             postalCode: postalCode
           }).then((address) => {
             address.update({
-              key: address.id
+              key: address.id 
             })
                       alert("Address successfully added");
                       navigation.navigate("DeliveryAddress");
@@ -47,13 +47,14 @@ const ShippingAddress = ({navigation, route}) => {
       style={globalStyles.container}
       resizeMode='stretch'
     >
-        <View style={styles.backButton}>
+        {/* <View style={styles.backButton}>
             <MaterialIcons
                 onPress={() => navigation.navigate('DeliveryAddress', {uuid: uuid})}
                 style={{alignSelf: 'center', marginVertical: 10, marginLeft: 14}} name="arrow-back-ios" color="#000" size={25}
             />
             <Text style={{color: '#22180E', fontWeight: '600', fontSize: 22, alignSelf: 'center', width: 190, marginLeft: 50}}>Shipping Address</Text>
-      </View>
+      </View> */}
+
       <View style={styles.body}>
         <TextInput
                 style={styles.textField}
@@ -147,6 +148,6 @@ const styles = StyleSheet.create({
       flex: 6,
       justifyContent: 'center',
       alignItems: 'center',
-      paddingTop: 20
+      top: 88
   },
     });

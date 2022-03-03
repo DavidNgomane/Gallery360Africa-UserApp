@@ -383,8 +383,9 @@ const globalStyles = StyleSheet.create({
     // CART STYLES
     flatlistView: {
         borderRadius: 10, 
-        marginTop: 10, 
-        marginVertical: -70
+        marginVertical: -15,
+        top: 95,
+        marginTop: -25
     },
     cancelIcon: {
         width: 37, 

@@ -39,7 +39,7 @@ const PaymentForm = ({route, navigation}) => {
         style={globalStyles.cardContainer} 
         // behavior="position"
     >
-        <View>
+        {/* <View>
             <View style={styles.backButton}>
             <MaterialIcons 
                 onPress={() => navigation.navigate('DeliveryAddress', {uuid: uuid})}
@@ -47,7 +47,7 @@ const PaymentForm = ({route, navigation}) => {
             /> 
             <Text style={{color: '#22180E', fontWeight: '600', fontSize: 22, alignSelf: 'center', width: 190, marginLeft: 50}}>Card Confirmation</Text>
          </View>
-        </View>
+        </View> */}
 
         <View style={globalStyles.body}>
             <Image

@@ -40,7 +40,7 @@ const DeliveryAddress = ({navigation, route}) => {
         style={{width:'100%', height:'100%'}}
         resizeMode='stretch'
     >
-        <View style={{flex:1, flexDirection:'row', maxWidth:'75%', justifyContent:'space-between', top:20, paddingHorizontal:25 }}>
+        {/* <View style={{flex:1, flexDirection:'row', maxWidth:'75%', justifyContent:'space-between', top:20, paddingHorizontal:25 }}>
           <View style={{height:40, width:40, borderColor:'black', borderWidth:1, borderRadius:10, justifyContent:'center' }}>
             <TouchableOpacity onPress={() => navigation.navigate('Cart', {uuid: uuid})}>
                 <MaterialIcons
@@ -51,8 +51,8 @@ const DeliveryAddress = ({navigation, route}) => {
             </TouchableOpacity>
           </View>
                <Text style={{fontSize:20, color:'black', top:10, }}>Delivery Address</Text>
-        </View>
-        <SafeAreaView style={{flex:4,bottom:35}}>
+        </View> */}
+        <SafeAreaView style={{flex:4, top: 65}}>
           <FlatList
           data={address}
           keyExtractor={item => `${item.key}`}
