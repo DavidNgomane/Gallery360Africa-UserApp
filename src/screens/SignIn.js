@@ -132,7 +132,7 @@ const SignIn = ({navigation}) => {
           </View>
           <TouchableOpacity
             onPress={() => {
-              validate()
+              validate() ? signIn() : setLoading(false)
             }}
             activeOpacity={0.5}
             >

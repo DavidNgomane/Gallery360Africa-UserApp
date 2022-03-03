@@ -100,7 +100,7 @@ const Exhibition = ({navigation}) => {
               renderItem={({item}) => {
                 return (
                   <TouchableOpacity onPress={() => navigation.navigate('ArtistProfile', { artistDescription: item.description, artistUid: item.artistUid, artistPhoto: item.artistPhoto, artistName: item.artistName, })}>
-                    <View style={{paddingHorizontal: 10}}>
+                    <View style={{paddingHorizontal: 8}}>
                       <Image 
                         source={{uri: item.artistPhoto}} 
                         style={globalStyles.artistImage}

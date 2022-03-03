@@ -82,7 +82,7 @@ const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 6 / 4);
               renderItem={({item}) => {
                 return (
                   <TouchableOpacity onPress={() => navigation.navigate('ArtistProfile', { artistDescription: item.description, artistUid: item.artistUid, artistPhoto: item.artistPhoto, artistName: item.artistName})}>
-                    <View style={{paddingHorizontal: 5}}>
+                    <View style={{paddingHorizontal: 8}}>
                       <Image 
                         source={{uri: item.artistPhoto}} 
                         style={globalStyles.artistImage}
