@@ -145,6 +145,8 @@ const uuid = auth()?.currentUser?.uid;
       <Stack.Navigator
         initialRouteName='Splash'
       >
+        {user?
+           <>
        <Stack.Screen 
           name='Home' 
           component={TabNavigator}
@@ -169,8 +171,7 @@ const uuid = auth()?.currentUser?.uid;
           })}
           
         />
-        {user?
-           <>
+        
 			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='ArtistProfile' component={ArtistProfile}/>
 			<Stack.Screen options={{headerShown: false}} name="ArtPreview" component={ArtPreview} />
 			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='Cart' component={Cart} />
@@ -192,6 +193,7 @@ const uuid = auth()?.currentUser?.uid;
             <Stack.Screen options={{headerShown: false}} name='SignUp' component={SignUp} />
           </>
         }
+        
         <Stack.Screen options={{headerShown: false}} name='SignIn' component={SignIn} />
       </Stack.Navigator>
     </NavigationContainer>
