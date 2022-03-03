@@ -16,6 +16,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import CommentsModal from '../assets/component/CommentsModal';
 
+import Toast from 'react-native-toast-message';
+
 function ArtPreview({route, navigation}) {
 
    const [isModalVisible, setModalVisible] = React.useState(false);
@@ -121,8 +123,10 @@ function ArtPreview({route, navigation}) {
           uuid: uuid,
           artistUid: artistUid,
         }).then((snapShot) => {
-          
-          alert("your item has been added to cart");
+          Toast.show({
+            type: 'success',
+            text2: 'Your item has been added to cart ',
+         })
         snapShot.update({keyy: snapShot.id})
       }).catch((error) => alert(error));
       } catch (error) {
@@ -287,7 +291,8 @@ const onUnFollow = () => {
                   <Text style={{color: '#FFFFFF'}}>{item.likes}</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={{marginVertical: 12}} onPress={() => addToCart(item.artUrl, item.artType, item.price, item.uuid)}>
+                  <TouchableOpacity style={{marginVertical: 12}} 
+                    onPress={() => addToCart(item.artUrl, item.artType, item.price, item.uuid)}>
                     <MaterialIcons
                       name="add-shopping-cart"
                       size={34}

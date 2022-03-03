@@ -29,6 +29,7 @@ import ShippingAddress from './src/screens/ShippingAddress';
 import Preview from './src/screens/Preview';
 import UserProfile from './src/screens/UserProfile';
 import Map from './src/screens/Map';
+import UserSettings from './src/screens/UserSettings';
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -196,23 +197,26 @@ const uuid = auth()?.currentUser?.uid;
 			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='DeliveryAddress' component={DeliveryAddress} />
 			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='ShippingAddress' component={ShippingAddress} />
 			<Stack.Screen options={{headerShown: false}} name='Preview' component={Preview} />
-			<Stack.Screen options={{
-        
-        headerShown: true,  
-        headerTransparent: true, 
-        headerTitleStyle: {
-       color: '#fff'
-      },
-      headerBackTitleStyle: {
-        color: '#fff'
-      },
-      }} 
-      name='ExhibitionDetails' component={ExhibitionDetails} 
+			
+      <Stack.Screen 
+        options={{
+          headerShown: true,  
+          headerTransparent: true, 
+          headerTitleStyle: {
+            color: '#fff'
+          },
+          headerBackTitleStyle: {
+            color: '#fff'
+          },
+        }} 
+        name='ExhibitionDetails' 
+        component={ExhibitionDetails} 
       />
 
 			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='UserProfile' component={UserProfile} />
 			<Stack.Screen options={{headerShown: false}} name='Map' component={Map} /> 
 			<Stack.Screen options={{headerShown: false}} name='Exhibition' component={Exhibition} /> 
+      <Stack.Screen options={{headerShown: true,  headerTransparent: true, title: 'Settings'}} name='UserSettings' component={UserSettings} />
           </>
           :
           <>

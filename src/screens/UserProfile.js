@@ -77,22 +77,6 @@ export default function UserProfile({route, navigation}) {
     });
   };
 
-  const signoutUser = async () => {
-    try{
-        await auth().signOut().then(() => {
-          Toast.show({
-            type: 'error',
-            text1: 'Hello',
-            text2: 'You have signed out!',
-         })
-           navigation.replace("SignIn")
-          // navigation.replace("SignIn");
-        }).catch((error) => alert(error))
-    }catch(e){
-      console.log(e)
-    }
-  }
-
   const updateUser = () => {
   
       firestore().collection("users").doc(uuid).update({
@@ -112,7 +96,7 @@ useEffect(() =>{
     return(
           <View>
               <ImageBackground source={background} style={styles.backgroundImg}>
-                <View style={{top: 150}}>
+                <View style={{top: 120}}>
                 <Modal visible={modalOpen}>
                      <View style={styles.modalContainer}>
                        <View style={styles.closeBtnContaainer}>
@@ -158,17 +142,18 @@ useEffect(() =>{
 
                     <View style={styles.optionsContainer}>
                         <TouchableOpacity 
-                        onPress={() => navigation.navigate("Cart", {uuid: uuid, cartItem: cartItem})}
-                        style={{backgroundColor:"#E3E3E3", width:"80%", height:70, flexDirection:"row", alignSelf:"center", alignItems:"center", borderRadius:20}}>
-                <MaterialCommunityIcons
-                            name="cart"
-                            size={24}
-                            color={'#0E1822'}
-                            style={{ marginHorizontal: 10, overflow:"hidden",  color:"#0E1822"}}
-                  />
-                  <Text style={{marginHorizontal:10,  color:"#0E1822"}}> My Cart</Text>
-                  <Entypo name="chevron-small-right" size={24} style={{marginVertical:-10, marginHorizontal:"47%",  color:"#0E1822"}}/>
+                          onPress={() => navigation.navigate("Cart", {uuid: uuid, cartItem: cartItem})}
+                                style={{backgroundColor:"#E3E3E3", width:"80%", height:70, flexDirection:"row", alignSelf:"center", alignItems:"center", borderRadius:20}}>
+                          <MaterialCommunityIcons
+                              name="cart"
+                              size={24}
+                              color={'#0E1822'}
+                              style={{ marginHorizontal: 10, overflow:"hidden",  color:"#0E1822"}}
+                            />
+                          <Text style={{marginHorizontal:10,  color:"#0E1822"}}>My Cart</Text>
+                          <Entypo name="chevron-small-right" size={24} style={{marginVertical:-10, marginHorizontal:"47%",  color:"#0E1822"}}/>
                         </TouchableOpacity>
+
                         <TouchableOpacity style={{backgroundColor:"#E3E3E3", width:"80%", height:70, flexDirection:"row", alignSelf:"center", alignItems:"center", borderRadius:20, marginVertical:15}}>
                 <MaterialIcons
                             name="notifications"
@@ -176,17 +161,17 @@ useEffect(() =>{
                             color={'#0E1822'}
                             style={{ marginHorizontal: 10, overflow:"hidden",  color:"#0E1822"}}
                   />
-            <Text style={{marginHorizontal:10, color:"#0E1822"}}> Notifications</Text>
+            <Text style={{marginHorizontal:10, color:"#0E1822"}}>Notifications</Text>
                   <Entypo name="chevron-small-right" size={24} style={{marginVertical:-10, marginHorizontal:"37%", color:"#0E1822"}}/>
                         </TouchableOpacity>
-                      <TouchableOpacity onPress={signoutUser} style={{backgroundColor:"#E3E3E3", width:"80%", height:70, flexDirection:"row", alignSelf:"center", alignItems:"center", borderRadius:20}}>
+                      <TouchableOpacity onPress={() => navigation.navigate('UserSettings')} style={{backgroundColor:"#E3E3E3", width:"80%", height:70, flexDirection:"row", alignSelf:"center", alignItems:"center", borderRadius:20}}>
                 <Ionicons
                             name="settings-outline"
                             size={24}
                             color={'#0E1822'}
                             style={{ marginHorizontal: 10, overflow:"hidden",  color:"#0E1822"}}
                   />
-            <Text style={{marginHorizontal:10, color:"#0E1822"}}> Logout</Text>
+            <Text style={{marginHorizontal:10, color:"#0E1822"}}>Settings</Text>
                   <Entypo name="chevron-small-right" size={24} style={{marginVertical:-10, marginHorizontal:"47%",  color:"#0E1822"}}/>
                         </TouchableOpacity>
                     </View>
@@ -230,9 +215,8 @@ topLeftIcon: {
 },
 
 userNameText:{
-  color:'black',
+  color:'#000',
   fontSize:20,
-  fontWeight:'100',
   bottom: 75
 },
 

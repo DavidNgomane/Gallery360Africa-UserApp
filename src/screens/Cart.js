@@ -5,6 +5,8 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore from '@react-native-firebase/firestore';
 
+import Toast from 'react-native-toast-message';
+
 const Cart = ({navigation, route}) => {
 
   const { uuid, cartItem } = route.params;
@@ -44,9 +46,10 @@ const Cart = ({navigation, route}) => {
       .doc(keyy)
       .delete()
       .then(() => {
-        alert(
-          'Your item has been deleted successfully!'
-        );
+        Toast.show({
+          type: 'error',
+          text2: 'Your item has been deleted! ',
+       })
       }).catch(error => alert(error))
   }
   useEffect(() => {
