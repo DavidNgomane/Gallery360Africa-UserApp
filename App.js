@@ -137,13 +137,13 @@ const App = ({navigation}) => {
 
 
   useEffect(() => {
-    getCartItemNumber();
-      getUser();
+    let isMounted = true;
+     getCartItemNumber();
+     getUser();
     return () => {
-      getCartItemNumber();
-      getUser();
+      isMounted = false;
     }
-  },[])
+  }, [])
 
 const uuid = auth()?.currentUser?.uid;
   

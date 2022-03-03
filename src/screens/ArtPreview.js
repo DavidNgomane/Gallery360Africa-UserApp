@@ -239,7 +239,7 @@ const onUnFollow = () => {
                 style={{alignSelf: 'center', marginVertical:10}}
               />
     
-    </View>
+        </View>
                 </TouchableOpacity>
               </View>             
         

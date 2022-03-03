@@ -158,18 +158,18 @@ const globalStyles = StyleSheet.create({
         borderRadius: 10
     },
     artistNameContainer: {
-        backgroundColor: 'rgba(16, 18, 27, 0.4)', 
+        backgroundColor: '#fff', 
         marginVertical: -10, 
-        borderRadius: 20,
+        borderRadius: 8,
         alignSelf: 'center',
         height: 20,
         width: '90%',
-        bottom: 20
+        bottom: 15
       },
       ArtistName: {
-        color: "#ffffff", 
+        color: "#000", 
         textAlign: "center", 
-        fontWeight: "bold"
+        // fontWeight: "bold"
     },
     artTxtBg: {
         position: 'absolute', 
@@ -276,10 +276,9 @@ const globalStyles = StyleSheet.create({
     //  right container
     rightContainer: {
         alignSelf: 'flex-end',
-        height: 300,
+        height: "25%",
         justifyContent: 'space-between',
-        marginRight: 5,
-        marginVertical:"-35%"
+        paddingTop: 10
     },
     profilePicture: {
         width: 50,
@@ -382,10 +381,9 @@ const globalStyles = StyleSheet.create({
 
     // CART STYLES
     flatlistView: {
-        borderRadius: 10, 
-        marginVertical: -15,
-        top: 95,
-        marginTop: -25
+        // borderRadius: 10, 
+    //    backgroundColor: 'red',
+        marginVertical: -20
     },
     cancelIcon: {
         width: 37, 
@@ -395,7 +393,7 @@ const globalStyles = StyleSheet.create({
         position: "absolute", 
         zIndex: 10, 
         right: 18, 
-        top: 5
+        top: 25
     },
     closeIconStyle: {
         textAlign: "center", 
@@ -406,32 +404,35 @@ const globalStyles = StyleSheet.create({
         width: "95%", 
         height: 180, 
         alignSelf: "center", 
-        borderRadius: 15
+        borderRadius: 15,
+        top: 20
     },
     priceContainer: {
         flexDirection: "column",
         width: "90%",
         height: 70,
         borderRadius: 10,
-        bottom: 75,
+        bottom: 57,
         backgroundColor: 'rgba(16, 18, 27, 0.4)',
         alignSelf: "center"
     },
     artTxtName: {
-        fontSize: 24, 
+        fontSize: 22, 
         color: "#FFFFFF", 
         fontWeight: "bold", 
-        marginHorizontal: 10
+        marginHorizontal: 20,
+        marginVertical: 10
     },
     priceTxt: {
-        fontSize: 18, 
+        fontSize: 16, 
         color: "#FFFFFF", 
         fontWeight: "bold",
-        marginHorizontal: 10
+        marginHorizontal: 20,
+        marginVertical: -10
     },
     Top: {
         flexDirection: "row",
-        marginTop: "5%",
+        marginTop: "16%",
         justifyContent: "space-around",
         marginRight: 90,
         width: "30%"

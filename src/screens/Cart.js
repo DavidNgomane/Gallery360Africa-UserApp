@@ -7,7 +7,7 @@ import firestore from '@react-native-firebase/firestore';
 
 const Cart = ({navigation, route}) => {
 
-  const { uuid, artistUid, cartItem } = route.params;
+  const { uuid, cartItem } = route.params;
 
   
   const[cart, setCart] = useState(null)
@@ -18,7 +18,7 @@ const Cart = ({navigation, route}) => {
   const [keyy, setKey] = useState("");
   
   const getCart = () => {
-    return firestore().collection('cartItem').where("artistUid", "==", artistUid).onSnapshot((snapShot) => {
+    return firestore().collection('cartItem').where("uuid", "==", uuid).onSnapshot((snapShot) => {
       const carts = snapShot.docs.map((document) => document.data());
        const prices = snapShot.docs.map((document) => document.data().price);
        const artURLs = snapShot.docs.map((document) => document.data().artUrl);
@@ -74,16 +74,6 @@ const Cart = ({navigation, route}) => {
         <View style={globalStyles.priceContainer}>
           <Text style={globalStyles.artTxtName}>{name}</Text>
           <Text style={globalStyles.priceTxt}>{`R${price}.00`}</Text>
-
-            {/*<View style={{alignSelf: "flex-end", flexDirection: "row", bottom: 40, justifyContent: "space-around", width: "47%", right: 7}}>
-              <View>
-                <EvilIcons name="plus" size={35} color="#FFFFFF" />
-              </View>
-                    <Text style={{color: "#FFFFFF", fontSize: 16, top: 3}}>34</Text>
-              <View>
-                <EvilIcons name="minus" size={35} color="#FFFFFF" />
-              </View>
-            </View> */}
         </View>
       </View>
     );
@@ -119,10 +109,10 @@ const Cart = ({navigation, route}) => {
         cartItem > 0 ? 
        ( 
        <FlatList
-          style={{marginVertical:"-6%"}}
+          // style={{marginVertical:"6%"}}
           data={cart}
           showsHorizontalScrollIndicator={false}
-          keyExtractor={item => `${item.artURL}`}
+          keyExtractor={item => `${item.artUrl}`}
           renderItem={({item}) => {
             return (
               <View>
@@ -133,12 +123,13 @@ const Cart = ({navigation, route}) => {
         />
         ) 
         : (
-          <View style={{width:"70%", height:"10%", backgroundColor:"lightgrey", borderRadius:20, alignSelf:"center", top: 55}}>
-              <Text style={{ alignSelf:"center", marginVertical: 15}}>No art has been added to cart</Text>
+          <View style={{width:"70%", height:"10%", backgroundColor:"lightgrey", borderRadius:20, alignSelf:"center", top: 65}}>
+              <Text style={{color: '#fff', alignSelf:"center", marginVertical: 15}}>No art has been added to cart</Text>
           </View>
         )
       }
       </View>
+
       <View style={{flex: 2}}>
         <View style={{borderRadius: 30, width: "95%", height: 150, backgroundColor: "#FFFFFF", alignSelf: "center", marginVertical: -45, borderWidth: 1, borderColor: "lightgray", top: 55}}>
           <View style={{flexDirection: "row", marginHorizontal: 20, marginVertical: 5}}>
@@ -155,7 +146,7 @@ const Cart = ({navigation, route}) => {
                 {totalAmount > 0 ? (
                 <Text style={{ fontSize: 24, color: "black", fontWeight: "bold"}}>{`R${totalAmount}.00`}</Text>
                 ) : (
-                  <Text  style={{ fontSize: 24, color: "black", fontWeight: "bold"}}>R0</Text>
+                  <Text  style={{ fontSize: 24, color: "black", fontWeight: "bold"}}>R0.00</Text>
                 )}
             </View>
           </View>
