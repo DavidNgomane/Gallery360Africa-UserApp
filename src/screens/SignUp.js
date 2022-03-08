@@ -20,10 +20,12 @@ import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
+
 const SignUp = ({navigation}) => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const validate = () => {
     const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (fullName == "" && email == "" && password == "") {
@@ -63,7 +65,9 @@ const SignUp = ({navigation}) => {
                         fullName: fullName,
                         email: user.email,
                         photoURL: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCTa1o13qHi0hBEUMcOCKQhrrNSr8pSUmAoA&usqp=CAU"
+
                     }).then(() => {
+                      navigation.navigate('SignIn')
                       Toast.show({
                         type: 'success',
                         text1: 'Hello user',
@@ -153,7 +157,7 @@ const SignUp = ({navigation}) => {
           </View>
           <TouchableOpacity
             onPress={() => {
-              validate()
+             register() ? validate() : validate()
             }}
             style={styles.buttonStyle}
             activeOpacity={0.5}>
