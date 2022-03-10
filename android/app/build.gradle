@@ -155,9 +155,9 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file('demoapp.keystore')
+            storeFile file('gallery360africa.keystore')
             storePassword '123456789'
-            keyAlias 'demo'
+            keyAlias 'gallery360'
             keyPassword '123456789'
         }
     }
