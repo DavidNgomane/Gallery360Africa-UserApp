@@ -8,12 +8,13 @@ const { address } = route.params
 
   return (
     <View>
+      
       <Text>Gallery 360 Africa</Text>
       <MapView
       style={{width: "100%", height: "100%"}}
       initialRegion={{
-      latitude: 37.78825,
-      longitude: -122.4324,
+      latitude: 28.045733,
+      longitude: -26.197494,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
       // latitude: 28.237241291447393,

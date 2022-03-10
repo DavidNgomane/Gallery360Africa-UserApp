@@ -3,7 +3,7 @@ import {View, Text, ImageBackground, StyleSheet, FlatList, TouchableOpacity, Sha
 import { StatusBar } from 'react-native'
 import Entypo from 'react-native-vector-icons/Entypo';
 import firestore from "@react-native-firebase/firestore";
-import auth from "@react-native-firebase/auth"
+import auth from "@react-native-firebase/auth";
 
 // const image = require('../assets/images/dannie-jing-3GZlhROZIQg-unsplash.jpg');
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;

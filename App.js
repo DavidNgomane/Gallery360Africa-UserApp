@@ -30,6 +30,7 @@ import Preview from './src/screens/Preview';
 import UserProfile from './src/screens/UserProfile';
 import Map from './src/screens/Map';
 import UserSettings from './src/screens/UserSettings';
+import Search from './src/screens/Search';
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -97,6 +98,7 @@ const App = ({navigation}) => {
       </View>
     )
   };
+
   const [user, setuser] = useState('');
   const [uid, setUID] = useState("");
   const [cartItem, setCartItem] = useState(null);
@@ -159,7 +161,6 @@ const uuid = auth()?.currentUser?.uid;
           component={TabNavigator}
           options={({navigation}) => ({
 
-           
               headerTitleAlign: 'left', 
               color: '#000',
             
@@ -168,14 +169,27 @@ const uuid = auth()?.currentUser?.uid;
             
             title: `Hi ${fullName}`,
             headerRight: () => (
-              <View style={{flexDirection: 'row', width: 74, justifyContent: 'space-between'}}>
+              <View style={{flexDirection: 'row', width: 95, justifyContent: 'space-between'}}>
+
+                <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+                  <MaterialIcons 
+                    name='person-search' size={30} 
+                    color={'#000'}
+                  />
+                </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => navigation.navigate('Cart', {cartItem: cartItem, uuid: uuid})}>
-                  <MaterialIcons name='shopping-cart' size={30} color={'#000'}/>
+                  <MaterialIcons 
+                    name='shopping-cart' size={30} 
+                    color={'#000'}
+                  />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => navigation.navigate('UserProfile', {photoURL: User, fullName: fullName, uuid: uuid, cartItem: cartItem})}>
-                  <Image source={{uri: `${User}`}} style={{width: 30, height:30, borderRadius:30, backgroundColor:"lightgrey" }}/>
+                  <Image 
+                    source={{uri: `${User}`}} 
+                    style={{width: 30, height:30, borderRadius:30, backgroundColor:"lightgrey" }}
+                  />
                 </TouchableOpacity>
               </View>
             )       
@@ -197,6 +211,7 @@ const uuid = auth()?.currentUser?.uid;
 			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='DeliveryAddress' component={DeliveryAddress} />
 			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='ShippingAddress' component={ShippingAddress} />
 			<Stack.Screen options={{headerShown: false}} name='Preview' component={Preview} />
+			<Stack.Screen options={{headerShown: true, headerTransparent: true}} name='Search' component={Search} />
 			
       <Stack.Screen 
         options={{
