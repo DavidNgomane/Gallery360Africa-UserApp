@@ -18,15 +18,19 @@ const Cart = ({navigation, route}) => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [artURL, setArtURL] = useState(""); 
   const [keyy, setKey] = useState("");
+
+
   
   const getCart = () => {
-    return firestore().collection('cartItem').where("uuid", "==", uuid).onSnapshot((snapShot) => {
+    return firestore().collection("cartItem").doc(uuid).get().then((snapShot1) => {
+      const getData = snapShot1.ref.collection("items").where("uuid", "==", uuid).onSnapshot((snapShot) => {
+      
       const carts = snapShot.docs.map((document) => document.data());
        const prices = snapShot.docs.map((document) => document.data().price);
        const artURLs = snapShot.docs.map((document) => document.data().artUrl);
        const artnames = snapShot.docs.map((document) => document.data().artType);
        const artkeyy= snapShot.docs.map((document) => document.data().keyy);
-
+       console.log(artURLs, "this is the one image")
        const initialValue = 0;
        const totalAmounts = prices.reduce((previousValue, currentValue) => previousValue + currentValue, initialValue);
 
@@ -35,7 +39,7 @@ const Cart = ({navigation, route}) => {
         setArtName(artnames);
         setArtURL(artURLs);
         setKey(artkeyy);
-
+      })
      })
   }
 

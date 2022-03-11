@@ -144,12 +144,14 @@ const likesState = () => {
     const getCartItemNumber = () => {
       const uuid = auth()?.currentUser?.uid;
   
-      return firestore().collection("cartItems").doc().collection("items").where("uuid", "==",uuid).onSnapshot((snapShot) => {
+      return firestore().collection("cartItem").doc(uuid).get().then((snapShot1) => {
+        const getData = snapShot1.ref.collection("items").where("uuid", "==", uuid).onSnapshot((snapShot) => {
         const cartItems = snapShot.size;
         
         // console.log(cartItems + "  this the number of item added to cart")
         SetItems(cartItems);
-      });
+      })
+    })
     }
 
  
