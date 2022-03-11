@@ -7,7 +7,6 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-// import ImagePicker from "react-native-image-picker";
 import * as ImagePicker from 'react-native-image-picker';
 import storage from "@react-native-firebase/storage";
 import auth from "@react-native-firebase/auth";

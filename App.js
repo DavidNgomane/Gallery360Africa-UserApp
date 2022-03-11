@@ -120,11 +120,14 @@ const App = ({navigation}) => {
                 setFullName(uName);
               });
             
-              firestore().collection("cartItem").where("uuid", "==",userExist.uid).onSnapshot((snapShot) => {
-                const cartItems = snapShot.size;
-                // console.log(cartItems + "  this the number of item added to cart")
-                setCartItem(cartItems);
-              });
+                return firestore().collection("cartItem").doc(userExist.uid).onSnapshot((snapShot1) => {
+                  const getData = snapShot1.ref.collection("items").where("uuid", "==", userExist.uid).onSnapshot((snapShot) => {
+                  const cartItems = snapShot.size;
+                  // console.log(cartItems + "  this the number of item added to cart")
+                  setCartItem(cartItems);
+                })
+              })
+            
           }
             else {
               setuser("");

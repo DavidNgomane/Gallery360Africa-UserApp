@@ -22,7 +22,7 @@ const Cart = ({navigation, route}) => {
 
   
   const getCart = () => {
-    return firestore().collection("cartItem").doc(uuid).get().then((snapShot1) => {
+    return firestore().collection("cartItem").doc(uuid).onSnapshot((snapShot1) => {
       const getData = snapShot1.ref.collection("items").where("uuid", "==", uuid).onSnapshot((snapShot) => {
       
       const carts = snapShot.docs.map((document) => document.data());
@@ -30,7 +30,7 @@ const Cart = ({navigation, route}) => {
        const artURLs = snapShot.docs.map((document) => document.data().artUrl);
        const artnames = snapShot.docs.map((document) => document.data().artType);
        const artkeyy= snapShot.docs.map((document) => document.data().keyy);
-       console.log(artURLs, "this is the one image")
+      //  console.log(artURLs, "this is the one image")
        const initialValue = 0;
        const totalAmounts = prices.reduce((previousValue, currentValue) => previousValue + currentValue, initialValue);
 
@@ -47,7 +47,7 @@ const Cart = ({navigation, route}) => {
 
    return await firestore()
       .collection('cartItem')
-      .doc(keyy)
+      .doc(uuid).collection("items").doc(keyy)
       .delete()
       .then(() => {
         Toast.show({
@@ -123,7 +123,7 @@ const Cart = ({navigation, route}) => {
           renderItem={({item}) => {
             return (
               <View>
-                <Items imageUrl={item.artUrl} name={item.artType} price={item.price} keyy={item.keyy}/>
+                <Items imageUrl={item.artUrl} name={item.artType} price={item.price} keyy={item.imageUid}/>
               </View>
             )
           }}
