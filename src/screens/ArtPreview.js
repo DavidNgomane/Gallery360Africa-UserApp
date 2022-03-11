@@ -6,6 +6,8 @@ import auth from '@react-native-firebase/auth';
 
 //libraries
 import ZoomView from "react-native-border-zoom-view";
+import Toast from 'react-native-toast-message';
+
 // icons
 import Entypo from 'react-native-vector-icons/Entypo';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -13,85 +15,95 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Feather from "react-native-vector-icons/Feather";
 
 import CommentsModal from '../assets/component/CommentsModal';
-
-import Toast from 'react-native-toast-message';
+import CommentNumber from '../assets/redux/actions/CommentNumber';
 
 function ArtPreview({route, navigation}) {
 
-   const [isModalVisible, setModalVisible] = React.useState(false);
-
-  const { artistUid, imageUID } = route.params;
-  
-  //const artistUid = "3RcDICKP55zQEqBHHdXl"
-
+  const [isModalVisible, setModalVisible] = useState(false);
   const [post, setPost] = useState(null);
   const [like, setLike] = useState(0);
-  const [isLiked, setIsLiked] = useState({state: false});
+  const [isLiked, setIsLiked] = useState(false);
   const [following, setFollowing] = useState(false);
   const [items, SetItems] = useState(0);
   const [image, setImage] = useState("");
-  const [commentNumber, setCommentNumber] = useState(0);
+  const [uuid, setUId] = useState(auth().currentUser.uid);
+  const [currentUserLike, setCurrentUserLike] = useState(false);
 
+  const { artistUid, imageUID } = route.params;
 
-  const onLikePress = (likes, imageUid, artistUid) => {
-    const likesToAdd = isLiked ? -1 : 1;
-    // setPost({
-    //   ...post,
-    //   likes: likes + likesToAdd,
-    // });
-      try {
-   firestore().collection("Market").doc(imageUid).update({
-      likes :likes + likesToAdd,
+  const onLikePress = (likes, imageUid, item) => {
+    setIsLiked(!isLiked);
+    firestore().collection("Market").doc(imageUid).update({
+      likes :likes + 1,
     }).then((documentSnap) =>{
+      onLike(imageUid, item);
       }).catch((error) => alert(error));
-    // console.log(artistUid+ "  thid is ht thiings")
-      // setIsLiked(!isLiked);
-      updateLikes(likes, imageUid, artistUid);
+    // props.sendNotification(user.notificationToken, "New Like", `${props.currentUser.name} liked your post`, { type: 0, postId, user: firebase.auth().currentUser.uid })
+}
+
+const onLike = (imageUid, item) => {
+  setCurrentUserLike(true)
+  firestore()
+      .collection("likes")
+      .doc(imageUid)
+      .collection("userLikes")
+      .doc(uuid)
+      .set({
+        userUid: auth().currentUser.uid,
+        item: item
+      })
+      .then(() => {}).catch((error) => {alert(error, "  error is onLike")})
+}
+
+const onDislikePress = (likes, imageUid, item) => {
+  firestore().collection("Market").doc(imageUid).update({
+        likes :likes - 1,
+      }).then((documentSnap) =>{
+        setIsLiked(false);
+        onDisLike(imageUid, item);
+        }).catch((error) => alert(error));
+}
+
+
+const onDisLike = (imageUid, item) => {
+  setCurrentUserLike(false)
+  firestore()
+  .collection("likes")
+  .doc(imageUid)
+  .collection("userLikes")
+  .doc(uuid)
+      .delete().then(() => {}).catch((error) => alert(error));
+}
+
+const likesState = () => {
+
+  firestore()
+  .collection("likes")
+      .doc(image)
+      .collection("userLikes").doc(uuid).get().then((snapShot) => {
+
+        console.log(image, "  the iamge is for the image UID")
+        console.log(snapShot.id, "  the iamge is for the image UID")
+  
+      if (snapShot.id == auth().currentUser.uid) {
+        setCurrentUserLike(true);
+
+    } else if(snapShot.id !== uuid) {
+      setCurrentUserLike(false);
+    } else if (snapShot.id == undefined || snapShot.id == null) {
+      setCurrentUserLike(false);
+    } else {
+          setCurrentUserLike(false);
     }
-     catch(error) {
-       alert(error);
-     }
-  };
 
-  const componentWillReceiveProps = () => {
-    updateLikes();
-  }
-  //
-  const updateLikes = (likes, imageUid, artistUid) => {
-  //   try {
-  //   firestore().collection("likes").doc(imageUid).set({
-  //     uUID : auth().currentUser.uid,
-  //     imageUID: imageUid,
-  //     artistUID: artistUid,
-  //     isLiked :Boolean = true,
-  //   }).then(() => {}).catch((error) => alert(error));
-  // }
-  // catch(error) {
-  //   alert(error);
-  // }
-  };
-  //
-  // const getLikes = async () => {
-  //  await firestore().collection("likes").where("uUID", "==", auth().currentUser.uid).onSnapshot((snapShot) => {
+      }).catch((error) => alert(error));
     
-  //   const likes = snapShot.docs.map((document) =>document.data().likes);
-  //    const imageuid = snapShot.docs.map((document) => document.exists)
-  //   setLike(likes)
-  //   console.log(likes + " the like boolean like")
-  
-  //   if(imageuid) {
-  //     setIsLiked(!isLiked);
-
-  //   } 
     
-   
-
-  //  });
-  
-  
-  // 
+}
+// 
   const getArtDetails = () => {
     return firestore()
       .collection('Market')
@@ -108,59 +120,54 @@ function ArtPreview({route, navigation}) {
       });
     }
 
-    const addToCart = async (image, name, price) => {
-
-      // const uuid = auth()?.currentUser?.uid;
-  
+    const addToCart = async (image, name, price, artistUid, imageUid) => {
         try {
-       
-      const uuid = auth()?.currentUser?.uid;
-
-        return  await firestore().collection("cartItem").add({
+        return  await firestore().collection("cartItem").doc(uuid).collection("items").doc(imageUid).set({
           artUrl: image,
           artType: name,
           price: price,
           uuid: uuid,
           artistUid: artistUid,
+          imageUid: imageUid, 
         }).then((snapShot) => {
           Toast.show({
             type: 'success',
             text2: 'Your item has been added to cart ',
          })
-        snapShot.update({keyy: snapShot.id})
       }).catch((error) => alert(error));
       } catch (error) {
         return alert(error);
       }
+
     }
 
     const getCartItemNumber = () => {
       const uuid = auth()?.currentUser?.uid;
   
-      return firestore().collection("cartItem").where("uuid", "==",uuid).onSnapshot((snapShot) => {
+      return firestore().collection("cartItems").doc().collection("items").where("uuid", "==",uuid).onSnapshot((snapShot) => {
         const cartItems = snapShot.size;
+        
         // console.log(cartItems + "  this the number of item added to cart")
         SetItems(cartItems);
       });
     }
 
-    const getComentsNumber = () => {
-      firestore().collection("comments").where("imageUID", "==", "9bM0wbzVqUJDgP9Lt5Iy").onSnapshot((snapShot) => {
-            const commentNumbers = snapShot.size;
-            setCommentNumber(commentNumbers);
-      })
-    }
-    
+ 
   useEffect(() => {
-    
-    getCartItemNumber();
+    console.log(image , "   the props using the state")
     getArtDetails();
-    getComentsNumber();
-    // getLikes();
-    return () => {
-      isMounted = false;
-    }
-}, []);
+    getCartItemNumber();
+    likesState();
+
+    return () => { likesState() }
+  return () => getCartItemNumber();
+  return () =>  getArtDetails();
+  return () => getComentsNumber();
+  
+    // return () => {
+    //   isMounted = false;
+    // }
+}, [imageUID]);
 
 const onFollow = () => {
   firestore()
@@ -185,11 +192,12 @@ const onUnFollow = () => {
   .then((snapShot) => {
     setFollowing(!following)
     alert('Unfollowed!')
+    console.log(artistUid)
   })
   
 }
-  const uuid = auth()?.currentUser?.uid;
-  
+
+
   return (
     <View>
       <FlatList
@@ -283,16 +291,33 @@ const onUnFollow = () => {
                     activeOpacity={0.5}
                   >
                     <Fontisto name="comments" size={24} color={'#FFFFFF'} />
-                    <Text style={{color: '#FFFFFF'}}>{commentNumber}</Text>
+                    <CommentNumber ImageUid={item.ImageUid}/>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={{marginVertical: 12}}  onPress={() => onLikePress(item.likes, item.ImageUid, item.ArtistUid)}>
-                  <AntDesign name="heart" size={24} color={like ? 'red' : 'white'} />
+                  {/* <TouchableOpacity style={{marginVertical: 12}}  onPress={() => onLikePress(item.likes, item.ImageUid, item.ArtistUid)}>
+                  <AntDesign name="heart" size={24} color={isLiked ? 'white' : 'red'} />
                   <Text style={{color: '#FFFFFF'}}>{item.likes}</Text>
-                  </TouchableOpacity>
-
+                  </TouchableOpacity> */}
+                  <View style={{marginVertical:12}}>
+                  {currentUserLike ?
+                        (
+                          <View style={{marginVertical:12}}>
+                            <AntDesign name="heart" size={24} color="red" onPress={() => onDislikePress(item.likes, item.ImageUid, item.ArtistUid)} />
+                            <Text style={{color: '#FFFFFF'}}>{item.likes}</Text>
+                            </View>
+                        )
+                        :
+                        (
+                          <View style={{marginVertical:12}}>
+                            <AntDesign name="heart" size={24} color="white" onPress={() => onLikePress(item.likes, item.ImageUid, item.ArtistUid)} />
+                            <Text style={{color: '#FFFFFF'}}>{item.likes}</Text>
+                          </View>
+                        )
+                    }
+                  </View>
                   <TouchableOpacity style={{marginVertical: 12}} 
-                    onPress={() => addToCart(item.artUrl, item.artType, item.price, item.uuid)}>
+                  
+                    onPress={() =>  { return addToCart(item.artUrl, item.artType, item.price, item.ArtistUid, item.ImageUid)}}>
                     <MaterialIcons
                       name="add-shopping-cart"
                       size={34}
@@ -323,7 +348,7 @@ const onUnFollow = () => {
                             {item.artType}
                           </Text>
                         </TouchableOpacity>
-
+        
                         <Text style={globalStyles.price}>{`R${item.price}.00`}</Text>
                       </View>
                     </View>
