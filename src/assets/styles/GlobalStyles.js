@@ -200,6 +200,7 @@ const globalStyles = StyleSheet.create({
     tikTokContainer: {
         width: '100%',
         height: Dimensions.get('window').height,
+        //height: Dimensions.get('window').height + 17
     },
     videPlayButton: {
         position: 'absolute',

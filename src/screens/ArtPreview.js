@@ -15,17 +15,72 @@ import CommentsModal from '../assets/component/CommentsModal';
 
 const ArtPreview = ({route, navigation}) => {
 
-   const [isModalVisible, setModalVisible] = React.useState(false);
-
-  const { artistUid } = route.params;
-  
-  //const artistUid = "3RcDICKP55zQEqBHHdXl"
-
+  const [isModalVisible, setModalVisible] = React.useState(false);
   const [post, setPost] = useState(null);
   const [like, setLike] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [following, setFollowing] = useState(false);
   const [items, SetItems] = useState(0);
+  const [image, setImage] = useState("");
+  const [uuid, setUId] = useState(auth().currentUser.uid);
+  const [currentUserLike, setCurrentUserLike] = useState(false);
+
+  const { artistUid, imageUID } = route.params;
+
+  const onLikePress = (likes, imageUid, item) => {
+    setIsLiked(!isLiked);
+    firestore().collection("Market").doc(imageUid).update({
+      likes :likes + 1,
+    }).then((documentSnap) =>{
+      onLike(imageUid, item);
+      }).catch((error) => alert(error));
+    // props.sendNotification(user.notificationToken, "New Like", `${props.currentUser.name} liked your post`, { type: 0, postId, user: firebase.auth().currentUser.uid })
+}
+
+const onLike = (imageUid, item) => {
+  setCurrentUserLike(true)
+  firestore()
+      .collection("likes")
+      .doc(imageUid)
+      .collection("userLikes")
+      .doc(uuid)
+      .set({
+        userUid: auth().currentUser.uid,
+        item: item
+      })
+      .then(() => {}).catch((error) => {alert(error, "  error is onLike")})
+}
+
+const onDislikePress = (likes, imageUid, item) => {
+
+  firestore().collection("Market").doc(imageUid).update({
+        likes :likes - 1,
+      }).then((documentSnap) =>{
+        setIsLiked(false);
+        onDisLike(imageUid, item);
+        }).catch((error) => alert(error));
+}
+
+
+const onDisLike = (imageUid, item) => {
+  setCurrentUserLike(false)
+  firestore()
+  .collection("likes")
+  .doc(imageUid)
+  .collection("userLikes")
+  .doc(uuid)
+      .delete().then(() => {}).catch((error) => alert(error));
+}
+
+const likesState = () => {
+
+  firestore()
+  .collection("likes")
+      .doc(image)
+      .collection("userLikes").doc(uuid).get().then((snapShot) => {
+
+        console.log(image, "  the iamge is for the image UID")
+        console.log(snapShot.id, "  the iamge is for the image UID")
   
 
     const onLikePress = (likes, artKey) => {
@@ -187,6 +242,7 @@ const onUnFollow = () => {
               <View style={globalStyles.uiContainer}>
                   { isModalVisible &&
                     <CommentsModal
+                      imageUID={item.ImageUid}
                       isVisible={isModalVisible}
                       onClose={() => setModalVisible(false)}
                     />

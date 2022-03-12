@@ -5,14 +5,59 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore from '@react-native-firebase/firestore';
 
-const Cart = ({navigation}) => {
+import Toast from 'react-native-toast-message';
+
+const Cart = ({navigation, route}) => {
+
+  const { uuid } = route.params;
+
+  
+  const[cart, setCart] = useState(null)
+  const [artName, setArtName] = useState("");
+  // const [price, setPrice] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [artURL, setArtURL] = useState(""); 
+  const [keyy, setKey] = useState("");
+  const [cartItem, setCartItem] = useState(0);
+
 
   const[market, setMarket] = useState(null)
   
-  const getMarket = async () => {
-    const querySanp = await firestore().collection('Market').get()
-    const allmarket = querySanp.docs.map(docSnap=>docSnap.data())
-    setMarket(allmarket)
+  const getCart = () => {
+    return firestore().collection("cartItem").doc(uuid).onSnapshot((snapShot1) => {
+      const getData = snapShot1.ref.collection("items").where("uuid", "==", uuid).onSnapshot((snapShot) => {
+      
+      const carts = snapShot.docs.map((document) => document.data());
+       const prices = snapShot.docs.map((document) => document.data().price);
+       const artURLs = snapShot.docs.map((document) => document.data().artUrl);
+       const artnames = snapShot.docs.map((document) => document.data().artType);
+       const artkeyy= snapShot.docs.map((document) => document.data().keyy);
+       const items = snapShot.size;
+      //  console.log(artURLs, "this is the one image")
+       const initialValue = 0;
+       const totalAmounts = prices.reduce((previousValue, currentValue) => previousValue + currentValue, initialValue);
+       setCartItem(items);
+       setTotalAmount(totalAmounts);
+       setCart(carts);
+       setArtName(artnames);
+       setArtURL(artURLs);
+       setKey(artkeyy);
+      })
+     })
+  }
+
+  const deleteCart = async (keyy) => {
+
+   return await firestore()
+      .collection('cartItem')
+      .doc(uuid).collection("items").doc(keyy)
+      .delete()
+      .then(() => {
+        Toast.show({
+          type: 'error',
+          text2: 'Your item has been deleted! ',
+       })
+      }).catch(error => alert(error))
   }
   useEffect(() => {
     getMarket()
