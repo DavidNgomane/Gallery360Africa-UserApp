@@ -51,16 +51,6 @@ export default function ExhibitionDetails({route, navigation}) {
     <View style={styles.container}> 
       <View style={styles.Top}>
         <ImageBackground source={{uri: exhibitionImage}} style={styles.image}  imageStyle={{ borderRadius: 20}}>
-            {/* <View style={{bottom:120, height: 70, flexDirection: "row"}}>
-              <TouchableOpacity onPress = {() => navigation.navigate("Exhibition")} style={styles.BackButton}>
-                  <Entypo
-                    name="chevron-small-left"
-                    size={40}
-                    color={"#ffffff"}
-                    />
-              </TouchableOpacity>
-              <Text style={styles.ExhibitionHeaderText}>Exhibition</Text>
-             </View> */}
         </ImageBackground>
       </View>
 

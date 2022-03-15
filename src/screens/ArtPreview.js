@@ -1,7 +1,7 @@
 import { View, Text, FlatList, Dimensions, TouchableWithoutFeedback, Image, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { globalStyles } from '../assets/styles/GlobalStyles';
-import firestore from '@react-native-firebase/firestore';
+import firestore, { firebase } from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
 //libraries
@@ -19,6 +19,7 @@ import Feather from "react-native-vector-icons/Feather";
 
 import CommentsModal from '../assets/component/CommentsModal';
 import CommentNumber from '../assets/redux/actions/CommentNumber';
+import { following } from '../../redux/reducers/user';
 
 function ArtPreview({route, navigation}) {
 
@@ -173,30 +174,38 @@ const likesState = () => {
 
 const onFollow = () => {
   firestore()
-  .collection('following'
-  ).doc(auth().currentUser.uid)
+  .collection('following')
+  .doc(auth().currentUser.uid)
   .collection('userFollowing')
   .doc(artistUid)
   .set({})
-  .then((snapShot) => {
-    setFollowing(!following)
-    alert('followed!')
+  .then(() => {
+    setFollowing(true)
+    alert('Followed')
+  }).catch((error) => {
+    alert(error)
   })
 }
 
 const onUnFollow = () => {
   firestore()
-  .collection('following'
-  ).doc(auth().currentUser.uid)
+  .collection('following')
+  .doc(auth().currentUser.uid)
   .collection('userFollowing')
   .doc(artistUid)
-  .delete({})
-  .then((snapShot) => {
-    setFollowing(!following)
-    alert('Unfollowed!')
-    console.log(artistUid)
+  .delete()
+  .then(() => {
+    alert('UnFollowed')
+    setFollowing(false)
+  }).catch((error) => {
+    alert(error)
   })
-  
+}
+
+if (props.following.indexOf(route.params.uid) > -1) {
+  setFollowing(true);
+}else {
+  setFollowingO(false)
 }
 
 
@@ -269,23 +278,30 @@ const onUnFollow = () => {
                   }
                 <View style={globalStyles.rightContainer}>
                  
-                 {following ? (
-                    <TouchableOpacity 
-                    style={{marginVertical: 12}}
-                    title="following"
-                    onPress={() => onFollow()}
-                  >
-                    <SimpleLineIcons name="user-follow" size={24} color={following ? 'white' : 'blue'}/>
-                  </TouchableOpacity>
-                 ): (
-                  <TouchableOpacity 
-                  style={{marginVertical: 12}}
-                  title="follow"
-                  onPress={() => onUnFollow()}
-                >
-                  <SimpleLineIcons name="user-follow" size={24} color={following ? 'white' : 'blue'} />
-                </TouchableOpacity>
-                 )}
+                
+                {route.params.uid !== firebase.auth().currentUser.uid ? (
+                      <View>
+                        {following ? (
+                          <TouchableOpacity 
+                            style={{marginVertical: 12}}
+                            title="following"
+                            onPress={() => onUnFollow()}
+                          >
+                          <Entypo name="remove-user" size={24} color={following ? 'white' : 'blue'}/>
+                        </TouchableOpacity>
+                        ) : (
+                          <TouchableOpacity 
+                            style={{marginVertical: 12}}
+                            title="following"
+                            onPress={() => onFollow()}
+                            >
+                            <Entypo name="add-user" size={30} color={following ? 'blue' : 'white'}/>
+                          </TouchableOpacity>
+                        )}
+                      </View>
+                    ) : null}
+                
+
 
                   <TouchableOpacity 
                     style={{marginVertical: 12}}
@@ -296,10 +312,7 @@ const onUnFollow = () => {
                     <CommentNumber ImageUid={item.ImageUid}/>
                   </TouchableOpacity>
 
-                  {/* <TouchableOpacity style={{marginVertical: 12}}  onPress={() => onLikePress(item.likes, item.ImageUid, item.ArtistUid)}>
-                  <AntDesign name="heart" size={24} color={isLiked ? 'white' : 'red'} />
-                  <Text style={{color: '#FFFFFF'}}>{item.likes}</Text>
-                  </TouchableOpacity> */}
+                
                   <View style={{marginVertical:12}}>
                   {currentUserLike ?
                         (
@@ -376,5 +389,9 @@ const onUnFollow = () => {
   </View>
   );
 }
+
+const mapStateToProps = (store) => ({
+  following: store.userState.following
+})
 
 export default ArtPreview;
