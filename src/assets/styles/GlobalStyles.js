@@ -278,7 +278,8 @@ const globalStyles = StyleSheet.create({
         alignSelf: 'flex-end',
         height: "25%",
         justifyContent: 'space-between',
-        paddingTop: 10
+        paddingTop: 10,
+        right: 10
     },
     profilePicture: {
         width: 50,

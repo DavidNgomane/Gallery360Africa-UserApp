@@ -162,7 +162,7 @@ const likesState = () => {
     getCartItemNumber();
     likesState();
 
-    return () => { likesState() }
+  return () => { likesState() }
   return () => getCartItemNumber();
   return () =>  getArtDetails();
   return () => getComentsNumber();
@@ -180,7 +180,7 @@ const onFollow = () => {
   .doc(artistUid)
   .set({})
   .then(() => {
-    setFollowing(true)
+    setFollowing(true) 
     alert('Followed')
   }).catch((error) => {
     alert(error)
@@ -202,11 +202,11 @@ const onUnFollow = () => {
   })
 }
 
-if (props.following.indexOf(route.params.uid) > -1) {
-  setFollowing(true);
-}else {
-  setFollowingO(false)
-}
+// if (props.following.indexOf(route.params.uid) > -1) {
+//   setFollowing(true);
+// }else {
+//   setFollowingO(false)
+// }
 
 
   return (
@@ -287,7 +287,7 @@ if (props.following.indexOf(route.params.uid) > -1) {
                             title="following"
                             onPress={() => onUnFollow()}
                           >
-                          <Entypo name="remove-user" size={24} color={following ? 'white' : 'blue'}/>
+                          <Entypo name="remove-user" size={30} color={following ? 'white' : 'blue'}/>
                         </TouchableOpacity>
                         ) : (
                           <TouchableOpacity 
@@ -308,7 +308,7 @@ if (props.following.indexOf(route.params.uid) > -1) {
                     onPress={() => setModalVisible(true)} 
                     activeOpacity={0.5}
                   >
-                    <Fontisto name="comments" size={24} color={'#FFFFFF'} />
+                    <Fontisto name="comments" size={30} color={'#FFFFFF'} />
                     <CommentNumber ImageUid={item.ImageUid}/>
                   </TouchableOpacity>
 
@@ -317,14 +317,14 @@ if (props.following.indexOf(route.params.uid) > -1) {
                   {currentUserLike ?
                         (
                           <View style={{marginVertical:12}}>
-                            <AntDesign name="heart" size={24} color="red" onPress={() => onDislikePress(item.likes, item.ImageUid, item.ArtistUid)} />
+                            <AntDesign name="heart" size={30} color="red" onPress={() => onDislikePress(item.likes, item.ImageUid, item.ArtistUid)} />
                             <Text style={{color: '#FFFFFF'}}>{item.likes}</Text>
                             </View>
                         )
                         :
                         (
                           <View style={{marginVertical:12}}>
-                            <AntDesign name="heart" size={24} color="white" onPress={() => onLikePress(item.likes, item.ImageUid, item.ArtistUid)} />
+                            <AntDesign name="heart" size={30} color="white" onPress={() => onLikePress(item.likes, item.ImageUid, item.ArtistUid)} />
                             <Text style={{color: '#FFFFFF'}}>{item.likes}</Text>
                           </View>
                         )
@@ -335,7 +335,7 @@ if (props.following.indexOf(route.params.uid) > -1) {
                     onPress={() =>  { return addToCart(item.artUrl, item.artType, item.price, item.ArtistUid, item.ImageUid)}}>
                     <MaterialIcons
                       name="add-shopping-cart"
-                      size={34}
+                      size={30}
                       color={'#FFFFFF'}
                     />
                   </TouchableOpacity>
