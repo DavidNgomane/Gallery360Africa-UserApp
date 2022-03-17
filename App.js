@@ -35,6 +35,7 @@ import Search from './src/screens/Search';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
+
 const TabNavigator = () => {
   return (
     <Tab.Navigator
