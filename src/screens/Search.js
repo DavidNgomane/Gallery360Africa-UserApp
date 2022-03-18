@@ -1,18 +1,12 @@
 import React, { useState, useEffect,  } from "react";
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList, Image } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-//import auth from '@react-native-firebase/auth';
 import { SafeAreaView } from "react-native-safe-area-context";
 import  MaterialIcons  from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons'
-//import  { SearchFilterItem } from "../assets/component/SearchFilterItem";
-// import { queryUsersByEmail } from "../assets/component/ArtistsSearchQuery";
+
  export default function SearchScreen({route, navigation}){
   const [users, setUsers] = useState([]);
- 
-
-//   const {artistUid} = route.params;
- 
 
 const fetchUsers = (search) => {
       firestore().collection('artists').where('artistName', '>=', search).get().then((snapshot)=>{
@@ -26,9 +20,6 @@ const fetchUsers = (search) => {
   }
     return(
         <View style={styles.parentContainer}>
-            {/* <View style={styles.iconContainer}>
-                  <MaterialIcons name="arrow-back" size={25} color="black" />
-            </View> */}
             <View style={styles.searchBarContainer}>
                 <Ionicons style={{left:55, top:10}} name="search" size={25} color={'black'} />
                         

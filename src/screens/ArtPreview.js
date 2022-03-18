@@ -32,6 +32,8 @@ function ArtPreview({route, navigation}) {
   const [image, setImage] = useState("");
   const [uuid, setUId] = useState(auth().currentUser.uid);
   const [currentUserLike, setCurrentUserLike] = useState(false);
+  const [photoURL, setPhotoURL] = useState(null);
+  const [FullName, setFullName] = useState(null);
 
   const { artistUid, imageUID } = route.params;
 
@@ -155,6 +157,28 @@ const likesState = () => {
     })
     }
 
+    useEffect(() => {
+      const unregister = auth().onAuthStateChanged(userExist=>{
+        
+            if(userExist) {
+
+               firestore().collection("users").where("uid", "==",userExist.uid).onSnapshot((snapShot) => {
+                const users = snapShot.docs.map((document) => document.data().photoURL);
+                const uName = snapShot.docs.map((document) => document.data().fullName);
+                console.log(users + "  this the number of item added to cart")
+                setPhotoURL(users);
+                setFullName(uName);
+              });
+            
+          }
+        
+      });
+
+      return () => {
+        unregister()
+      }
+  }, [])
+
  
   useEffect(() => {
     console.log(image , "   the props using the state")
@@ -271,9 +295,11 @@ const onUnFollow = () => {
 
                   &&
                     <CommentsModal
+                    photoURL={photoURL} 
+                    fullName={FullName}
                     ImageUid={item.ImageUid}
-                      isVisible={isModalVisible}
-                      onClose={() => setModalVisible(false)}
+                    isVisible={isModalVisible}
+                    onClose={() => setModalVisible(false)}
                     />
                   }
                 <View style={globalStyles.rightContainer}>
