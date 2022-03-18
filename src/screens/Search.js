@@ -1,82 +1,63 @@
-import React, { useState, useEffect, useRef } from "react";
-import {View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList, Image} from 'react-native';
+import React, { useState, useEffect,  } from "react";
+import {View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList, Image } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+//import auth from '@react-native-firebase/auth';
 import { SafeAreaView } from "react-native-safe-area-context";
 import  MaterialIcons  from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import filter from 'lodash/filter';
+//import  { SearchFilterItem } from "../assets/component/SearchFilterItem";
+// import { queryUsersByEmail } from "../assets/component/ArtistsSearchQuery";
+ export default function SearchScreen({route, navigation}){
+  const [users, setUsers] = useState([]);
+ 
 
- export default function Search(){
-    const [data, setData] = useState([...'artists']);
-    const input = useRef(0)
+//   const {artistUid} = route.params;
+ 
 
-    const getArtist = () =>{
-        return firestore().collection('artists').where('artistUid', '!=', 'artistUid').onSnapshot((snapshot) =>{
-        const allArtists = snapshot.docs.map(docSnap => docSnap.data());
-     setData(allArtists)
-    })
-}
-useEffect(()=>{
-    getArtist()
-}, [])
-
-const search = ({artistName}, query)=>{
-    if(artistName.includes(query)){
-        return true
-    }
-    return false
-}
-const handleSearch = text => {
-const searchData = filter(data, userSearch =>{
-    return search(userSearch, text)
-    })
-    setData([...searchData])
-}
-    const SearchFilterItem = ({artistPhoto, artistName}) =>{
-        return (
-            <View style={styles.listItems}>
-                <Image source={{uri:artistPhoto}} style={styles.artistImg} />
-                <Text style={{color:'black', fontSize:17}}>{artistName}</Text>
-            </View>
-                )
-            }
+const fetchUsers = (search) => {
+      firestore().collection('artists').where('artistName', '>=', search).get().then((snapshot)=>{
+          let users = snapshot.docs.map(doc =>{
+              const data = doc.data();
+              const id = doc.id;
+              return { id, ...data}
+          })
+          setUsers(users)
+      })
+  }
     return(
         <View style={styles.parentContainer}>
-            
+            {/* <View style={styles.iconContainer}>
+                  <MaterialIcons name="arrow-back" size={25} color="black" />
+            </View> */}
             <View style={styles.searchBarContainer}>
                 <Ionicons style={{left:55, top:10}} name="search" size={25} color={'black'} />
-                    <TextInput
-                        placeholder="Search"
-                        placeholderTextColor={'black'}
-                        onChangeText={handleSearch}
-                        style={styles.searchInput}
-                        ref={input}
                         
-                    />
-        
+                        <TextInput
+                        onChangeText={(search) => fetchUsers(search)}
+                        placeholder="Search"
+                        style={styles.searchInput}
+                        />
+
                  <TouchableOpacity>
                      <Text style={styles.searchBtnText}>Search</Text>
                  </TouchableOpacity>
             </View>
-
             <View style={styles.searchTitleTextContainer}>
                 <Text style={styles.recentSearchText}>Recent Search</Text>
-                <TouchableOpacity onPress={()=>{
-                    input.current.clear()
-                }}>
+                <TouchableOpacity >
                     <Text style={styles.clearAllBtnText}>Clear All</Text>
                 </TouchableOpacity>
             </View>
-
             <SafeAreaView>
                 <FlatList
-                data={data}
-                keyExtractor={(item, uid) => uid.toString()}
-                renderItem={({item}) =>{
-                    return(
-                        <SafeAreaView>
-                            <SearchFilterItem artistPhoto={item.artistPhoto} artistName={item.artistName} />
-                        </SafeAreaView>
+                data={users}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) =>{
+                    return (
+                              <TouchableOpacity onPress={()=> navigation.navigate('ArtistProfile', {artistUid: item.artistUid, artistPhoto: item.artistPhoto, artistName: item.artistName, artistDescription: item.artistDescription})} style={styles.listItems}>
+                                <Image source={{uri: item.artistPhoto}} style={styles.artistImg} />
+                                <Text style={{color:'black', fontSize:17}}>{item.artistName}</Text>
+                             </TouchableOpacity>
                     )
                 }}
                 style={{paddingTop: 55}}/>
@@ -84,11 +65,9 @@ const searchData = filter(data, userSearch =>{
         </View>
     );
 };
-
 const styles = StyleSheet.create({
 parentContainer:{
-    flex:1,
-    top: 75
+    flex:1
 },
 iconContainer:{
   height: 50,
@@ -99,18 +78,32 @@ iconContainer:{
   justifyContent:'center',
   alignItems: 'center'
 },
+artistImg:{
+    width:80,
+    height:80,
+    borderRadius: 40
+  },
+  listItems:{
+      flexDirection:'row',
+      margin: 13,
+      alignItems:'center',
+      width: '47%',
+      justifyContent:'space-between'
+  },
 searchInput:{
     width: '70%',
     height:50,
     borderColor:'black',
     borderWidth:0.5,
     borderRadius: 7,
-    paddingHorizontal: 50,
-    color: '#000'
+    paddingHorizontal: 50, 
+    color: 'black',
+    backgroundColor:'red'
 },
 searchBarContainer:{
     flexDirection:'row',
     justifyContent:'space-around',
+    top: 70
 },
 searchBtnText:{
     color:'#FF5353',
@@ -131,33 +124,7 @@ searchTitleTextContainer:{
     flexDirection:'row',
     justifyContent:'space-between',
     alignSelf:'center',
-    top: 15,
+    top: 100,
     width:'86%',
 },
-artistImg:{
-    width:80,
-    height:80,
-    borderRadius: 40
-},
-listItems:{
-    flexDirection:'row',
-    margin: 13,
-    alignItems:'center',
-    width: '47%',
-    justifyContent:'space-between'
-}
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
