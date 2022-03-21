@@ -25,7 +25,7 @@ const Notifications = ({navigation}) => {
     
     const Item = ({ title, message, date}) =>{
          return(
-           <View style={{width:'80%', height:69, backgroundColor:'#ebeced', borderRadius:20, alignSelf:'center', marginVertical:5, justifyContent: 'center',}}>
+           <View style={{width:'80%', height:69, backgroundColor:'#ebeced', borderRadius:20, alignSelf:'center', marginVertical: 5, justifyContent: 'center', top: 10}}>
               <Text style={{fontSize:18, left: 20, color:'black', fontWeight: 'bold'}}>{title}, {date}</Text>
               <Text style={{color:'black', left: 20}}>{message}</Text>
            </View>
@@ -39,7 +39,7 @@ const Notifications = ({navigation}) => {
       style={globalStyles.container}
       resizeMode='stretch'
     >
-        <View style={{flex:1, flexDirection:'row', maxWidth:'80%', justifyContent:'space-around', top:10 }}>
+        {/* <View style={{flex:1, flexDirection:'row', maxWidth:'80%', justifyContent:'space-around', top:10 }}>
           
           <View style={{height:40, width:40, borderColor:'black', borderWidth:0.5, borderRadius:10 }}>
             <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
@@ -53,7 +53,7 @@ const Notifications = ({navigation}) => {
           </View>
                <Text style={{fontSize:20, color:'black', top:5, fontWeight: "bold"}}>Notifications</Text>
 
-        </View>
+        </View> */}
 
         <SafeAreaView style={{flex:4}}>
           <FlatList 

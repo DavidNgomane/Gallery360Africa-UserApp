@@ -110,7 +110,7 @@ useEffect(() =>{
                             color="black"
                             size="small"/>)}
                       
-                            </View>
+                        </View>
                        <TextInput
                           placeholder='Edit Username'
                           onChangeText={(fullName) => setUserName(fullName)}
@@ -120,19 +120,9 @@ useEffect(() =>{
                        </TouchableOpacity>
                      </View>
                 </Modal>
-                {/* the end of the modal */}
-                  {/* <TouchableOpacity style={styles.topLeftIcon}>
-                          <Entypo
-                            onPress={() =>navigation.navigate("Home")}
-                            name="chevron-thin-left"
-                            size={22}
-                            color={'#0E1822'}
-                            style={{alignSelf: 'center', marginVertical: 10}}
-                          />
-                </TouchableOpacity> */}
                
                     <View style={styles.profileImgContainer}>
-                         <Image source={{uri: `${photoURL}`}} style={styles.profileImg}/>
+                        <Image source={{uri: `${photoURL}`}} style={styles.profileImg}/>
                            <Text style={styles.userNameText}>{fullName}</Text>
                            <TouchableOpacity onPress={() => setModalOpen(true)} style={styles.editBtn}>
                              <Text style={styles.btnText}>Edit Profile</Text>
@@ -142,7 +132,16 @@ useEffect(() =>{
                     <View style={styles.optionsContainer}>
                         <TouchableOpacity 
                           onPress={() => navigation.navigate("Cart", {uuid: uuid, cartItem: cartItem})}
-                                style={{backgroundColor:"#E3E3E3", width:"80%", height:70, flexDirection:"row", alignSelf:"center", alignItems:"center", borderRadius:20}}>
+                          style={{
+                            backgroundColor:"#E3E3E3", 
+                            width:"80%", 
+                            height:70, 
+                            flexDirection:"row", 
+                            alignSelf:"center",
+                            alignItems:"center", 
+                            borderRadius:20
+                            }}
+                            >
                           <MaterialCommunityIcons
                               name="cart"
                               size={24}
@@ -153,26 +152,51 @@ useEffect(() =>{
                           <Entypo name="chevron-small-right" size={24} style={{marginVertical:-10, marginHorizontal:"47%",  color:"#0E1822"}}/>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={{backgroundColor:"#E3E3E3", width:"80%", height:70, flexDirection:"row", alignSelf:"center", alignItems:"center", borderRadius:20, marginVertical:15}}>
-                <MaterialIcons
+                        <TouchableOpacity 
+                          onPress={() => navigation.navigate('Notifications')} 
+                          style={{
+                            backgroundColor:"#E3E3E3", 
+                            width:"80%", 
+                            height:70, 
+                            flexDirection:"row", 
+                            alignSelf:"center", 
+                            alignItems:"center", 
+                            borderRadius:20, 
+                            marginVertical:15
+                            }}
+                            >
+                          <MaterialIcons
                             name="notifications"
                             size={24}
                             color={'#0E1822'}
                             style={{ marginHorizontal: 10, overflow:"hidden",  color:"#0E1822"}}
-                  />
-            <Text style={{marginHorizontal:10, color:"#0E1822"}}>Notifications</Text>
-                  <Entypo name="chevron-small-right" size={24} style={{marginVertical:-10, marginHorizontal:"37%", color:"#0E1822"}}/>
+                          />
+                          <Text style={{marginHorizontal:10, color:"#0E1822"}}>Notifications</Text>
+                          <Entypo name="chevron-small-right" size={24} style={{marginVertical:-10, marginHorizontal:"37%", color:"#0E1822"}}/>
                         </TouchableOpacity>
-                      <TouchableOpacity onPress={() => navigation.navigate('UserSettings')} style={{backgroundColor:"#E3E3E3", width:"80%", height:70, flexDirection:"row", alignSelf:"center", alignItems:"center", borderRadius:20}}>
-                <Ionicons
-                            name="settings-outline"
-                            size={24}
-                            color={'#0E1822'}
-                            style={{ marginHorizontal: 10, overflow:"hidden",  color:"#0E1822"}}
-                  />
-            <Text style={{marginHorizontal:10, color:"#0E1822"}}>Settings</Text>
-                  <Entypo name="chevron-small-right" size={24} style={{marginVertical:-10, marginHorizontal:"47%",  color:"#0E1822"}}/>
-                        </TouchableOpacity>
+
+                      <TouchableOpacity 
+                        onPress={() => navigation.navigate('UserSettings')} 
+                        style={{
+                          backgroundColor:"#E3E3E3",
+                           width:"80%", 
+                           height:70, 
+                           flexDirection:"row", 
+                           alignSelf:"center", 
+                           alignItems:"center", 
+                           borderRadius:20
+                           }}
+                           >
+                        <Ionicons
+                          name="settings-outline"
+                          size={24}
+                          color={'#0E1822'}
+                          style={{ marginHorizontal: 10, overflow:"hidden",  color:"#0E1822"}}
+                        />
+                        <Text style={{marginHorizontal:10, color:"#0E1822"}}>Settings</Text>
+                        <Entypo name="chevron-small-right" size={24} style={{marginVertical:-10, marginHorizontal:"47%",  color:"#0E1822"}}/>
+                      </TouchableOpacity>
+
                     </View>
                     </View>
               </ImageBackground>

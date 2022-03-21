@@ -31,6 +31,7 @@ import UserProfile from './src/screens/UserProfile';
 import Map from './src/screens/Map';
 import UserSettings from './src/screens/UserSettings';
 import Search from './src/screens/Search';
+import Notifications from './src/screens/Notifications';
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -217,6 +218,7 @@ const uuid = auth()?.currentUser?.uid;
 			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='ShippingAddress' component={ShippingAddress} />
 			<Stack.Screen options={{headerShown: false}} name='Preview' component={Preview} />
 			<Stack.Screen options={{headerShown: true, headerTransparent: true}} name='Search' component={Search} />
+			<Stack.Screen options={{headerShown: true, headerTransparent: true}} name='Notifications' component={Notifications} />
 			
       <Stack.Screen 
         options={{
