@@ -7,6 +7,7 @@ import auth from '@react-native-firebase/auth';
 //libraries
 import ZoomView from "react-native-border-zoom-view";
 import Toast from 'react-native-toast-message';
+import { ToastProvider } from 'react-native-toast-notifications'
 
 // icons
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -205,7 +206,10 @@ const onFollow = () => {
   .set({})
   .then(() => {
     setFollowing(true) 
-    alert('Followed')
+    Toast.show({
+      type: 'success',
+      text2: 'Followed'
+    })
   }).catch((error) => {
     alert(error)
   })
@@ -219,7 +223,10 @@ const onUnFollow = () => {
   .doc(artistUid)
   .delete()
   .then(() => {
-    alert('UnFollowed')
+    Toast.show({
+      type: 'error',
+      text2: 'UnFollowed'
+    })
     setFollowing(false)
   }).catch((error) => {
     alert(error)

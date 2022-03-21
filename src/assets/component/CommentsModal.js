@@ -4,6 +4,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -124,6 +125,15 @@ getComents();
 
       <View style={{flex: 3}}>
            <Text style={{color: '#000', textAlign: 'center', fontSize: 18}}>{numCom > 0? (<Text>{numCom}</Text>) :(<View></View>)} Comments</Text>
+
+           <View style={{justifyContent: 'flex-start', bottom: 25}}>
+              <AntDesign 
+                name="closecircleo" size={24} 
+                color="#000" 
+                onPress={() => setModalVisible(!isVisible)}
+              />
+          </View>
+
           <View style={{height:"85%"}}>
           <FlatList
            data={comments}
