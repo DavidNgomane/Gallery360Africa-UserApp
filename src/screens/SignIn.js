@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   Dimensions,
+  ActivityIndicator
 } from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -17,11 +18,15 @@ import auth from '@react-native-firebase/auth';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import AppLoader from '../screens/AppLoader';
 import Toast from 'react-native-toast-message';
+
 const SignIn = ({navigation}) => {
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errortext, setErrortext] = useState("");
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
   const validate = () => {
      const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
      if (email == "" && password == "") {
@@ -46,6 +51,7 @@ const SignIn = ({navigation}) => {
        signIn()
     }
   }
+
   const signIn = async () => {
        setLoading(true)
        if(email !== "" && password !== "") {
@@ -87,6 +93,7 @@ const SignIn = ({navigation}) => {
       });
        }
     }
+    
   return (
     <>
     {loading ? <AppLoader/> : (
@@ -130,6 +137,7 @@ const SignIn = ({navigation}) => {
               secureTextEntry={true}
             />
           </View>
+
           <TouchableOpacity
             onPress={() => {
               validate() ? signIn() : setLoading(false)
@@ -137,22 +145,33 @@ const SignIn = ({navigation}) => {
             activeOpacity={0.5}
             >
            <LinearGradient start={{x: 1, y: 0}} end={{x: 1, y: 1}} colors={['#0E1822', '#181818']} style={styles.buttonStyle}>
-            <Text style={styles.buttonTextStyle}>Sign In</Text>
+
+            {!uploading ? (<Text style={styles.buttonTextStyle}>Sign In</Text>) : (
+              <ActivityIndicator
+              size="large"
+              color="green"
+              style={{ alignSelf: "center" }}
+            />
+          )}
+            
+
             </LinearGradient>
           </TouchableOpacity>
+
         <View style={{flexDirection: 'row', alignSelf: 'center'}}>
            <Text style={{}}>
               Don't have an account?
            </Text>
            <Text>
            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                <Text style={{color: '#22180E'}}>
-                  {' '}
+              <Text style={{color: '#22180E'}}>
+                {' '}
                   Sign Up
-                </Text>
-              </TouchableOpacity>
+              </Text>
+            </TouchableOpacity>
            </Text>
         </View>
+
         </View>
     </ImageBackground>
     </KeyboardAvoidingView>
