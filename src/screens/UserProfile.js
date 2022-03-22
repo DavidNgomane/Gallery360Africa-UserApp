@@ -33,35 +33,7 @@ export default function UserProfile({route, navigation}) {
 
   await ImagePicker.launchImageLibrary(options, (response) => {
 
-      const uri = response.assets.map(({uri}) => uri).toString();
-      // console.log('tis is the one you need response', uri)
-      //  setimageUri(uri);
-      const imageName = uri.substring(uri.lastIndexOf('/'));
-      const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
-
-  try {
-    setSubmit(true);
-    storage().ref(imageName).putFile(uploadUri)
-    .then((snapshot) => {
-      //You can check the image is now uploaded in the storage bucket
-      console.log(`${imageName} has been successfully uploaded.`);
-
-      storage().ref('/' + imageName).getDownloadURL().then((imageURL) => {
-        console.log(`${imageURL} has been retrieved.`);
-        
-        setimageUri(imageURL);
-      }).catch((e) => console.log('retrieving image error => ', e));
-       
-    })
-    .catch((e) => console.log('uploading image error => ', e));
-  setSubmit(false);
-  
-  }
-  catch(e) {
-    console.error(e);
-  }
-      alert("image uploaded");
-          
+     
         
        if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -71,7 +43,36 @@ export default function UserProfile({route, navigation}) {
         console.log('User tapped custom button: ', response.customButton);
         alert(response.customButton);
       } else {
+        // const uri = response.assets.map(({uri}) => uri).toString();
         const uri = response.assets.map(({uri}) => uri).toString();
+        // console.log('tis is the one you need response', uri)
+        //  setimageUri(uri);
+        const imageName = uri.substring(uri.lastIndexOf('/'));
+        const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+  
+    try {
+      setSubmit(true);
+      storage().ref(imageName).putFile(uploadUri)
+      .then((snapshot) => {
+        //You can check the image is now uploaded in the storage bucket
+        console.log(`${imageName} has been successfully uploaded.`);
+  
+        storage().ref('/' + imageName).getDownloadURL().then((imageURL) => {
+          console.log(`${imageURL} has been retrieved.`);
+          
+          setimageUri(imageURL);
+        }).catch((e) => console.log('retrieving image error => ', e));
+         
+      })
+      .catch((e) => console.log('uploading image error => ', e));
+    setSubmit(false);
+    
+    }
+    catch(e) {
+      console.error(e);
+    }
+        alert("image uploaded");
+            
       }
     });
   };

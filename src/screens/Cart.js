@@ -26,7 +26,7 @@ const Cart = ({navigation, route}) => {
       const getData = snapShot1.ref.collection("items").where("uuid", "==", uuid).onSnapshot((snapShot) => {
       
       const carts = snapShot.docs.map((document) => document.data());
-       const prices = snapShot.docs.map((document) => document.data().price);
+       const prices = snapShot.docs.map((document) => parseFloat(document.data().price));
        const artURLs = snapShot.docs.map((document) => document.data().artUrl);
        const artnames = snapShot.docs.map((document) => document.data().artType);
        const artkeyy= snapShot.docs.map((document) => document.data().keyy);

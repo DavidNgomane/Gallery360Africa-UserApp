@@ -1,12 +1,11 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState} from 'react';
+import { View, Text } from 'react-native';
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
-import Geocoder from 'react-native-geocoding';
 
 const Map = ({route, navigation}) => {
 
-const { address } = route.params
+const { address, latitude, longitude } = route.params
 
   return (
     <View>
@@ -15,8 +14,8 @@ const { address } = route.params
       <MapView
       style={{width: "100%", height: "100%"}}
       initialRegion={{
-       latitude: 37.78825,
-      longitude: -122.4324,
+       latitude: parseFloat(latitude),
+      longitude: parseFloat(longitude),
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
       // latitude: 28.237241291447393,
@@ -24,8 +23,8 @@ const { address } = route.params
     }}
     >
       <Marker coordinate = {{
-       latitude: 37.78825,
-       longitude: -122.4324,
+       latitude: parseFloat(latitude),
+       longitude: parseFloat(longitude),
       }} 
     />
   </MapView>

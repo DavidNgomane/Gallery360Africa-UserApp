@@ -4,6 +4,8 @@ import { StatusBar } from 'react-native'
 import Entypo from 'react-native-vector-icons/Entypo';
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
+import Geocoder from 'react-native-geocoder-reborn';
+
 
 // const image = require('../assets/images/dannie-jing-3GZlhROZIQg-unsplash.jpg');
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
@@ -11,15 +13,41 @@ const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 export default function ExhibitionDetails({route, navigation}) {
 
   const [liked, setLiked] = useState(false);
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
+  const [ExhibitionDetails, setExhibitionDetails] = useState(null);
+
+
 
   const { exhibitionUid, exhibitionImage, address, description, exhibitionTitle, date } = route.params;
   // const exhibitionUid = "H4SpBE9qBETbsmaKL5IQ"
 
-  const [ExhibitionDetails, setExhibitionDetails] = useState(null);
+  const getLocation = () => {
+    Geocoder.fallbackToGoogle("AIzaSyAkTCT8YLMY6YhGoPMnu5UEjJ_8eYepEJs");
+    Geocoder.geocodeAddress(address).then((response) => {
+      const lat = response.map((res) =>res.position.lat).map((res) => res);
+      const long = response.map((res) => res.position.lng).map((res) => res);
+      setLatitude(lat);
+      setLongitude(long);
+
+        // console.log(lat, " the latitude", long, "  the longitude")
+    }).catch((error) => {
+      console.log(error, ":Error in code ")
+    });
+    
+  } 
+
+  useEffect(() => {
+  
+     return () => {
+       getLocation();
+     }
+  },[])
 
   const getExhibitionDetails = () => {
     return firestore().collection('exhibition').where("exhibitionUid", "==", exhibitionUid).onSnapshot((snapShot) => {
       const allExhibitionDetails = snapShot.docs.map(docSnap => docSnap.data());
+    
       setExhibitionDetails(allExhibitionDetails);
     })
   }
@@ -66,7 +94,7 @@ export default function ExhibitionDetails({route, navigation}) {
                     <Text style={{color: "#000000", paddingBottom: 40, fontSize: 14}}>{item.description}</Text>
              
                     <View style={{flexDirection: "row"}}>
-                    <TouchableOpacity style={styles.VisitLocation} onPress={() => navigation.navigate('Map', {address: item.address})}>
+                    <TouchableOpacity style={styles.VisitLocation} onPress={() => navigation.navigate('Map', {address: item.address, latitude: latitude, longitude: longitude})}>
                        <Text  style={styles.VisitLocationtxt}>Visit Location</Text>
                      </TouchableOpacity>
              

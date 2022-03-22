@@ -7,19 +7,19 @@ import firestore from '@react-native-firebase/firestore';
 const Notifications = ({navigation}) => {
 
     const data = [
-        {
-            id:1,
-            title: "Payment Success",
-            message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            date: "17/06/2022"
-        },
+        // {
+        //     id:1,
+        //     title: "Payment Success",
+        //     message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        //     date: "17/06/2022"
+        // },
     
-        {
-            id:2,
-            title: "Payment Success",
-            message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            date: "17/06/2022"
-        },
+        // {
+        //     id:2,
+        //     title: "Payment Success",
+        //     message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        //     date: "17/06/2022"
+        // },
       
     ];
     

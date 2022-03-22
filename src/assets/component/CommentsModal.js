@@ -146,7 +146,7 @@ getComents();
              </View>
             <View style={{alignSelf: "center", marginVertical:20, width: 210, flexDirection:"column" }}>
             <Text style={{ alignSelf:"flex-start", alignItems:"flex-start" ,color: '#000',top:"35%", marginHorizontal: -100, width: '95%'}}>{item.comments}</Text>
-            <MaterialIcons name="favorite-outline" color="#000" size={25} style={{marginHorizontal: 83, left:"15%", marginVertical:"-2%", bottom:"15%"}}/>
+            {/* <MaterialIcons name="favorite-outline" color="#000" size={25} style={{marginHorizontal: 83, left:"15%", marginVertical:"-2%", bottom:"15%"}}/> */}
             </View>
          </View>
             )
