@@ -143,7 +143,7 @@ getComents();
            
             </View>
             <View style={{left:35}}>
-              <MaterialIcons name="favorite-outline" color="#000" size={25}/>
+              {/* <MaterialIcons name="favorite-outline" color="#000" size={25}/> */}
             </View>
          </View>
             )
