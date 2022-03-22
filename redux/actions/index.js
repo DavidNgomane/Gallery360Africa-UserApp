@@ -1,6 +1,5 @@
 import { USER_FOLLOWING_STATE_CHANGE } from '../constants/index'
 
-
 export function fetchUserFollowing( {
     return ((dispatch) => {
         firestore()

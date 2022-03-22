@@ -40,7 +40,7 @@ const ArtistProfile = ({route, navigation}) => {
     <Icon onPress={onPress} name={name} size={40} color="#fff" />
   );
 
-  const { artistUid, artistPhoto, artistName, description } = route.params;
+  const { artistUid, photoUrl, artistName, description } = route.params;
   // 
   const[art, setArt] = useState(null)
   const getArt = () => {
@@ -94,7 +94,7 @@ const ArtistProfile = ({route, navigation}) => {
                   <View style={styles.listItem} >
                     <View style={{flexDirection: "row", width: '91%'}}>
                       <Image 
-                        source={{uri: artistPhoto}} 
+                        source={{uri: photoUrl}} 
                         style={styles.img2}
                       />
                       <View style={{width: '100%'}}>

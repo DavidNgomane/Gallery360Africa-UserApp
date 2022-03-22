@@ -9,7 +9,6 @@ import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunity
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
 function CommentsModal({ImageUid, route, isVisible, onClose, photoURL, fullName }) {
   const [comments, setComments] = useState(null);
   const [com, setCom] = useState("");
@@ -19,11 +18,9 @@ function CommentsModal({ImageUid, route, isVisible, onClose, photoURL, fullName 
   const [userImage, setUserImage] = useState("");
   const modalAnimatedValue = useRef(new Animated.Value(0)).current
   const [isModalVisible, setModalVisible] = useState(isVisible);
-
   //
   const addComments = () => {
       const uid = auth()?.currentUser?.uid;
-   
     //  console.log(ImageUid + " the image uid 333")
       firestore().collection('comments').add({
             comments: com,
@@ -45,7 +42,6 @@ function CommentsModal({ImageUid, route, isVisible, onClose, photoURL, fullName 
     })
 }
   useEffect(() => {
-
   //////
         // console.log(photoURL + " user photo");
     firestore().collection("users").where("uid", "==", auth().currentUser.uid).onSnapshot((snapShot) => {
@@ -78,7 +74,6 @@ getComents();
       outputRange: [1000, 1000 - 720]
   })
   return (
-    
     <Modal
         animationType='fade'
         transparent={true}
@@ -122,31 +117,31 @@ getComents();
                   backgroundColor: '#fff',
               }}
           >
-
       <View style={{flex: 3}}>
            <Text style={{color: '#000', textAlign: 'center', fontSize: 18}}>{numCom > 0? (<Text>{numCom}</Text>) :(<View></View>)} Comments</Text>
-
            <View style={{justifyContent: 'flex-start', bottom: 25}}>
-              <AntDesign 
-                name="closecircleo" size={24} 
-                color="#000" 
+              <AntDesign
+                name="closecircleo" size={24}
+                color="#000"
                 onPress={() => setModalVisible(!isVisible)}
               />
           </View>
-
-          <View style={{height:"85%"}}>
+          <View style={{height:"80%"}}>
           <FlatList
            data={comments}
            style={{flexDirection:"column", }}
            renderItem = {({item}) => {return(
-           <View style={{flexDirection: 'row', marginVertical: 8}}>
-           <View style={{flexDirection:"row"}}>
+           <View style={{flexDirection: 'row', marginVertical: 8, width:'70%', justifyContent:'space-between'}}>
+           <View>
              <Image source={{uri: `${item.photoURL}`}} style={styles.profilePic}/>
-             <Text style={styles.textStyle}>{item.userName}</Text>
              </View>
-            <View style={{alignSelf: "center", marginVertical:20, width: 210, flexDirection:"column" }}>
-            <Text style={{ alignSelf:"flex-start", alignItems:"flex-start" ,color: '#000',top:"35%", marginHorizontal: -100, width: '95%'}}>{item.comments}</Text>
-            {/* <MaterialIcons name="favorite-outline" color="#000" size={25} style={{marginHorizontal: 83, left:"15%", marginVertical:"-2%", bottom:"15%"}}/> */}
+            <View style={{ bottom:10, width: 210, flexDirection:"column" }}>
+            <Text style={styles.textStyle}>{item.userName}</Text>
+            <Text style={{ width: '95%', alignSelf:'center', left:15, color:'black'}}>{item.comments}</Text>
+           
+            </View>
+            <View style={{left:35}}>
+              <MaterialIcons name="favorite-outline" color="#000" size={25}/>
             </View>
          </View>
             )
@@ -154,12 +149,10 @@ getComents();
             />
           </View>
         </View>
-
           <View style={{flex: 3, flexDirection: 'row'}}>
             <View style={styles.userProfile}>
               <Image source={require("../images/comments/person3.png")} resizeMode="contain"/>
               </View>
-
           <View style={styles.inputStyle}>
            <View style={{flexDirection: 'row'}}>
           <TextInput
@@ -177,9 +170,7 @@ getComents();
              </View>
             </View>
           </View>
-
           </View>
-
         </Animated.View>
        </KeyboardAvoidingView>
       </Modal>
