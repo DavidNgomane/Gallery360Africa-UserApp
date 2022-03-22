@@ -9,7 +9,9 @@ import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunity
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 function CommentsModal({ImageUid, route, isVisible, onClose, photoURL, fullName }) {
+  
   const [comments, setComments] = useState(null);
   const [com, setCom] = useState("");
   const [numCom, setNumCom] = useState(0);
