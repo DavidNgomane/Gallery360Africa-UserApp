@@ -89,7 +89,7 @@ searchInput:{
     borderRadius: 7,
     paddingHorizontal: 50, 
     color: 'black',
-    backgroundColor:'red'
+    backgroundColor:'#fff'
 },
 searchBarContainer:{
     flexDirection:'row',

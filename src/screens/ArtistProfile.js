@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text, Image, ImageBackground, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import firestore from "@react-native-firebase/firestore";
 import { globalStyles } from "../assets/styles/GlobalStyles";
@@ -7,9 +7,40 @@ import { globalStyles } from "../assets/styles/GlobalStyles";
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import YoutubePlayer from 'react-native-youtube-iframe';
+
+
 const ArtistProfile = ({route, navigation}) => {
 
-  const { artistUid, artistPhoto, artistName, artistDescription } = route.params;
+  const [playing, setPlaying] = useState(false);
+  const [isMute, setMute] = useState(false);
+  const controlRef = useRef();
+  const onStateChange = (state) => {
+    if (state === 'ended') {
+      setPlaying(false);
+      Alert.alert('video has finished playing!');
+    }
+    if (state !== 'playing') {
+      setPlaying(false);
+    }
+  };
+  const togglePlaying = () => {
+    setPlaying((prev) => !prev);
+  };
+  const seekBackAndForth = (control) => {
+    console.log('currentTime');
+    controlRef.current?.getCurrentTime().then((currentTime) => {
+      control === 'forward'
+        ? controlRef.current?.seekTo(currentTime + 15, true)
+        : controlRef.current?.seekTo(currentTime - 15, true);
+    });
+  };
+  const muteVideo = () => setMute(!isMute);
+  const ControlIcon = ({name, onPress}) => (
+    <Icon onPress={onPress} name={name} size={40} color="#fff" />
+  );
+
+  const { artistUid, artistPhoto, artistName, description } = route.params;
   // 
   const[art, setArt] = useState(null)
   const getArt = () => {
@@ -42,11 +73,20 @@ const ArtistProfile = ({route, navigation}) => {
           </TouchableOpacity>
         </View> */}
 
-        <View style={styles.VideoContainer}>
-          <Image 
+<View style={styles.VideoContainer}>
+          {/* <Image 
             source={{uri: 'https://images.unsplash.com/photo-1614315394848-b3375bf3f39c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8ODF8fHZpZGVvfGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60'}}
             style={{width: 325, height: 250, borderRadius: 15}}
-          />
+          /> */}
+           <YoutubePlayer
+              height={300}
+              play={true}
+              ref={controlRef}
+              play={playing}
+              mute={isMute}
+              videoId={'84WIaK3bl_s'}
+              style={{width: 325, height: 350, borderRadius: 15}}
+           />
           </View>
       </View>
 
@@ -72,7 +112,7 @@ const ArtistProfile = ({route, navigation}) => {
                     </View>
 
                     <View style={{width: '95%', padding: 5}}>
-                      <Text style={{color: "#000000"}}>{artistDescription}</Text>
+                      <Text style={{color: "#000000"}}>{description}</Text>
                     </View>
                   </View>
                 </View>
@@ -182,7 +222,7 @@ const styles = StyleSheet.create({
       VideoContainer: {
         borderRadius: 15, 
         width: 325, 
-        height: 250, 
+        height: 170, 
         backgroundColor: "gray", 
         alignSelf: "center",
         marginTop: 10

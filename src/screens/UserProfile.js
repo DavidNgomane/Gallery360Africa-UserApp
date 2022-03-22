@@ -103,7 +103,7 @@ useEffect(() =>{
                          <EvilIcons onPress={()=> setModalOpen(false) } name='close' size={35} color="white" />
                        </View>
                        <View style={styles.editprofileImgContainer}>
-                            <Image source={{uri: `${imageUri}`}} style={styles.uploadedImage} />
+                            <Image source={{uri: imageUri}} style={styles.uploadedImage} />
                             {!submit ? (
                             <AntDesign onPress={() => openImageLibrary()} style={styles.imgAddIcon} name="pluscircle" size={35} color="#E3E3E3" />
                             ) : (
