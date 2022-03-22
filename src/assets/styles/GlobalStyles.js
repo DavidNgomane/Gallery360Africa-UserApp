@@ -272,8 +272,13 @@ const globalStyles = StyleSheet.create({
         alignSelf: 'flex-end',
         height: 300,
         justifyContent: 'space-between',
+<<<<<<< Updated upstream
         marginRight: 5,
         marginVertical:"-35%"
+=======
+        paddingTop: 25,
+        right: 10,
+>>>>>>> Stashed changes
     },
     profilePicture: {
         width: 50,
@@ -318,6 +323,7 @@ const globalStyles = StyleSheet.create({
     },
     viewDescription: {
         alignSelf: 'flex-start',
+        marginVertical:10,
         marginHorizontal: 10,
         width: '90%',
     },

@@ -24,8 +24,15 @@ const ArtPreview = ({route, navigation}) => {
   const [image, setImage] = useState("");
   const [uuid, setUId] = useState(auth().currentUser.uid);
   const [currentUserLike, setCurrentUserLike] = useState(false);
+<<<<<<< Updated upstream
+=======
+  const [photoURL, setPhotoURL] = useState(null);
+  const [FullName, setFullName] = useState(null);
+  const [artistPhoto, setArtistPhoto] = useState(null);
+  const [artistName, setArtistName] = useState(null);
+>>>>>>> Stashed changes
 
-  const { artistUid, imageUID } = route.params;
+  const { artistUid, imageUID  } = route.params;
 
   const onLikePress = (likes, imageUid, item) => {
     setIsLiked(!isLiked);
@@ -49,6 +56,16 @@ const onLike = (imageUid, item) => {
         item: item
       })
       .then(() => {}).catch((error) => {alert(error, "  error is onLike")})
+}
+
+const getArtistDetails = () => {
+  return firestore().collection("artists").where("artistUid", "==", artistUid).onSnapshot((snapShot) => {
+    const photo = snapShot.docs.map((doc) => doc.data().photoUrl);
+    const name = snapShot.docs.map((doc) => doc.data().artistName);
+    setArtistName(name);
+    setArtistPhoto(photo);
+
+  })
 }
 
 const onDislikePress = (likes, imageUid, item) => {
@@ -143,17 +160,54 @@ const likesState = () => {
         const cartItems = snapShot.size;
         // console.log(cartItems + "  this the number of item added to cart")
         SetItems(cartItems);
+<<<<<<< Updated upstream
+=======
+      })
+    })
+    }
+
+    useEffect(() => {
+      const unregister = auth().onAuthStateChanged(userExist=>{
+        
+            if(userExist) {
+
+               firestore().collection("users").where("uid", "==",userExist.uid).onSnapshot((snapShot) => {
+                const users = snapShot.docs.map((document) => document.data().photoURL);
+                const uName = snapShot.docs.map((document) => document.data().fullName);
+                setPhotoURL(users);
+                setFullName(uName);
+              });
+            
+          }
+        
+>>>>>>> Stashed changes
       });
     }
     
   useEffect(() => {
     let isMounted = true;
     getCartItemNumber();
+<<<<<<< Updated upstream
     getArtDetails();
     return () => {
       isMounted = false;
     }
 }, []);
+=======
+    likesState();
+    getArtistDetails();
+
+  return () => { likesState() }
+  return () => getCartItemNumber();
+  return () =>  getArtDetails();
+  return () => getComentsNumber();
+  return () => getArtistDetails();
+  
+    // return () => {
+    //   isMounted = false;
+    // }
+}, [imageUID]);
+>>>>>>> Stashed changes
 
 const onFollow = () => {
   firestore()
@@ -249,6 +303,7 @@ const onUnFollow = () => {
                   }
                 <View style={globalStyles.rightContainer}>
                  
+<<<<<<< Updated upstream
                  {following ? (
                     <TouchableOpacity 
                     style={{marginVertical: 12}}
@@ -266,9 +321,35 @@ const onUnFollow = () => {
                   <SimpleLineIcons name="user-follow" size={24} color={following ? 'white' : 'blue'} />
                 </TouchableOpacity>
                  )}
+=======
+                
+                {route.params.uid !== firebase.auth().currentUser.uid ? (
+                      <View>
+                        {following ? (
+                          <TouchableOpacity 
+                            style={{marginVertical: 10}}
+                            title="following"
+                            onPress={() => onUnFollow()}
+                          >
+                          <Entypo name="remove-user" size={30} color={following ? 'white' : 'blue'}/>
+                        </TouchableOpacity>
+                        ) : (
+                          <TouchableOpacity 
+                            style={{marginVertical: 10}}
+                            title="following"
+                            onPress={() => onFollow()}
+                            >
+                            <Entypo name="add-user" size={30} color={following ? 'blue' : 'white'}/>
+                          </TouchableOpacity>
+                        )}
+                      </View>
+                    ) : null}
+                
+
+>>>>>>> Stashed changes
 
                   <TouchableOpacity 
-                    style={{marginVertical: 12}}
+                    style={{marginVertical: 10}}
                     onPress={() => setModalVisible(true)} 
                     activeOpacity={0.5}
                   >
@@ -281,7 +362,38 @@ const onUnFollow = () => {
                   <Text style={{color: '#FFFFFF'}}>{item.likes}</Text>
                   </TouchableOpacity>
 
+<<<<<<< Updated upstream
                   <TouchableOpacity style={{marginVertical: 12}} onPress={() => addToCart(item.artUrl, item.artType, item.price)}>
+=======
+                
+                  <View style={{marginVertical:10}}>
+                  {currentUserLike ?
+                        (
+                          <View style={{marginVertical:10}}>
+                            <AntDesign name="heart" size={30} color="red" onPress={() => onDislikePress(item.likes, item.ImageUid, item.ArtistUid)} />
+                            { item.likes > 0 ? (
+                            <Text style={{color: '#FFFFFF'}}>{item.likes}</Text>
+                            ) : (
+                              <View></View>
+                            )
+        }
+                            </View>
+                        )
+                        :
+                        (
+                          <View style={{marginVertical:10}}>
+                            <AntDesign name="heart" size={30} color="white" onPress={() => onLikePress(item.likes, item.ImageUid, item.ArtistUid)} />
+
+                            <Text style={{color: '#FFFFFF'}}>{item.likes}</Text>
+
+                          </View>
+                        )
+                    }
+                  </View>
+                  <TouchableOpacity style={{marginVertical: 10}} 
+                  
+                    onPress={() =>  { return addToCart(item.artUrl, item.artType, item.price, item.ArtistUid, item.ImageUid)}}>
+>>>>>>> Stashed changes
                     <MaterialIcons
                       name="add-shopping-cart"
                       size={34}
@@ -298,14 +410,14 @@ const onUnFollow = () => {
                   >
                     <View style={globalStyles.viewArtist}>
                       <Image 
-                        source={{uri: item.artistPhoto}} 
+                        source={{uri: `${artistPhoto}`}} 
                         style={globalStyles.artistImg} 
                       />
                       <View
                         style={{marginHorizontal: 10, marginVertical: 6, width: '80%'}}
                       >
                         <TouchableOpacity>
-                          <Text style={globalStyles.artistName}>{item.artistName}</Text>
+                          <Text style={globalStyles.artistName}>{artistName}</Text>
                           <Text 
                             style={{fontFamily: 'Poppins', color: '#F5F5F5'}}
                           >
@@ -316,8 +428,12 @@ const onUnFollow = () => {
                         <Text style={globalStyles.price}>{item.price}</Text>
                       </View>
                     </View>
+                    <View style={{alignSelf:"center", marginVertical:-20}}>
+                      <Text style={{color:"#F5F5F5", fontSize:14, fontWeight:"bold"}}> 1080cm X 1080cm</Text>
+                    </View>
                     
                     <View style={globalStyles.viewDescription}>
+                      
                       <Text 
                         style={{color: '#F5F5F5'}}
                       >
