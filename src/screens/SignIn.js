@@ -9,7 +9,6 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   Dimensions,
-  ActivityIndicator
 } from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -18,15 +17,11 @@ import auth from '@react-native-firebase/auth';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import AppLoader from '../screens/AppLoader';
 import Toast from 'react-native-toast-message';
-
 const SignIn = ({navigation}) => {
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errortext, setErrortext] = useState("");
   const [loading, setLoading] = useState(false);
-  const [uploading, setUploading] = useState(false);
-
   const validate = () => {
      const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
      if (email == "" && password == "") {
@@ -36,11 +31,14 @@ const SignIn = ({navigation}) => {
           text2: 'Both fields are empty',
        })
      } else  if (!reg.test(email)) {
+      {
        Toast.show({
          type: 'error',
          text1: 'Hello user',
          text2: 'Email is not valid',
       })
+      setLoading(false);
+      }
     } else if (password == "") {
       Toast.show({
          type: 'error',
@@ -48,10 +46,9 @@ const SignIn = ({navigation}) => {
          text2: 'Password cannot be empty',
       })
     } else {
-       signIn()
+       setLoading(false)
     }
   }
-
   const signIn = async () => {
        setLoading(true)
        if(email !== "" && password !== "") {
@@ -68,11 +65,14 @@ const SignIn = ({navigation}) => {
       .catch((error) => {
         console.log(error);
         if (error.code === "auth/invalid-email")
+        {
         Toast.show({
           type: 'error',
           text1: 'Hello user',
           text2: 'Email is not valid',
        })
+       setLoading(false)
+      }
         else if (error.code === "auth/user-not-found")
          {
            Toast.show({
@@ -93,7 +93,6 @@ const SignIn = ({navigation}) => {
       });
        }
     }
-    
   return (
     <>
     {loading ? <AppLoader/> : (
@@ -137,41 +136,42 @@ const SignIn = ({navigation}) => {
               secureTextEntry={true}
             />
           </View>
-
           <TouchableOpacity
             onPress={() => {
-              validate() ? signIn() : setLoading(false)
+              if(email === "" && password === "") {
+                   setLoading(false);
+                   validate();
+              } else if (email == true  && password == true) {
+                   signIn();
+              } else if (email !== true || password == true) {
+                    setLoading(false);
+                    validate();
+                    signIn();
+              } else {
+                validate();
+                signIn();
+                setLoading(true);
+            }
             }}
             activeOpacity={0.5}
             >
            <LinearGradient start={{x: 1, y: 0}} end={{x: 1, y: 1}} colors={['#0E1822', '#181818']} style={styles.buttonStyle}>
-
-            {!uploading ? (<Text style={styles.buttonTextStyle}>Sign In</Text>) : (
-              <ActivityIndicator
-              size="large"
-              color="green"
-              style={{ alignSelf: "center" }}
-            />
-          )}
-            
-
+            <Text style={styles.buttonTextStyle}>Sign In</Text>
             </LinearGradient>
           </TouchableOpacity>
-
         <View style={{flexDirection: 'row', alignSelf: 'center'}}>
            <Text style={{}}>
               Don't have an account?
            </Text>
            <Text>
            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-              <Text style={{color: '#22180E'}}>
-                {' '}
+                <Text style={{color: '#22180E'}}>
+                  {' '}
                   Sign Up
-              </Text>
-            </TouchableOpacity>
+                </Text>
+              </TouchableOpacity>
            </Text>
         </View>
-
         </View>
     </ImageBackground>
     </KeyboardAvoidingView>
