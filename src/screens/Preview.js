@@ -13,7 +13,7 @@ const Preview = ({route, navigation}) => {
       
       <Image 
         source={{uri: artUrl}} 
-        resizeMode="contain" 
+        resizeMode="cover" 
         style={globalStyles.video}
     />
      

@@ -81,6 +81,7 @@ const ArtistProfile = ({route, navigation}) => {
            />
           </View>
       </View>
+
                 <View style={styles.MiddleContainer}>
                   <View style={styles.listItem} >
                     <View style={{flexDirection: "row", width: '91%'}}>
@@ -89,22 +90,23 @@ const ArtistProfile = ({route, navigation}) => {
                         style={styles.img2}
                       />
                       <View style={{width: '100%'}}>
-                        <Text style={{ color: "#000000", marginLeft: 10, top: 6, fontSize: 20}}>{artistName}</Text>
+                        <Text style={{ color: "#000000", marginLeft: 10, top: 6, fontSize: 30}}>{artistName}</Text>
                         <Text style={{ color: "#ceb89e", marginLeft: 10, top: 3}}>Artist</Text>
                         <TouchableOpacity >
                           <Ionicons 
-                            name="md-person-add" size={24} 
+                            name="md-person-add" size={30} 
                             color={'#000'}
-                            style={{alignSelf: 'flex-end', marginVertical: -25, marginHorizontal: 70, bottom: 3}}
+                            style={{alignSelf: 'flex-end', marginVertical: -25, marginHorizontal: 75, bottom: 15}}
                           />
                         </TouchableOpacity>
                       </View>
                     </View>
                     <View style={{width: '95%', padding: 5}}>
-                      <Text style={{color: "#000000"}}>{description}</Text>
+                      <Text style={{color: "#000000",}}>{description}</Text>
                     </View>
                   </View>
                 </View>
+
                 <View style={styles.BottomContainer}>
                   <Text style={styles.moreText}>More Works</Text>
                     <FlatList 
@@ -179,11 +181,11 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         marginLeft: 15,
         width: '100%',
-        height: 100,
+        //height: 100,
       },
       img2: {
-        height: 50,
-        width: 50,
+        height: 80,
+        width: 80,
         borderRadius: 25,
         // borderColor: 'rgba(196, 196, 196, 0.51)',
         // borderWidth: 4,
