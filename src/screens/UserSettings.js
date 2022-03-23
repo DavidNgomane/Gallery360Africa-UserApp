@@ -31,25 +31,8 @@ const UserSettings = ({navigation}) => {
       resizeMode='stretch'
     >
         <SafeAreaView style={{top: 70}}>
-            <TouchableOpacity style={{top: 70, alignSelf: 'center', backgroundColor: '#E3E3E3', width: '80%', height:60, justifyContent:'center', alignItems: 'center', paddingHorizontal: 20, borderRadius: 20,}}>
+            <TouchableOpacity onPress={() => navigation.navigate('TermsAndConditions')} style={{top: 70, alignSelf: 'center', backgroundColor: '#E3E3E3', width: '80%', height:60, justifyContent:'center', alignItems: 'center', paddingHorizontal: 20, borderRadius: 20,}}>
                 <Text style={{color: '#0E1822', fontSize: 16, fontWeight: '600' }}>Terms and Conditions</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={{top: 70, alignSelf: 'center', backgroundColor: '#E3E3E3', width: '80%', height:60, justifyContent:'center', alignItems: 'center', paddingHorizontal: 20, borderRadius: 20, marginVertical: 10}}>
-                <Text style={{color: '#0E1822', fontSize: 16, fontWeight: '600' }}>Payment Policy</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={{top: 70, alignSelf: 'center', backgroundColor: '#E3E3E3', width: '80%', height:60, justifyContent:'center', alignItems: 'center', paddingHorizontal: 20, borderRadius: 20}}>
-                <Text style={{color: '#0E1822', fontSize: 16, fontWeight: '600' }}>Return Policy</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={{top: 70, alignSelf: 'center', backgroundColor: '#E3E3E3', width: '80%', height:60, justifyContent:'center', alignItems: 'center', paddingHorizontal: 20, borderRadius: 20, marginVertical: 10}}>
-                <Text style={{color: '#0E1822', fontSize: 16, fontWeight: '600' }}>About payment</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={{top: 70, alignSelf: 'center', backgroundColor: '#E3E3E3', width: '80%', height:60, justifyContent:'center', alignItems: 'center', paddingHorizontal: 20, borderRadius: 20,}}>
-                <Text style={{color: '#0E1822', fontSize: 16, fontWeight: '600' }}>Payment Currency</Text>
-                <Text style={{color: 'gray', fontSize: 12}}>ZAR</Text>
             </TouchableOpacity>
 
             <View style={{top: 70, alignSelf: 'center', backgroundColor: '#E3E3E3', width: '80%', height:60, justifyContent:'center', alignItems: 'center', paddingHorizontal: 20, borderRadius: 20, marginVertical: 10}}>

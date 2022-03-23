@@ -216,9 +216,10 @@ const uuid = auth()?.currentUser?.uid;
 			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='PaymentForm' component={PaymentForm} />
 			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='DeliveryAddress' component={DeliveryAddress} />
 			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='ShippingAddress' component={ShippingAddress} />
-			<Stack.Screen options={{headerShown: false}} name='Preview' component={Preview} />
+			<Stack.Screen options={{headerShown: true, headerTransparent: true, headerTitle: '2'}} name='Preview' component={Preview} />
 			<Stack.Screen options={{headerShown: true, headerTransparent: true}} name='Search' component={Search} />
 			<Stack.Screen options={{headerShown: true, headerTransparent: true}} name='Notifications' component={Notifications} />
+			<Stack.Screen options={{headerShown: true, headerTransparent: true}} name='TermsAndConditions' component={TermsAndCondtions} />
 			
       <Stack.Screen 
         options={{

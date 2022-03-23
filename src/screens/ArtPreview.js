@@ -185,9 +185,7 @@ const likesState = () => {
                 setPhotoURL(users);
                 setFullName(uName);
               });
-            
           }
-        
       });
 
       return () => {
@@ -254,27 +252,6 @@ const onUnFollow = () => {
 //   setFollowingO(false)
 // }
 
-const LightboxView = ({ navigator }) => (
-  <Lightbox navigator={navigator}>
-     <Image 
-        source={{uri: item.artUrl}} 
-        resizeMode="cover" 
-        style={globalStyles.video}
-      />          
-  </Lightbox>
-);
-
-const renderScene = (route, navigator) => {
-  const Component = route.component;
- 
-  return (
-    <Component navigator={navigator} route={route} {...route.passProps} />
-  );
-};
-
-
-
-
   return (
     <View>
       <FlatList
@@ -283,18 +260,15 @@ const renderScene = (route, navigator) => {
         renderItem={({item}) => {
           
           return (
+            <TouchableOpacity  activeOpacity={.8} onPress={() => navigation.navigate('Preview', {artUrl: item.artUrl})}>
             <View style={globalStyles.tikTokContainer}>
               
-              
-                
-                  {/* <Image 
+                  <Image 
                       source={{uri: item.artUrl}} 
                       resizeMode="cover" 
                       style={globalStyles.video}
                     />
-               */}
-               
-               
+
               <View style={globalStyles.topIconView}>
 
                 <TouchableOpacity
@@ -454,6 +428,7 @@ const renderScene = (route, navigator) => {
                 </View>
             </View>
         </View>
+        </TouchableOpacity>
         );}}
 
         showsVerticalScrollIndicator={false}
