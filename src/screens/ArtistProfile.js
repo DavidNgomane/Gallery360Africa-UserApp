@@ -2,16 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, Image, ImageBackground, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import firestore from "@react-native-firebase/firestore";
 import { globalStyles } from "../assets/styles/GlobalStyles";
-
 // icons
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import YoutubePlayer from 'react-native-youtube-iframe';
-
-
 const ArtistProfile = ({route, navigation}) => {
-
   const [playing, setPlaying] = useState(false);
   const [isMute, setMute] = useState(false);
   const controlRef = useRef();
@@ -39,7 +34,6 @@ const ArtistProfile = ({route, navigation}) => {
   const ControlIcon = ({name, onPress}) => (
     <Icon onPress={onPress} name={name} size={40} color="#fff" />
   );
-
   const { artistUid, photoUrl, artistName, description } = route.params;
   // 
   const[art, setArt] = useState(null)
@@ -52,7 +46,6 @@ const ArtistProfile = ({route, navigation}) => {
   useEffect(() => {
     getArt();
   }, [])
-
   return (
     <ImageBackground 
       source={imageBg} 
@@ -72,7 +65,6 @@ const ArtistProfile = ({route, navigation}) => {
             />
           </TouchableOpacity>
         </View> */}
-
 <View style={styles.VideoContainer}>
           {/* <Image 
             source={{uri: 'https://images.unsplash.com/photo-1614315394848-b3375bf3f39c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8ODF8fHZpZGVvfGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60'}}
@@ -89,18 +81,16 @@ const ArtistProfile = ({route, navigation}) => {
            />
           </View>
       </View>
-
                 <View style={styles.MiddleContainer}>
                   <View style={styles.listItem} >
                     <View style={{flexDirection: "row", width: '91%'}}>
                       <Image 
-                        source={{uri: photoUrl}} 
+                        source={{uri: `${photoUrl}`}} 
                         style={styles.img2}
                       />
                       <View style={{width: '100%'}}>
                         <Text style={{ color: "#000000", marginLeft: 10, top: 6, fontSize: 20}}>{artistName}</Text>
                         <Text style={{ color: "#ceb89e", marginLeft: 10, top: 3}}>Artist</Text>
-
                         <TouchableOpacity >
                           <Ionicons 
                             name="md-person-add" size={24} 
@@ -110,13 +100,11 @@ const ArtistProfile = ({route, navigation}) => {
                         </TouchableOpacity>
                       </View>
                     </View>
-
                     <View style={{width: '95%', padding: 5}}>
                       <Text style={{color: "#000000"}}>{description}</Text>
                     </View>
                   </View>
                 </View>
-
                 <View style={styles.BottomContainer}>
                   <Text style={styles.moreText}>More Works</Text>
                     <FlatList 
@@ -126,7 +114,7 @@ const ArtistProfile = ({route, navigation}) => {
                       renderItem={({ item }) => {
                         return(
                           <View style={styles.listItem2} >
-                            <TouchableOpacity onPress={() => navigation.navigate('ArtPreview', {artistUid, likes: item.likes, price: item.price, description: item.description, artUrl: item.artUrl, artistPhoto: item.artistPhoto, artistName: item.artistName, ImageUid: item.ImageUid, artType: item.artType, artistDescription: artistDescription})} >
+                            <TouchableOpacity onPress={() => navigation.navigate('ArtPreview', {artistUid, likes: item.likes, price: item.price, description: item.description, artUrl: item.artUrl, artistPhoto: item.artistPhoto, artistName: item.artistName, ImageUid: item.ImageUid, artType: item.artType, description: description})} >
                               <Image 
                                 source={{uri:item.artUrl}} 
                                 style={styles.img}
@@ -143,11 +131,8 @@ const ArtistProfile = ({route, navigation}) => {
       </ImageBackground>
   );
 }
-
 const imageBg = require('../assets/images/home.png')
-
 export default ArtistProfile;
-
 const styles = StyleSheet.create({
   TopContainer: {
     top: 50

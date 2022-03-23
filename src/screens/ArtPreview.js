@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Dimensions, TouchableWithoutFeedback, Image, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Dimensions, TouchableWithoutFeedback, Image, TouchableOpacity, Navigator } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore, { firebase } from '@react-native-firebase/firestore';
@@ -17,6 +17,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from "react-native-vector-icons/Feather";
+import Lightbox from 'react-native-lightbox';
 
 import CommentsModal from '../assets/component/CommentsModal';
 import CommentNumber from '../assets/redux/actions/CommentNumber';
@@ -35,8 +36,22 @@ function ArtPreview({route, navigation}) {
   const [currentUserLike, setCurrentUserLike] = useState(false);
   const [photoURL, setPhotoURL] = useState(null);
   const [FullName, setFullName] = useState(null);
+  const [artistDescription, setArtistDescription] = useState("");
+  const [artistName, setArtistName] = useState("");
+  const [artistPhoto, setArtistPhoto] = useState("");
 
   const { artistUid, imageUID } = route.params;
+
+  const getArtistDetailts = () => {
+    firestore().collection("artists").where("artistUid", "==", artistUid).onSnapshot((snapShot) => {
+      const photo = snapShot.docs.map((doc) => doc.data().photoUrl).map((doc) => doc);
+      const name = snapShot.docs.map((doc) => doc.data().artistName);
+      const descriptionOfArtist = snapShot.docs.map((doc) => doc.data().description);
+      setArtistDescription(descriptionOfArtist);
+      setArtistName(name);
+      setArtistPhoto(photo);
+    })
+  }
 
   const onLikePress = (likes, imageUid, item) => {
     setIsLiked(!isLiked);
@@ -182,15 +197,15 @@ const likesState = () => {
 
  
   useEffect(() => {
-    console.log(image , "   the props using the state")
     getArtDetails();
     getCartItemNumber();
     likesState();
-
+    getArtistDetailts();
   return () => { likesState() }
   return () => getCartItemNumber();
   return () =>  getArtDetails();
   return () => getComentsNumber();
+  return () => getArtistDetailts();
   
     // return () => {
     //   isMounted = false;
@@ -239,6 +254,26 @@ const onUnFollow = () => {
 //   setFollowingO(false)
 // }
 
+const LightboxView = ({ navigator }) => (
+  <Lightbox navigator={navigator}>
+     <Image 
+        source={{uri: item.artUrl}} 
+        resizeMode="cover" 
+        style={globalStyles.video}
+      />          
+  </Lightbox>
+);
+
+const renderScene = (route, navigator) => {
+  const Component = route.component;
+ 
+  return (
+    <Component navigator={navigator} route={route} {...route.passProps} />
+  );
+};
+
+
+
 
   return (
     <View>
@@ -250,13 +285,16 @@ const onUnFollow = () => {
           return (
             <View style={globalStyles.tikTokContainer}>
               
-                  <ZoomView style={globalStyles.video}>
-                 <Image 
-                  source={{uri: item.artUrl}} 
-                  resizeMode="cover" 
-                  style={globalStyles.video}
-                />
-                </ZoomView>
+              
+                
+                  {/* <Image 
+                      source={{uri: item.artUrl}} 
+                      resizeMode="cover" 
+                      style={globalStyles.video}
+                    />
+               */}
+               
+               
               <View style={globalStyles.topIconView}>
 
                 <TouchableOpacity
@@ -276,24 +314,24 @@ const onUnFollow = () => {
                   style={globalStyles.cartIcon}
                 >
                   <View style={[Platform.OS == 'android' ? globalStyles.iconContainer : null]}>
-        {items > 0 ?
-            (<View style={{
-              position: 'absolute', height: 16, width: 16, borderRadius: 17, backgroundColor: 'rgba(95,197,123,0.9)', right:2,marginVertical:3, alignSelf:"flex-end", alignItems: 'center', justifyContent: 'center', zIndex: 2000,
-            }}>
-            <Text style={{ color: '#F5F5F5', fontWeight: 'bold', marginVertical:-10, fontSize:12 }}>
-              {items}
-            </Text>
-            </View>): (<View></View>)
-        }
-            {/* {setImage(item.ImageUid)} */}
-        <MaterialCommunityIcons
-                name="cart"
-                size={24}
-                color={'#FFFFFF'}
-                style={{alignSelf: 'center', marginVertical:10}}
-              />
+                  {items > 0 ?
+                  (<View style={{
+                     position: 'absolute', height: 16, width: 16, borderRadius: 17, backgroundColor: 'rgba(95,197,123,0.9)', right:2,marginVertical:3, alignSelf:"flex-end", alignItems: 'center', justifyContent: 'center', zIndex: 2000,
+                   }}>
+                    <Text style={{ color: '#F5F5F5', fontWeight: 'bold', marginVertical:-10, fontSize:12 }}>
+                      {items}
+                    </Text>
+                    </View>): (<View></View>)
+                  }
+                    {/* {setImage(item.ImageUid)} */}
+                    <MaterialCommunityIcons
+                      name="cart"
+                      size={24}
+                      color={'#FFFFFF'}
+                      style={{alignSelf: 'center', marginVertical:10}}
+                    />
     
-        </View>
+            </View>
                 </TouchableOpacity>
               </View>             
         
@@ -381,33 +419,37 @@ const onUnFollow = () => {
                     style={globalStyles.secondBottomContainer}
                   >
                     <View style={globalStyles.viewArtist}>
-                      <Image 
-                        source={{uri: item.artistPhoto}} 
+                    <TouchableOpacity onPress={() => navigation.navigate('ArtistProfile', { description: artistDescription, artistUid: artistUid, photoUrl: artistPhoto, artistName: artistName})}>
+                      <Image
+                        source={{uri: `${artistPhoto}`}} 
                         style={globalStyles.artistImg} 
                       />
+                      </TouchableOpacity>
                       <View
                         style={{marginHorizontal: 10, marginVertical: 6, width: '80%'}}
                       >
-                        <TouchableOpacity>
-                          <Text style={globalStyles.artistName}>{item.artistName}</Text>
+                          <Text style={globalStyles.artistName}>{artistName}</Text>
                           <Text 
                             style={{fontFamily: 'Poppins', color: '#F5F5F5'}}
                           >
                             {item.artType}
                           </Text>
-                        </TouchableOpacity>
+                    
         
                         <Text style={globalStyles.price}>{`R${item.price}.00`}</Text>
                       </View>
                     </View>
+                      <Text style={{fontWeight:"bold", fontSize:16, alignSelf:"center",marginVertical:-20, color: '#F5F5F5'}}>(1080x1080)cm</Text>
+                   
+                  
                     
-                    <View style={globalStyles.viewDescription}>
+                    {/* <View style={globalStyles.viewDescription}>
                       <Text 
                         style={{color: '#F5F5F5'}}
                       >
                         {item.description}
                       </Text>
-                    </View>
+                    </View> */}
                   </View>
                 </View>
             </View>

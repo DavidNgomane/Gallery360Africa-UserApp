@@ -32,7 +32,7 @@ import Map from './src/screens/Map';
 import UserSettings from './src/screens/UserSettings';
 import Search from './src/screens/Search';
 import Notifications from './src/screens/Notifications';
-
+import TermsAndCondtions from './src/screens/TermsAndConditions';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
