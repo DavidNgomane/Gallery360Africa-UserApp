@@ -28,11 +28,19 @@ const ArtPreview = ({route, navigation}) => {
 =======
   const [photoURL, setPhotoURL] = useState(null);
   const [FullName, setFullName] = useState(null);
+<<<<<<< Updated upstream
   const [artistPhoto, setArtistPhoto] = useState(null);
   const [artistName, setArtistName] = useState(null);
 >>>>>>> Stashed changes
 
   const { artistUid, imageUID  } = route.params;
+=======
+  const [artistName, setArtistName] = useState("");
+  const [artistPhoto, setArtistPhoto] = useState("");
+  const [artistDescription, setArtistDescription] = useState("");
+
+  const { artistUid, imageUID, description } = route.params;
+>>>>>>> Stashed changes
 
   const onLikePress = (likes, imageUid, item) => {
     setIsLiked(!isLiked);
@@ -96,8 +104,8 @@ const likesState = () => {
       .doc(image)
       .collection("userLikes").doc(uuid).get().then((snapShot) => {
 
-        console.log(image, "  the iamge is for the image UID")
-        console.log(snapShot.id, "  the iamge is for the image UID")
+        // console.log(image, "  the iamge is for the image UID")
+        // console.log(snapShot.id, "  the iamge is for the image UID")
   
 
     const onLikePress = (likes, artKey) => {
@@ -155,8 +163,13 @@ const likesState = () => {
 
     const getCartItemNumber = () => {
       const uuid = auth()?.currentUser?.uid;
+<<<<<<< Updated upstream
   
       return firestore().collection("cartItem").where("uuid", "==",uuid).onSnapshot((snapShot) => {
+=======
+      return firestore().collection("cartItem").doc(uuid).onSnapshot((snapShot1) => {
+        const getData = snapShot1.ref.collection("items").where("uuid", "==", uuid).onSnapshot((snapShot) => {
+>>>>>>> Stashed changes
         const cartItems = snapShot.size;
         // console.log(cartItems + "  this the number of item added to cart")
         SetItems(cartItems);
@@ -168,9 +181,7 @@ const likesState = () => {
 
     useEffect(() => {
       const unregister = auth().onAuthStateChanged(userExist=>{
-        
             if(userExist) {
-
                firestore().collection("users").where("uid", "==",userExist.uid).onSnapshot((snapShot) => {
                 const users = snapShot.docs.map((document) => document.data().photoURL);
                 const uName = snapShot.docs.map((document) => document.data().fullName);
@@ -182,10 +193,33 @@ const likesState = () => {
         
 >>>>>>> Stashed changes
       });
+<<<<<<< Updated upstream
     }
     
   useEffect(() => {
     let isMounted = true;
+=======
+
+      return () => {
+        unregister()
+      }
+  }, [])
+
+  const getArtistDetailts = () => {
+    firestore().collection("artists").where("artistUid", "==", artistUid).onSnapshot((snapShot) => {
+      const photo = snapShot.docs.map((doc) => doc.data().photoUrl).map((doc) => doc);
+      const name = snapShot.docs.map((doc) => doc.data().artistName);
+      const descriptionOfArtist = snapShot.docs.map((doc) => doc.data().description);
+      setArtistDescription(descriptionOfArtist);
+      setArtistName(name);
+      setArtistPhoto(photo);
+    })
+  }
+
+ 
+  useEffect(() => {
+    getArtDetails();
+>>>>>>> Stashed changes
     getCartItemNumber();
 <<<<<<< Updated upstream
     getArtDetails();
@@ -195,13 +229,21 @@ const likesState = () => {
 }, []);
 =======
     likesState();
+<<<<<<< Updated upstream
     getArtistDetails();
+=======
+    getArtistDetailts();
+>>>>>>> Stashed changes
 
   return () => { likesState() }
   return () => getCartItemNumber();
   return () =>  getArtDetails();
   return () => getComentsNumber();
+<<<<<<< Updated upstream
   return () => getArtistDetails();
+=======
+  return () => getArtistDetailts();
+>>>>>>> Stashed changes
   
     // return () => {
     //   isMounted = false;
@@ -408,21 +450,32 @@ const onUnFollow = () => {
                     transparant={true}
                     style={globalStyles.secondBottomContainer}
                   >
+
                     <View style={globalStyles.viewArtist}>
+<<<<<<< Updated upstream
                       <Image 
+=======
+                      <TouchableOpacity onPress={() => navigation.navigate('ArtistProfile', { description: artistDescription, artistUid: artistUid, photoUrl: artistPhoto, artistName: artistName})}>
+                      <Image
+>>>>>>> Stashed changes
                         source={{uri: `${artistPhoto}`}} 
                         style={globalStyles.artistImg} 
                       />
+                      </TouchableOpacity>
                       <View
                         style={{marginHorizontal: 10, marginVertical: 6, width: '80%'}}
                       >
+<<<<<<< Updated upstream
                         <TouchableOpacity>
+=======
+>>>>>>> Stashed changes
                           <Text style={globalStyles.artistName}>{artistName}</Text>
                           <Text 
                             style={{fontFamily: 'Poppins', color: '#F5F5F5'}}
                           >
                             {item.artType}
                           </Text>
+<<<<<<< Updated upstream
                         </TouchableOpacity>
 
                         <Text style={globalStyles.price}>{item.price}</Text>
@@ -434,13 +487,27 @@ const onUnFollow = () => {
                     
                     <View style={globalStyles.viewDescription}>
                       
+=======
+                    
+        
+                        <Text style={globalStyles.price}>{`R${item.price}.00`}</Text>
+                      </View>
+                    </View>
+                      <Text style={{fontWeight:"bold", fontSize:16, alignSelf:"center",marginVertical:-20, color: '#F5F5F5'}}>(1080x1080)cm</Text>
+                    {/* <View style={globalStyles.viewDescription}>
+>>>>>>> Stashed changes
                       <Text 
                         style={{color: '#F5F5F5'}}
                       >
                         {item.description}
                       </Text>
+<<<<<<< Updated upstream
                     </View>
                   </View>         
+=======
+                    </View> */}
+                  </View>
+>>>>>>> Stashed changes
                 </View>
             </View>
         </View>

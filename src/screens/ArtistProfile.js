@@ -54,7 +54,11 @@ const ArtistProfile = ({route, navigation}) => {
                   <View style={styles.listItem} >
                     <View style={{flexDirection: "row", width: '91%'}}>
                       <Image 
+<<<<<<< Updated upstream
                         source={{uri: artistPhoto}} 
+=======
+                        source={{uri: `${photoUrl}`}} 
+>>>>>>> Stashed changes
                         style={styles.img2}
                       />
                       <View style={{width: '100%'}}>
@@ -86,7 +90,11 @@ const ArtistProfile = ({route, navigation}) => {
                       renderItem={({ item }) => {
                         return(
                           <View style={styles.listItem2} >
+<<<<<<< Updated upstream
                             <TouchableOpacity onPress={() => navigation.navigate('Preview', {artistUid, likes: item.likes, price: item.price, description: item.description, artUrl: item.artUrl, artistPhoto: item.artistPhoto, artistName: item.artistName, ImageUid: item.ImageUid, artType: item.artType, artistDescription: artistDescription})} >
+=======
+                            <TouchableOpacity onPress={() => navigation.navigate('ArtPreview', {artistUid, likes: item.likes, price: item.price, description: item.description, artUrl: item.artUrl, artistPhoto: item.artistPhoto, artistName: item.artistName, ImageUid: item.ImageUid, artType: item.artType, description: description})} >
+>>>>>>> Stashed changes
                               <Image 
                                 source={{uri:item.artUrl}} 
                                 style={styles.img}

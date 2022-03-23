@@ -326,6 +326,7 @@ const globalStyles = StyleSheet.create({
         marginVertical:10,
         marginHorizontal: 10,
         width: '90%',
+        marginVertical:10
     },
     artistName: {
         fontWeight: 'bold',
