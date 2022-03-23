@@ -48,9 +48,9 @@ const TabNavigator = () => {
         tabBarStyle: {
           height: 50,
           minHeight: 0,
-          borderRadius: 20,
-          marginHorizontal: 12,
-          width: 'auto',
+          //borderRadius: 20,
+          marginHorizontal: 0,
+          width: '100%',
           backgroundColor: '#fff',
           headerShadowVisible: false,
           margin: 5
