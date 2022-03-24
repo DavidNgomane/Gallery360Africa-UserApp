@@ -6,8 +6,11 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Toast from 'react-native-toast-message';
 
 const ShippingAddress = ({navigation, route}) => {
+
+  const [isFocused, setIsFocused] = useState(true);
 
   const { uuid } = route.params;
 
@@ -18,42 +21,81 @@ const ShippingAddress = ({navigation, route}) => {
   const [province, setProvince] = useState('');
   const [postalCode, setPostalCode] = useState('');
 
-   const register = () => {
-    const user = auth()?.currentUser;
-    if (recipientName !== "" && mobile !== ""  && streetName !== "" && city !== '' && province !== '' && postalCode !== ''){
-      return  firestore().collection('address').add({
-            uid: user.uid,
-            recipientName: recipientName,
-            mobile: mobile,
-            streetName: streetName,
-            city: city,
-            province: province,
-            postalCode: postalCode
-          }).then((address) => {
-            address.update({
-              key: address.id 
-            })
-                      alert("Address successfully added");
-                      navigation.navigate("DeliveryAddress");
-                    }).catch((error) => alert(error));
-                  }else{
-                    alert("Fill in all required fields");
-                  }
+  const validate = () => {
+    if (recipientName == "" && mobile == "" && streetName == "" && city == "" && province == "" && postalCode == "") {
+      Toast.show({
+         type: 'error',
+         text2: 'All fields are required',
+      })
+    } else if (recipientName == "") {
+        Toast.show({
+        type: 'error',
+        text2: 'Recipient name is requred',
+     })
+    
+   } else if (mobile == "") {
+     Toast.show({
+        type: 'error',
+        text2: 'Mobile number is requred',
+     })
+
+   } else if (streetName == "") {
+    Toast.show({
+       type: 'error',
+       text2: 'Street name is requred',
+    })
+
+  } else if (city == "") {
+     Toast.show({
+        type: 'error',
+        text2: 'City is requred',
+     })
+
+   } else if (province == "") {
+    Toast.show({
+       type: 'error',
+       text2: 'Province is requred',
+    })
+    
+  } else if (postalCode == "") {
+    Toast.show({
+       type: 'error',
+       text2: 'Postal Code is requred',
+    })
+  } else {
+    register();
+    Toast.show({
+      type: 'success',
+      text2: 'Address successfully added',
+   })
+  
   }
 
+ }
+
+ const register = () => {
+  const user = auth()?.currentUser;
+    return  firestore().collection('address').add({
+          uid: user.uid,
+          recipientName: recipientName,
+          mobile: mobile,
+          streetName: streetName,
+          city: city,
+          province: province,
+          postalCode: postalCode
+        }).then((address) => {
+          address.update({
+            key: address.id 
+          }).catch((error) => alert(error));
+          navigation.navigate("DeliveryAddress", {uuid: uuid});
+    })
+}
   return (
     <ImageBackground
       source={require('../assets/images/home.png')}
       style={globalStyles.container}
       resizeMode='stretch'
     >
-        {/* <View style={styles.backButton}>
-            <MaterialIcons
-                onPress={() => navigation.navigate('DeliveryAddress', {uuid: uuid})}
-                style={{alignSelf: 'center', marginVertical: 10, marginLeft: 14}} name="arrow-back-ios" color="#000" size={25}
-            />
-            <Text style={{color: '#22180E', fontWeight: '600', fontSize: 22, alignSelf: 'center', width: 190, marginLeft: 50}}>Shipping Address</Text>
-      </View> */}
 
       <View style={styles.body}>
         <TextInput
@@ -104,7 +146,7 @@ const ShippingAddress = ({navigation, route}) => {
 
       <View style={styles.shippingFooter}>
         <TouchableOpacity
-            onPress={register}
+            onPress={validate}
             style={{backgroundColor:'black', width:'80%', height:50, borderRadius:20, bottom: 15}}>
             <Text style={{color:'white', textAlign:'center', fontSize:14, top:15, }}>Save Address</Text>
           </TouchableOpacity>

@@ -148,6 +148,7 @@ const Cart = ({navigation, route}) => {
                   <Text style={{ fontSize: 16, color: "black"}}>No Items</Text>
                 )}
             </View>
+            
             <View style={{flexDirection: "column", justifyContent: "center", width: 140, marginVertical: 10}}>
                 <Text style={{ fontSize: 16,  color: "gray"}}>Total Amount</Text>
                 {totalAmount > 0 ? (
@@ -157,6 +158,7 @@ const Cart = ({navigation, route}) => {
                 )}
             </View>
           </View>
+
           <View style={{width: "90%", height: 50, borderRadius: 20, backgroundColor: "black", alignSelf: "center", justifyContent: "center", marginTop: 5}}>
             <TouchableOpacity onPress={() => navigation.navigate('DeliveryAddress', {uuid: uuid})}>
               <Text style={{fontSize: 16, color: "#FFFFFF", textAlign: "center"}}>Proceed to Payment</Text>
