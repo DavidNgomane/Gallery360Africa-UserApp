@@ -236,6 +236,14 @@ const globalStyles = StyleSheet.create({
         alignItems: 'flex-end',
         marginVertical:"25%",
     },
+    bottomContainer1: {
+        padding: 15,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+        marginVertical:"55%",
+        top: '100%'
+    },
     topLeftIcon: {
         alignSelf: 'flex-start',
         borderWidth: 1,
@@ -314,6 +322,19 @@ const globalStyles = StyleSheet.create({
     secondBottomContainer: {
         width: '100%',
         height: '95%',
+        marginVertical: '6%',
+        alignSelf: 'center',
+        backgroundColor: 'rgba(16,18,27,0.4)',
+        borderColor: 'rgba(255, 255, 255, 0.18)',
+        borderWidth: 1,
+        shadowOpacity: 20,
+        border: 1,
+        borderRadius: 10,
+        flexDirection: 'column',
+    },
+    secondBottomContainer1: {
+        width: '80%',
+        height: '85%',
         marginVertical: '6%',
         alignSelf: 'center',
         backgroundColor: 'rgba(16,18,27,0.4)',

@@ -3,12 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore, { firebase } from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-
 //libraries
 import ZoomView from "react-native-border-zoom-view";
 import Toast from 'react-native-toast-message';
 import { ToastProvider } from 'react-native-toast-notifications'
-
 // icons
 import Entypo from 'react-native-vector-icons/Entypo';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -18,18 +16,15 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from "react-native-vector-icons/Feather";
 import Lightbox from 'react-native-lightbox';
-
 import CommentsModal from '../assets/component/CommentsModal';
 import CommentNumber from '../assets/redux/actions/CommentNumber';
 import { following } from '../../redux/reducers/user';
-
 function ArtPreview({route, navigation}) {
-
   const [isModalVisible, setModalVisible] = useState(false);
   const [post, setPost] = useState(null);
   const [like, setLike] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
-  const [following, setFollowing] = useState(false);
+  const [following, setFollowing] = useState("");
   const [items, SetItems] = useState(0);
   const [image, setImage] = useState("");
   const [uuid, setUId] = useState(auth().currentUser.uid);
@@ -39,9 +34,8 @@ function ArtPreview({route, navigation}) {
   const [artistDescription, setArtistDescription] = useState("");
   const [artistName, setArtistName] = useState("");
   const [artistPhoto, setArtistPhoto] = useState("");
-
+  const [followingBoolean ,setFollowingBoolean] =useState(false);
   const { artistUid, imageUID } = route.params;
-
   const getArtistDetailts = () => {
     firestore().collection("artists").where("artistUid", "==", artistUid).onSnapshot((snapShot) => {
       const photo = snapShot.docs.map((doc) => doc.data().photoUrl).map((doc) => doc);
@@ -52,93 +46,87 @@ function ArtPreview({route, navigation}) {
       setArtistPhoto(photo);
     })
   }
-
   const onLikePress = (likes, imageUid, item) => {
-    setIsLiked(!isLiked);
-    firestore().collection("Market").doc(imageUid).update({
+   // setIsLiked(!isLiked);
+    
+   return firestore().collection("Market").doc(imageUid).update({
       likes :likes + 1,
     }).then((documentSnap) =>{
       onLike(imageUid, item);
       }).catch((error) => alert(error));
     // props.sendNotification(user.notificationToken, "New Like", `${props.currentUser.name} liked your post`, { type: 0, postId, user: firebase.auth().currentUser.uid })
 }
-
 const onLike = (imageUid, item) => {
-  setCurrentUserLike(true)
-  firestore()
-      .collection("likes")
-      .doc(imageUid)
-      .collection("userLikes")
-      .doc(uuid)
-      .set({
-        userUid: auth().currentUser.uid,
-        item: item
-      })
-      .then(() => {}).catch((error) => {alert(error, "  error is onLike")})
+  setCurrentUserLike(!currentUserLike);
+      return firestore().collection("likes").doc(imageUid).set({
+        artistUid: artistUid,
+      }).then(() => { 
+        onLikeAdd(imageUid, item);
+    }).catch((error) => console.log(error));
 }
-
+const onLikeAdd = (imageUid, item) => {
+   return firestore().collection("user").doc(imageUid).collection("userLikes").doc(uuid).set({
+    userUid: uuid,
+    item: item,
+    imageUid: imageUid,
+  }).then(() => {}).catch((error) => console.log(error));
+}
 const onDislikePress = (likes, imageUid, item) => {
-  firestore().collection("Market").doc(imageUid).update({
+  return firestore().collection("Market").doc(imageUid).update({
         likes :likes - 1,
-      }).then((documentSnap) =>{
-        setIsLiked(false);
+      }).then(() =>{
+        //setIsLiked(false);
         onDisLike(imageUid, item);
         }).catch((error) => alert(error));
 }
-
-
 const onDisLike = (imageUid, item) => {
-  setCurrentUserLike(false)
-  firestore()
+  setCurrentUserLike(false);
+  return firestore()
   .collection("likes")
-  .doc(imageUid)
-  .collection("userLikes")
   .doc(uuid)
+  .collection("userLikes")
+  .doc(imageUid)
       .delete().then(() => {}).catch((error) => alert(error));
 }
-
 const likesState = () => {
-
-  firestore()
-  .collection("likes")
-      .doc(image)
-      .collection("userLikes").doc(uuid).get().then((snapShot) => {
-
-        console.log(image, "  the iamge is for the image UID")
-        console.log(snapShot.id, "  the iamge is for the image UID")
-  
-      if (snapShot.id == auth().currentUser.uid) {
-        setCurrentUserLike(true);
-
-    } else if(snapShot.id !== uuid) {
-      setCurrentUserLike(false);
-    } else if (snapShot.id == undefined || snapShot.id == null) {
-      setCurrentUserLike(false);
-    } else {
-          setCurrentUserLike(false);
-    }
-
-      }).catch((error) => alert(error));
-    
-    
+const uid = auth().currentUser.uid;
+return firestore().collection("likes").where("artistUid", "==", artistUid).onSnapshot((snapShot1) => {
+  snapShot1.docs.map((doc) => {
+     doc.ref.collection("userLikes").where("userUid", "==", uid).onSnapshot((snapShot) => {
+      snapShot.docs.map((docSnap) => {
+       const imag = docSnap.data().imageUid;
+          setImage(imag);
+          if(docSnap.exists == true) {
+          setIsLiked(!isLiked);
+          }
+          console.log(docSnap.exists, " the booloean value of like state")
+      })
+     
+    })
+  })
+})
 }
+// cnost onLikeState = () => {
+//     return firestore().collection("likes").where("artistUid", "==", artistUid).onSnapshot((snapShot1) => {
+//       snapShot1.docs.map((doc) => {
+//         doc.ref.collection("userLikes")
+//       })
+//     })
+// }
 // 
   const getArtDetails = () => {
     return firestore()
       .collection('Market')
       .where("ArtistUid", "==", artistUid).onSnapshot((snapShot) => {
-        const query = snapShot.docs.map((documentSnap) =>
-          documentSnap.data()
-        );
+        const query = snapShot.docs.map((documentSnap) => documentSnap.data());
         setPost(query);
-
-        const imageUID = snapShot.docs.map((docSnap) => docSnap.data().ImageUid);
-        // console.log(imageUID + "  this is the first Image UId");
-        setImage(imageUID);
+        const imageUID = snapShot.docs.map((docSnap) => docSnap.data().ImageUid).map((doc) => doc);
+       
+        //  console.log(imageUID + "  this is the first Image UId", uidImage);
+        // setImage(imageUID);
         
       });
     }
-
     const addToCart = async (image, name, price, artistUid, imageUid) => {
         try {
         return  await firestore().collection("cartItem").doc(uuid).collection("items").doc(imageUid).set({
@@ -157,101 +145,131 @@ const likesState = () => {
       } catch (error) {
         return alert(error);
       }
-
     }
-
     const getCartItemNumber = () => {
       const uuid = auth()?.currentUser?.uid;
   
       return firestore().collection("cartItem").doc(uuid).onSnapshot((snapShot1) => {
         const getData = snapShot1.ref.collection("items").where("uuid", "==", uuid).onSnapshot((snapShot) => {
-        const cartItems = snapShot.size;
-        
+        const cartItems = snapShot.size; 
         // console.log(cartItems + "  this the number of item added to cart")
         SetItems(cartItems);
       })
     })
     }
-
-    useEffect(() => {
-      const unregister = auth().onAuthStateChanged(userExist=>{
-        
-            if(userExist) {
-
-               firestore().collection("users").where("uid", "==",userExist.uid).onSnapshot((snapShot) => {
-                const users = snapShot.docs.map((document) => document.data().photoURL);
-                const uName = snapShot.docs.map((document) => document.data().fullName);
-                console.log(users + "  this the number of item added to cart")
-                setPhotoURL(users);
-                setFullName(uName);
-              });
-          }
+    const onFollow = (artistUid) => {
+      return firestore().collection("following").doc(artistUid).set({
+        artistUid: artistUid,
+      }).then(() => { 
+        onFollowing(artistUid);
+    
+    }).catch((error) => console.log(error));
+    
+    }
+    
+    const onFollowing = (artistUid) => {
+      const uuid = auth().currentUser.uid;
+      return firestore()
+      .collection('following')
+      .doc(artistUid)
+      .collection('userFollowing')
+      .doc(uuid)
+      .set({
+        uuid: uuid,
+        artistUid: artistUid,
+        photo: photoURL,
+        artistPhoto: artistPhoto,
+        fullName:FullName,
+        artistName: artistName
+      })
+      .then(() => {
+        setFollowing(true) 
+        Toast.show({
+          type: 'success ',
+          text2: `You're now Following ${artistName}`
+        })
+      }).catch((error) => {
+        alert(error)
       });
-
-      return () => {
-        unregister()
-      }
-  }, [])
-
- 
+    }
+    
+    const onUnFollowing = (artistUid) => {
+      const uuid = auth().currentUser.uid;
+    
+     return firestore()
+      .collection('following')
+      .doc(artistUid)
+      .collection('userFollowing')
+      .doc(uuid)
+      .delete()
+      .then(() => {
+        Toast.show({
+          type: 'error',
+          text2: `You're no longer following ${artistName}`
+        })
+        setFollowing(false)
+      }).catch((error) => {
+        alert(error)
+      });
+    
+    }
+    
+    const followState = () => {
+      const uid = auth().currentUser.uid;
+    
+      return firestore().collection("following").where("artistUid", "==", artistUid).onSnapshot((snapShot1) => {
+        snapShot1.docs.map((doc) => {
+          doc.ref.collection("userFollowing").where("uuid", "==", uid).onSnapshot((snapShot) => {
+          const follows = snapShot.docs.map((docSnap) => docSnap.data().artistUid);
+          console.log(follows, "  this the following uid used");
+          const flow = snapShot.docs.map((doc) => doc.exists);
+          setFollowingBoolean(!followingBoolean);
+          console.log(flow, " the boolean of the folloeing")
+          setFollowing(follows);
+        })
+      })
+      })
+    
+    }
   useEffect(() => {
+    const unregister = auth().onAuthStateChanged(userExist=>{
+      if(userExist) {
+         firestore().collection("users").where("uid", "==",userExist.uid).onSnapshot((snapShot) => {
+          const users = snapShot.docs.map((document) => document.data().photoURL);
+          const uName = snapShot.docs.map((document) => document.data().fullName);
+          setPhotoURL(users);
+          setFullName(uName);
+        }); 
+    }});
     getArtDetails();
     getCartItemNumber();
     likesState();
     getArtistDetailts();
-  return () => { likesState() }
+    followState();
+  return () => {unregister()};
+  return () => likesState();
   return () => getCartItemNumber();
-  return () =>  getArtDetails();
+  return () => getArtDetails();
   return () => getComentsNumber();
   return () => getArtistDetailts();
-  
-    // return () => {
-    //   isMounted = false;
-    // }
-}, [imageUID]);
-
-const onFollow = () => {
-  firestore()
-  .collection('following')
-  .doc(auth().currentUser.uid)
-  .collection('userFollowing')
-  .doc(artistUid)
-  .set({})
-  .then(() => {
-    setFollowing(true) 
-    Toast.show({
-      type: 'success',
-      text2: 'Followed'
-    })
-  }).catch((error) => {
-    alert(error)
-  })
-}
-
-const onUnFollow = () => {
-  firestore()
-  .collection('following')
-  .doc(auth().currentUser.uid)
-  .collection('userFollowing')
-  .doc(artistUid)
-  .delete()
-  .then(() => {
-    Toast.show({
-      type: 'error',
-      text2: 'UnFollowed'
-    })
-    setFollowing(false)
-  }).catch((error) => {
-    alert(error)
-  })
-}
-
-// if (props.following.indexOf(route.params.uid) > -1) {
-//   setFollowing(true);
-// }else {
-//   setFollowingO(false)
-// }
-
+  return () => followState();
+}, [imageUID, artistUid]);
+const LightboxView = ({ navigator }) => (
+  <Lightbox navigator={navigator}>
+     <Image 
+        source={{uri: item.artUrl}} 
+        resizeMode="cover" 
+        style={globalStyles.video}
+      />          
+  </Lightbox>
+);
+const renderScene = (route, navigator) => {
+  const Component = route.component;
+ 
+  return (
+    <Component navigator={navigator} route={route} {...route.passProps} />
+  );
+};
   return (
     <View>
       <FlatList
@@ -260,7 +278,7 @@ const onUnFollow = () => {
         renderItem={({item}) => {
           
           return (
-            <TouchableOpacity  activeOpacity={.8} onPress={() => navigation.navigate('Preview', {artUrl: item.artUrl})}>
+            <TouchableOpacity  activeOpacity={.8} onPress={() => navigation.navigate('Preview', {artUrl: item.artUrl, artistUid: artistUid, photoUrl: artistPhoto, artistName: artistName})}>
             <View style={globalStyles.tikTokContainer}>
               
                   <Image 
@@ -268,9 +286,8 @@ const onUnFollow = () => {
                       resizeMode="cover" 
                       style={globalStyles.video}
                     />
-
+              
               <View style={globalStyles.topIconView}>
-
                 <TouchableOpacity
                   onPress={() => navigation.goBack(null)}
                   style={globalStyles.topLeftIcon}
@@ -282,7 +299,6 @@ const onUnFollow = () => {
                     style={{alignSelf: 'center', marginVertical: 10}}
                   />
                 </TouchableOpacity>
-
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Cart', {Auid : artistUid, cartItem: items, uuid: uuid}, console.log(uuid))}
                   style={globalStyles.cartIcon}
@@ -311,7 +327,6 @@ const onUnFollow = () => {
         
               <View style={globalStyles.uiContainer}>
                   { isModalVisible 
-
                   &&
                     <CommentsModal
                     photoURL={photoURL} 
@@ -322,32 +337,28 @@ const onUnFollow = () => {
                     />
                   }
                 <View style={globalStyles.rightContainer}>
-                 
-                
-                {route.params.uid !== firebase.auth().currentUser.uid ? (
+                    {following == item.ArtistUid ? (
                       <View>
-                        {following ? (
                           <TouchableOpacity 
                             style={{marginVertical: 12}}
                             title="following"
-                            onPress={() => onUnFollow()}
-                          >
-                          <Entypo name="remove-user" size={30} color={following ? 'white' : 'blue'}/>
+                            onPress={() => onUnFollowing(item.ArtistUid)}
+                          > 
+                          <Entypo name="remove-user" size={30} color={'#40e0d0'}/>
                         </TouchableOpacity>
-                        ) : (
-                          <TouchableOpacity 
+                      </View>
+                    ) : (
+                      <View>
+                        <TouchableOpacity 
                             style={{marginVertical: 12}}
                             title="following"
-                            onPress={() => onFollow()}
-                            >
-                            <Entypo name="add-user" size={30} color={following ? 'blue' : 'white'}/>
+                            onPress={() => onFollow(item.ArtistUid)}
+                            >      
+                         <Entypo name="add-user" size={30} color={'#F5F5F5'}/>
                           </TouchableOpacity>
-                        )}
                       </View>
-                    ) : null}
-                
-
-
+                    )
+                    }
                   <TouchableOpacity 
                     style={{marginVertical: 12}}
                     onPress={() => setModalVisible(true)} 
@@ -356,24 +367,33 @@ const onUnFollow = () => {
                     <Fontisto name="comments" size={30} color={'#FFFFFF'} />
                     <CommentNumber ImageUid={item.ImageUid}/>
                   </TouchableOpacity>
-
-                
+                 
                   <View style={{marginVertical:12}}>
-                  {currentUserLike ?
-                        (
+                       
                           <View style={{marginVertical:12}}>
-                            <AntDesign name="heart" size={30} color="red" onPress={() => onDislikePress(item.likes, item.ImageUid, item.ArtistUid)} />
-                            <Text style={{color: '#FFFFFF'}}>{item.likes}</Text>
+                          
+                           {image == item.ImageUid ? (
+                             <View>
+                               {isLiked ? (
+                                 <View>
+                                 <AntDesign name="heart" size={30} color="red" onPress={() => onDislikePress(item.likes, item.ImageUid, item.ArtistUid)} />
+                                 </View>
+                               ) : (
+                                <View>
+                                 <AntDesign name="heart" size={30} color="white" onPress={() => onLikePress(item.likes, item.ImageUid, item.ArtistUid)} />
+                                </View>
+                               )
+                               }
                             </View>
-                        )
-                        :
-                        (
-                          <View style={{marginVertical:12}}>
+                            ) : (
+                              <View>
                             <AntDesign name="heart" size={30} color="white" onPress={() => onLikePress(item.likes, item.ImageUid, item.ArtistUid)} />
-                            <Text style={{color: '#FFFFFF'}}>{item.likes}</Text>
-                          </View>
-                        )
-                    }
+                              </View>
+                            )
+                            }                          
+                              <Text style={{color: '#FFFFFF'}}>{item.likes}</Text>
+                 </View>
+                       
                   </View>
                   <TouchableOpacity style={{marginVertical: 12}} 
                   
@@ -414,6 +434,8 @@ const onUnFollow = () => {
                       </View>
                     </View>
                       <Text style={{fontWeight:"bold", fontSize:16, alignSelf:"center",marginVertical:-20, color: '#F5F5F5'}}>(1080x1080)cm</Text>
+                   
+                  
                     
                     <View style={globalStyles.viewDescription}>
                       <Text 
@@ -425,21 +447,36 @@ const onUnFollow = () => {
                   </View>
                 </View>
             </View>
+            
         </View>
         </TouchableOpacity>
         );}}
-
         showsVerticalScrollIndicator={false}
         snapToInterval={Dimensions.get('window').height}
         snapToAlignment={'start'}
         decelerationRate={'fast'}
       />
   </View>
+ 
   );
 }
-
 const mapStateToProps = (store) => ({
   following: store.userState.following
 })
-
 export default ArtPreview;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   Dimensions,
+  ActivityIndicator
 } from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -17,11 +18,14 @@ import auth from '@react-native-firebase/auth';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import AppLoader from '../screens/AppLoader';
 import Toast from 'react-native-toast-message';
+
 const SignIn = ({navigation}) => {
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errortext, setErrortext] = useState("");
   const [loading, setLoading] = useState(false);
+
   const validate = () => {
      const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
      if (email == "" && password == "") {
@@ -54,6 +58,7 @@ const SignIn = ({navigation}) => {
        if(email !== "" && password !== "") {
        await auth().signInWithEmailAndPassword(email, password)
         .then((user) => {
+          <ActivityIndicator size="large" color="#0000ff" />
         console.log(user);
         Toast.show({
           type: 'success',
@@ -155,6 +160,7 @@ const SignIn = ({navigation}) => {
             }}
             activeOpacity={0.5}
             >
+
            <LinearGradient start={{x: 1, y: 0}} end={{x: 1, y: 1}} colors={['#0E1822', '#181818']} style={styles.buttonStyle}>
             <Text style={styles.buttonTextStyle}>Sign In</Text>
             </LinearGradient>

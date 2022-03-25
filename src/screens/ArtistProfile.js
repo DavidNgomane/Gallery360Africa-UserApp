@@ -1,14 +1,27 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, Image, ImageBackground, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth";
 import { globalStyles } from "../assets/styles/GlobalStyles";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 // icons
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import YoutubePlayer from 'react-native-youtube-iframe';
+
 const ArtistProfile = ({route, navigation}) => {
+
   const [playing, setPlaying] = useState(false);
   const [isMute, setMute] = useState(false);
+  const [followingBoolean ,setFollowingBoolean] =useState(false);
+  const [following, setFollowing] = useState("");
+  const [photoURL, setPhotoURL] = useState(null);
+  const [FullName, setFullName] = useState(null);
+
+  const { artistUid, photoUrl, artistName, description } = route.params;
+
+
+
   const controlRef = useRef();
   const onStateChange = (state) => {
     if (state === 'ended') {
@@ -34,7 +47,6 @@ const ArtistProfile = ({route, navigation}) => {
   const ControlIcon = ({name, onPress}) => (
     <Icon onPress={onPress} name={name} size={40} color="#fff" />
   );
-  const { artistUid, photoUrl, artistName, description } = route.params;
   // 
   const[art, setArt] = useState(null)
   const getArt = () => {
@@ -43,8 +55,96 @@ const ArtistProfile = ({route, navigation}) => {
       setArt(allArt);
     }) 
   }
+
+  const onFollow = () => {
+    return firestore().collection("following").doc(artistUid).set({
+      artistUid: artistUid,
+    }).then(() => { 
+      onFollowing(artistUid);
+  
+  }).catch((error) => console.log(error));
+  
+  }
+  
+  const onFollowing = () => {
+    const uuid = auth().currentUser.uid;
+    return firestore()
+    .collection('following')
+    .doc(artistUid)
+    .collection('userFollowing')
+    .doc(uuid)
+    .set({
+      uuid: uuid,
+      artistUid: artistUid,
+      photo: photoURL,
+      artistPhoto: photoUrl,
+      fullName:FullName,
+      artistName: artistName
+    })
+    .then(() => {
+      Toast.show({
+        type: 'success',
+        text2: `You're now Following ${artistName}`
+      })
+    }).catch((error) => {
+      alert(error)
+    });
+  }
+  
+  const onUnFollowing = () => {
+    const uuid = auth().currentUser.uid;
+  
+   return firestore()
+    .collection('following')
+    .doc(artistUid)
+    .collection('userFollowing')
+    .doc(uuid)
+    .delete()
+    .then(() => {
+      Toast.show({
+        type: 'error',
+        text2: `You're no longer following ${artistName}`
+      })
+    }).catch((error) => {
+      alert(error)
+    });
+  
+  }
+  
+  const followState = () => {
+    const uid = auth().currentUser.uid;
+  
+    return firestore().collection("following").where("artistUid", "==", artistUid).onSnapshot((snapShot1) => {
+      snapShot1.docs.map((doc) => {
+        doc.ref.collection("userFollowing").where("uuid", "==", uid).onSnapshot((snapShot) => {
+        const follows = snapShot.docs.map((docSnap) => docSnap.data().artistUid);
+        console.log(follows, "  this the following uid used");
+        const flow = snapShot.docs.map((doc) => doc.exists);
+        setFollowingBoolean(!followingBoolean);
+        console.log(flow, " the boolean of the folloeing")
+        setFollowing(follows);
+      })
+    })
+    })
+  
+  }
+
   useEffect(() => {
+    const unregister = auth().onAuthStateChanged(userExist=>{
+      if(userExist) {
+         firestore().collection("users").where("uid", "==",userExist.uid).onSnapshot((snapShot) => {
+          const users = snapShot.docs.map((document) => document.data().photoURL);
+          const uName = snapShot.docs.map((document) => document.data().fullName);
+          setPhotoURL(users);
+          setFullName(uName);
+        }); 
+    }});
+
     getArt();
+    followState();
+
+    return () => followState();
+    return () => unregister(); 
   }, [])
   return (
     <ImageBackground 
@@ -81,7 +181,6 @@ const ArtistProfile = ({route, navigation}) => {
            />
           </View>
       </View>
-
                 <View style={styles.MiddleContainer}>
                   <View style={styles.listItem} >
                     <View style={{flexDirection: "row", width: '91%'}}>
@@ -90,23 +189,45 @@ const ArtistProfile = ({route, navigation}) => {
                         style={styles.img2}
                       />
                       <View style={{width: '100%'}}>
-                        <Text style={{ color: "#000000", marginLeft: 10, top: 6, fontSize: 30}}>{artistName}</Text>
+                        <Text style={{ color: "#000000", marginLeft: 10, top: 6, fontSize: 20}}>{artistName}</Text>
                         <Text style={{ color: "#ceb89e", marginLeft: 10, top: 3}}>Artist</Text>
-                        <TouchableOpacity >
-                          <Ionicons 
-                            name="md-person-add" size={30} 
-                            color={'#000'}
-                            style={{alignSelf: 'flex-end', marginVertical: -25, marginHorizontal: 75, bottom: 15}}
-                          />
+                        
+                        {following == artistUid ? (
+                      <View>
+                          <TouchableOpacity 
+                            style={{alignSelf: 'flex-end', marginVertical: -25, marginHorizontal: 70, bottom: 3}}
+                            title="following"
+                            onPress={() => onUnFollowing()}
+                          > 
+                          <Entypo name="remove-user" size={30} color={'#40e0d0'}/>
                         </TouchableOpacity>
+                      </View>
+                    ) : (
+                      <View>
+                        <TouchableOpacity 
+                            style={{alignSelf: 'flex-end', marginVertical: -25, marginHorizontal: 70, bottom: 3}}
+                            title="following"
+                            onPress={() => onFollow()}
+                            >      
+                         <Entypo name="add-user" size={30} color={'black'}/>
+                          </TouchableOpacity>
+                      </View>
+                    )
+                    }
+                        {/* <TouchableOpacity >
+                          <Ionicons 
+                            name="md-person-add" size={24} 
+                            color={'#000'}
+                            style={{alignSelf: 'flex-end', marginVertical: -25, marginHorizontal: 70, bottom: 3}}
+                          />
+                        </TouchableOpacity> */}
                       </View>
                     </View>
                     <View style={{width: '95%', padding: 5}}>
-                      <Text style={{color: "#000000",}}>{description}</Text>
+                      <Text style={{color: "#000000"}}>{description}</Text>
                     </View>
                   </View>
                 </View>
-
                 <View style={styles.BottomContainer}>
                   <Text style={styles.moreText}>More Works</Text>
                     <FlatList 
@@ -181,11 +302,11 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         marginLeft: 15,
         width: '100%',
-        //height: 100,
+        height: 100,
       },
       img2: {
-        height: 80,
-        width: 80,
+        height: 50,
+        width: 50,
         borderRadius: 25,
         // borderColor: 'rgba(196, 196, 196, 0.51)',
         // borderWidth: 4,

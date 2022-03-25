@@ -7,23 +7,22 @@ import auth from "@react-native-firebase/auth";
 import Geocoder from 'react-native-geocoder-reborn';
 
 
-// const image = require('../assets/images/dannie-jing-3GZlhROZIQg-unsplash.jpg');
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 
 export default function ExhibitionDetails({route, navigation}) {
 
-  const [liked, setLiked] = useState(false);
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
   const [ExhibitionDetails, setExhibitionDetails] = useState(null);
+  const [exhibitionUidState, setExhibitionUid] = useState("");
 
 
 
-  const { exhibitionUid, exhibitionImage, address, description, exhibitionTitle, date } = route.params;
-  // const exhibitionUid = "H4SpBE9qBETbsmaKL5IQ"
+
+  const { exhibitionUid, exhibitionImage, address, description, exhibitionTitle, date, artistUid } = route.params;
 
   const getLocation = () => {
-    Geocoder.fallbackToGoogle("AIzaSyAkTCT8YLMY6YhGoPMnu5UEjJ_8eYepEJs");
+    // Geocoder.fallbackToGoogle("AIzaSyAkTCT8YLMY6YhGoPMnu5UEjJ_8eYepEJs");
     Geocoder.geocodeAddress(address).then((response) => {
       const lat = response.map((res) =>res.position.lat).map((res) => res);
       const long = response.map((res) => res.position.lng).map((res) => res);
@@ -37,11 +36,52 @@ export default function ExhibitionDetails({route, navigation}) {
     
   } 
 
+  const onLikePress = () => {
+    const uuid =  auth().currentUser.uid;
+
+    return firestore().collection("exhibition").where("artistUid", "==", artistUid).onSnapshot((snapShot1) => {
+      snapShot1.docs.map((document) => {
+        document.ref.collection("userLikes").doc(uuid).set({
+         userUid: uuid,
+         exhibitionUid: exhibitionUid,
+       }).then(() => {}).catch((error) => console.log(error));
+      })
+    })
+ 
+     // props.sendNotification(user.notificationToken, "New Like", `${props.currentUser.name} liked your post`, { type: 0, postId, user: firebase.auth().currentUser.uid })
+ }
+ 
+ const onDislikePress = () => {
+  const userUid = auth().currentUser.uid;
+
+  return firestore().collection("exhibition").where("artistUid", "==", artistUid).onSnapshot((snapShot1) => {
+    snapShot1.docs.map((document) => {
+      document.ref.collection("userLikes").doc(userUid).delete().then(() => {}).catch((error) => console.log(error));
+    })
+  })
+ }
+ 
+
   useEffect(() => {
-  
-     return () => {
-       getLocation();
-     }
+
+    const uid = auth().currentUser.uid;
+ 
+    const likesState = firestore().collection("exhibition").where("artistUid", "==", artistUid).onSnapshot((snapShot1) => {
+      snapShot1.docs.map((doc) => {
+         doc.ref.collection("userLikes").where("userUid", "==", uid).onSnapshot((snapShot) => {
+          snapShot.docs.map((docSnap) => {
+           const exhibitionuid = docSnap.data().exhibitionUid;
+              setExhibitionUid(exhibitionuid);
+          })
+        })
+      })
+    })
+
+
+    getLocation();
+    
+    return () => {likesState()}
+    return () => getLocation();
   },[])
 
   const getExhibitionDetails = () => {
@@ -51,6 +91,7 @@ export default function ExhibitionDetails({route, navigation}) {
       setExhibitionDetails(allExhibitionDetails);
     })
   }
+  
   useEffect(() => {
     getExhibitionDetails();
   }, [])
@@ -105,15 +146,17 @@ export default function ExhibitionDetails({route, navigation}) {
                              color={"#000000"}
                              />
                      </TouchableOpacity>
-             
-                     <TouchableOpacity style={styles.Heart} onPress={() => setLiked((isLiked) => !isLiked)}>
-                           <Entypo
-                             name={liked ? "heart" : "heart-outlined"}
-                             size={32}
-                             color={liked ? "red" : "black"}
-                             />
-                     </TouchableOpacity>
-                    </View>
+                     {exhibitionUidState == item.exhibitionUid ? (
+                           <View style={styles.Heart}>
+                                 <Entypo name="heart" size={30} color="red" onPress={() => onDislikePress()} />
+                           </View>
+                            ) : (
+                              <View style={styles.Heart}>
+                            <Entypo name="heart" size={30} color="#000000" onPress={() => onLikePress()} />
+                              </View>
+                            )
+                            } 
+                            </View>
                    
                  </View>
                   )}
