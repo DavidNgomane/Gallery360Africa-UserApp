@@ -414,16 +414,14 @@ const onUnFollow = () => {
                       </View>
                     </View>
                       <Text style={{fontWeight:"bold", fontSize:16, alignSelf:"center",marginVertical:-20, color: '#F5F5F5'}}>(1080x1080)cm</Text>
-                   
-                  
                     
-                    {/* <View style={globalStyles.viewDescription}>
+                    <View style={globalStyles.viewDescription}>
                       <Text 
                         style={{color: '#F5F5F5'}}
                       >
                         {item.description}
                       </Text>
-                    </View> */}
+                    </View>
                   </View>
                 </View>
             </View>

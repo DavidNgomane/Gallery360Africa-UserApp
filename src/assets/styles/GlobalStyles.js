@@ -313,7 +313,7 @@ const globalStyles = StyleSheet.create({
     },
     secondBottomContainer: {
         width: '100%',
-        height: '85%',
+        height: '95%',
         marginVertical: '6%',
         alignSelf: 'center',
         backgroundColor: 'rgba(16,18,27,0.4)',
@@ -328,6 +328,7 @@ const globalStyles = StyleSheet.create({
         alignSelf: 'flex-start',
         marginHorizontal: 10,
         width: '90%',
+        top: 25
     },
     artistName: {
         fontWeight: 'bold',
