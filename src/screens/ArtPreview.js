@@ -19,7 +19,9 @@ import Lightbox from 'react-native-lightbox';
 import CommentsModal from '../assets/component/CommentsModal';
 import CommentNumber from '../assets/redux/actions/CommentNumber';
 import { following } from '../../redux/reducers/user';
+
 function ArtPreview({route, navigation}) {
+
   const [isModalVisible, setModalVisible] = useState(false);
   const [post, setPost] = useState(null);
   const [like, setLike] = useState(0);
@@ -34,8 +36,11 @@ function ArtPreview({route, navigation}) {
   const [artistDescription, setArtistDescription] = useState("");
   const [artistName, setArtistName] = useState("");
   const [artistPhoto, setArtistPhoto] = useState("");
+  const [artType, setArtType] = useState("");
   const [followingBoolean ,setFollowingBoolean] =useState(false);
+
   const { artistUid, imageUID } = route.params;
+
   const getArtistDetailts = () => {
     firestore().collection("artists").where("artistUid", "==", artistUid).onSnapshot((snapShot) => {
       const photo = snapShot.docs.map((doc) => doc.data().photoUrl).map((doc) => doc);
@@ -46,6 +51,7 @@ function ArtPreview({route, navigation}) {
       setArtistPhoto(photo);
     })
   }
+
   const onLikePress = (likes, imageUid, item) => {
    // setIsLiked(!isLiked);
     
@@ -56,6 +62,7 @@ function ArtPreview({route, navigation}) {
       }).catch((error) => alert(error));
     // props.sendNotification(user.notificationToken, "New Like", `${props.currentUser.name} liked your post`, { type: 0, postId, user: firebase.auth().currentUser.uid })
 }
+
 const onLike = (imageUid, item) => {
   setCurrentUserLike(!currentUserLike);
       return firestore().collection("likes").doc(imageUid).set({
@@ -64,6 +71,7 @@ const onLike = (imageUid, item) => {
         onLikeAdd(imageUid, item);
     }).catch((error) => console.log(error));
 }
+
 const onLikeAdd = (imageUid, item) => {
    return firestore().collection("user").doc(imageUid).collection("userLikes").doc(uuid).set({
     userUid: uuid,
@@ -71,6 +79,7 @@ const onLikeAdd = (imageUid, item) => {
     imageUid: imageUid,
   }).then(() => {}).catch((error) => console.log(error));
 }
+
 const onDislikePress = (likes, imageUid, item) => {
   return firestore().collection("Market").doc(imageUid).update({
         likes :likes - 1,
@@ -79,6 +88,7 @@ const onDislikePress = (likes, imageUid, item) => {
         onDisLike(imageUid, item);
         }).catch((error) => alert(error));
 }
+
 const onDisLike = (imageUid, item) => {
   setCurrentUserLike(false);
   return firestore()
@@ -88,6 +98,7 @@ const onDisLike = (imageUid, item) => {
   .doc(imageUid)
       .delete().then(() => {}).catch((error) => alert(error));
 }
+
 const likesState = () => {
 const uid = auth().currentUser.uid;
 return firestore().collection("likes").where("artistUid", "==", artistUid).onSnapshot((snapShot1) => {
@@ -106,14 +117,7 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
   })
 })
 }
-// cnost onLikeState = () => {
-//     return firestore().collection("likes").where("artistUid", "==", artistUid).onSnapshot((snapShot1) => {
-//       snapShot1.docs.map((doc) => {
-//         doc.ref.collection("userLikes")
-//       })
-//     })
-// }
-// 
+
   const getArtDetails = () => {
     return firestore()
       .collection('Market')
@@ -121,12 +125,12 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
         const query = snapShot.docs.map((documentSnap) => documentSnap.data());
         setPost(query);
         const imageUID = snapShot.docs.map((docSnap) => docSnap.data().ImageUid).map((doc) => doc);
-       
-        //  console.log(imageUID + "  this is the first Image UId", uidImage);
-        // setImage(imageUID);
+        const artTypes = snapShot.docs.map((docSnap) => docSnap.data().artType).map((doc) => doc);
+          setArtType(artTypes)
         
       });
     }
+
     const addToCart = async (image, name, price, artistUid, imageUid) => {
         try {
         return  await firestore().collection("cartItem").doc(uuid).collection("items").doc(imageUid).set({
@@ -146,6 +150,7 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
         return alert(error);
       }
     }
+
     const getCartItemNumber = () => {
       const uuid = auth()?.currentUser?.uid;
   
@@ -157,6 +162,7 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
       })
     })
     }
+
     const onFollow = (artistUid) => {
       return firestore().collection("following").doc(artistUid).set({
         artistUid: artistUid,
@@ -231,6 +237,7 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
       })
     
     }
+
   useEffect(() => {
     const unregister = auth().onAuthStateChanged(userExist=>{
       if(userExist) {
@@ -241,11 +248,13 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
           setFullName(uName);
         }); 
     }});
+
     getArtDetails();
     getCartItemNumber();
     likesState();
     getArtistDetailts();
     followState();
+
   return () => {unregister()};
   return () => likesState();
   return () => getCartItemNumber();
@@ -254,22 +263,7 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
   return () => getArtistDetailts();
   return () => followState();
 }, [imageUID, artistUid]);
-const LightboxView = ({ navigator }) => (
-  <Lightbox navigator={navigator}>
-     <Image 
-        source={{uri: item.artUrl}} 
-        resizeMode="cover" 
-        style={globalStyles.video}
-      />          
-  </Lightbox>
-);
-const renderScene = (route, navigator) => {
-  const Component = route.component;
  
-  return (
-    <Component navigator={navigator} route={route} {...route.passProps} />
-  );
-};
   return (
     <View>
       <FlatList
@@ -413,7 +407,13 @@ const renderScene = (route, navigator) => {
                     style={globalStyles.secondBottomContainer}
                   >
                     <View style={globalStyles.viewArtist}>
-                    <TouchableOpacity onPress={() => navigation.navigate('ArtistProfile', { description: artistDescription, artistUid: artistUid, photoUrl: artistPhoto, artistName: artistName})}>
+                    <TouchableOpacity onPress={() => navigation.navigate('ArtistProfile', 
+                    { description: artistDescription, 
+                    artistUid: artistUid, 
+                    photoUrl: artistPhoto, 
+                    artistName: artistName, 
+                    artType: item.artType,
+                    })}>
                       <Image
                         source={{uri: `${artistPhoto}`}} 
                         style={globalStyles.artistImg} 
@@ -429,14 +429,11 @@ const renderScene = (route, navigator) => {
                             {item.artType}
                           </Text>
                     
-        
                         <Text style={globalStyles.price}>{`R${item.price}.00`}</Text>
                       </View>
                     </View>
                       <Text style={{fontWeight:"bold", fontSize:16, alignSelf:"center",marginVertical:-20, color: '#F5F5F5'}}>(1080x1080)cm</Text>
-                   
-                  
-                    
+                     
                     <View style={globalStyles.viewDescription}>
                       <Text 
                         style={{color: '#F5F5F5'}}

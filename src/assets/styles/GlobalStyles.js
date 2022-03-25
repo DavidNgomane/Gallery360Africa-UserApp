@@ -334,10 +334,10 @@ const globalStyles = StyleSheet.create({
     },
     secondBottomContainer1: {
         width: '80%',
-        height: '85%',
+        height: '70%',
         marginVertical: '6%',
         alignSelf: 'center',
-        backgroundColor: 'rgba(16,18,27,0.4)',
+       // backgroundColor: 'rgba(16,18,27,0.4)',
         borderColor: 'rgba(255, 255, 255, 0.18)',
         borderWidth: 1,
         shadowOpacity: 20,
