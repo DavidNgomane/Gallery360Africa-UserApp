@@ -1,4 +1,4 @@
-import { Text, View, FlatList, TouchableOpacity, Image, SafeAreaView, Dimensions } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity, Image, SafeAreaView, Dimensions, ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore from '@react-native-firebase/firestore';
@@ -8,7 +8,7 @@ const Market = ({navigation}) => {
 
 const SLIDER_WIDTH = Dimensions.get('window').width;
 const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
-const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 6 / 4);
+const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 7 / 5);
 
   // 
   const [artist, setArtist] = useState([]);
@@ -71,8 +71,8 @@ const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 6 / 4);
       </SafeAreaView>
   </View>
   
-        {/*  */}
         <View style={globalStyles.homeFooter}>
+          <ScrollView horizontal={true}>
             <FlatList
               horizontal
               // bounces={false}
@@ -81,8 +81,9 @@ const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 6 / 4);
               keyExtractor={item => `${item.artistUid}`}
               renderItem={({item}) => {
                 return (
+                  <View>
                   <TouchableOpacity onPress={() => navigation.navigate('ArtistProfile', { description: item.description, artistUid: item.artistUid, photoUrl: item.photoUrl, artistName: item.artistName})}>
-                    <View style={{paddingHorizontal: 8}}>
+                    <View style={{paddingHorizontal: 6, borderRadius: 10, borderWidth: 1, margin : 3, justifyContent: "center", alignSelf: "center"}}>
                       <Image 
                         source={{uri: item.photoUrl}} 
                         style={globalStyles.artistImage}
@@ -92,9 +93,26 @@ const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 6 / 4);
                           </View>
                     </View>
                   </TouchableOpacity>
+                  </View>
                 );
               }}
             />
+              <TouchableOpacity onPress={() => navigation.navigate('Artists')}>
+                <View style={{
+                 // marginHorizontal: 5,
+                  paddingHorizontal: 5, 
+                  borderRadius: 10, 
+                  borderWidth: 1, 
+                  margin : 3, 
+                  justifyContent: "center", 
+                  alignSelf: "center",
+                  width: 100,
+                  height: 100
+                  }}>
+                  <Text style={{color: "#ceb89e", textAlign: "center"}}>Show All</Text>
+                </View>
+              </TouchableOpacity>
+              </ScrollView>
         </View>
     </View>
   );

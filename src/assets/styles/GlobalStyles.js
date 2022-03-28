@@ -140,6 +140,7 @@ const globalStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginVertical: 8,
+        flexDirection: "row"
     },
     artContainer: {
         width: '100%',
@@ -155,9 +156,10 @@ const globalStyles = StyleSheet.create({
     artistImage: {
         width: 100, 
         height: 100, 
-        borderRadius: 10, 
-        borderWidth: .5,
-        borderColor: 'gray'
+        //borderRadius: 10, 
+        //borderWidth: .5,
+        borderColor: 'gray',
+        alignSelf: "center"
     },
     artistNameContainer: {
         backgroundColor: '#fff', 
@@ -188,7 +190,7 @@ const globalStyles = StyleSheet.create({
     artNameTxt: {
         fontSize: 23, 
         fontWeight: 'bold', 
-        color: '#000', 
+        color: '#ceb89e', 
         paddingHorizontal: 20
     },
     artTypeTxt: {

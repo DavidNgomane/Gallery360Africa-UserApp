@@ -243,7 +243,7 @@ const ArtistProfile = ({route, navigation}) => {
                                 style={styles.img}
                               />
                               <View style={styles.priceView}>
-                                <Text style={styles.price} >{item.price}</Text>
+                                <Text style={styles.price} >R{item.price}</Text>
                               </View>
                             </TouchableOpacity>
                           </View>

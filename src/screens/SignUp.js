@@ -64,7 +64,7 @@ const SignUp = ({navigation}) => {
                         uid: user.uid,
                         fullName: fullName,
                         email: user.email,
-                        photoURL: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCTa1o13qHi0hBEUMcOCKQhrrNSr8pSUmAoA&usqp=CAU"
+                        photoURL: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTet-jk67T6SYdHW04eIMLygHzEeJKobi9zdg&usqp=CAU"
 
                     }).then(() => {
                       navigation.navigate('SignIn')

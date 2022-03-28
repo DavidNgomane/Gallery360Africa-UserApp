@@ -8,6 +8,7 @@ import auth from '@react-native-firebase/auth';
 // icons
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 // Import screens
 import Market from './src/screens/Market';
@@ -33,6 +34,7 @@ import UserSettings from './src/screens/UserSettings';
 import Search from './src/screens/Search';
 import Notifications from './src/screens/Notifications';
 import TermsAndCondtions from './src/screens/TermsAndConditions';
+import Artists from './src/screens/Artists';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -41,24 +43,25 @@ const TabNavigator = () => {
   
   return (
     <Tab.Navigator
-      screenOptions={{
-        showPageIndicator: false,
-        tabBarPressColor: '#000',
-        swipeEnabled: false,
-        tabBarStyle: {
-          height: 50,
-          minHeight: 0,
-          //borderRadius: 20,
-          marginHorizontal: 0,
-          width: '100%',
-          backgroundColor: '#fff',
-          headerShadowVisible: false,
-          margin: 5
-        },
-        tabBarActiveTintColor: '#ceb89e',
-        tabBarInactiveTintColor: '#000',
-        tabBarPressColor: '#000',
-      }}
+    tabBarOptions={{
+      tabStyle: {
+        height: 45,
+        minHeight: 0,
+        backgroundColor: '#ceb89e',
+        borderRadius: 20,
+        margin: 10,
+        marginVertical: 10,
+        padding: 3,
+        width: 160,
+        marginLeft:  10,
+      },
+      renderIndicator: () => null,
+    }}
+    screenOptions={{
+      tabBarActiveTintColor: '#fff',
+      tabBarInactiveTintColor: '#000',
+      swipeEnabled: false,
+    }}
     >
       <Tab.Screen name='Market' component={Market} />
       <Tab.Screen name='Exhibition' component={Exhibition} />
@@ -160,6 +163,7 @@ const uuid = auth()?.currentUser?.uid;
             color: '#000',
           },
         }}>
+
         {user?
            <>
        <Stack.Screen 
@@ -168,26 +172,28 @@ const uuid = auth()?.currentUser?.uid;
           options={({navigation}) => ({
 
               headerTitleAlign: 'left', 
-              color: '#000',
+              headerTitleStyle: {
+                color: '#ceb89e'
+              },
             
             headerBackVisible: false,
             headerShadowVisible: false,
             
-            title: `Hi ${fullName}`,
+            title: `${fullName}`,
             headerRight: () => (
               <View style={{flexDirection: 'row', width: 95, justifyContent: 'space-between'}}>
 
                 <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-                  <MaterialIcons 
-                    name='person-search' size={30} 
-                    color={'#000'}
+                  <Ionicons 
+                    name='search' size={30} 
+                    color={'#ceb89e'}
                   />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => navigation.navigate('Cart', {cartItem: cartItem, uuid: uuid})}>
                   <MaterialIcons 
                     name='shopping-cart' size={30} 
-                    color={'#000'}
+                    color={'#ceb89e'}
                   />
                 </TouchableOpacity>
 
@@ -209,6 +215,7 @@ const uuid = auth()?.currentUser?.uid;
        color: '#000'
       }
     },}} name='ArtistProfile' component={ArtistProfile}/>
+    
 			<Stack.Screen options={{headerShown: false}} name="ArtPreview" component={ArtPreview} />
 			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='Cart' component={Cart} />
 			<Stack.Screen options={{headerShown: false}} name='PaymentSuccesful' component={PaymentSuccesful} />
@@ -220,6 +227,7 @@ const uuid = auth()?.currentUser?.uid;
 			<Stack.Screen options={{headerShown: true, headerTransparent: true}} name='Search' component={Search} />
 			<Stack.Screen options={{headerShown: true, headerTransparent: true}} name='Notifications' component={Notifications} />
 			<Stack.Screen options={{headerShown: true, headerTransparent: true}} name='TermsAndConditions' component={TermsAndCondtions} />
+			<Stack.Screen options={{headerShown: true, headerTransparent: true}} name='Artists' component={Artists} />
 			
       <Stack.Screen 
         options={{

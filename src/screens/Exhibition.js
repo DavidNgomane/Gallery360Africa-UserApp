@@ -1,4 +1,4 @@
-import { Text, View, FlatList, TouchableOpacity, Image, Dimensions, SafeAreaView } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity, Image, Dimensions, SafeAreaView, ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore from '@react-native-firebase/firestore';
@@ -8,7 +8,7 @@ const Exhibition = ({navigation}) => {
 
   const SLIDER_WIDTH = Dimensions.get('window').width;
   const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
-  const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 6 / 4);
+  const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 7 / 5);
 
   const [artist, setArtist] = useState(null);
 
@@ -90,29 +90,48 @@ const Exhibition = ({navigation}) => {
 
       </View>
 
-        {/*  */}
-        <View style={globalStyles.homeFooter}>
+      <View style={globalStyles.homeFooter}>
+          <ScrollView horizontal={true}>
             <FlatList
               horizontal
+              // bounces={false}
               showsHorizontalScrollIndicator={false}
               data={artist}
               keyExtractor={item => `${item.artistUid}`}
               renderItem={({item}) => {
                 return (
-                  <TouchableOpacity onPress={() => navigation.navigate('ArtistProfile', { artistDescription: item.description, artistUid: item.artistUid, artistPhoto: item.artistPhoto, artistName: item.artistName, })}>
-                    <View style={{paddingHorizontal: 8}}>
+                  <View>
+                  <TouchableOpacity onPress={() => navigation.navigate('ArtistProfile', { description: item.description, artistUid: item.artistUid, photoUrl: item.photoUrl, artistName: item.artistName})}>
+                    <View style={{paddingHorizontal: 6, borderRadius: 10, borderWidth: 1, margin : 3, justifyContent: "center", alignSelf: "center"}}>
                       <Image 
                         source={{uri: item.photoUrl}} 
                         style={globalStyles.artistImage}
                       />
-                        <View style={globalStyles.artistNameContainer}>
+                       <View style={globalStyles.artistNameContainer}>
                           <Text style={globalStyles.ArtistName} >{item.artistName}</Text>
                           </View>
                     </View>
                   </TouchableOpacity>
+                  </View>
                 );
               }}
             />
+              <TouchableOpacity onPress={() => navigation.navigate('')}>
+                <View style={{
+                 // marginHorizontal: 5,
+                  paddingHorizontal: 5, 
+                  borderRadius: 10, 
+                  borderWidth: 1, 
+                  margin : 3, 
+                  justifyContent: "center", 
+                  alignSelf: "center",
+                  width: 100,
+                  height: 100
+                  }}>
+                  <Text style={{color: "#ceb89e", textAlign: "center"}}>Show All</Text>
+                </View>
+              </TouchableOpacity>
+              </ScrollView>
         </View>
     </View>
   );
