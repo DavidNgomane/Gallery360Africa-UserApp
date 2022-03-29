@@ -79,7 +79,7 @@ const Artists = ({navigation}) => {
             </TouchableOpacity>
         </View>
 
-        <View style={globalStyles.homeBody}>
+        <View style={globalStyles.homeBody1}>
           <SafeAreaView style={{
               width: '100%',
               alignItems: 'center',

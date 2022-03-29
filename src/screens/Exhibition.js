@@ -89,7 +89,7 @@ const Exhibition = ({navigation}) => {
       </SafeAreaView>
 
       </View>
-
+      <Text style={{color: '#000', paddingLeft: 15, fontSize: 18}}>Artists</Text>
       <View style={globalStyles.homeFooter}>
           <ScrollView horizontal={true}>
             <FlatList
@@ -102,7 +102,7 @@ const Exhibition = ({navigation}) => {
                 return (
                   <View>
                   <TouchableOpacity onPress={() => navigation.navigate('ArtistProfile', { description: item.description, artistUid: item.artistUid, photoUrl: item.photoUrl, artistName: item.artistName})}>
-                    <View style={{paddingHorizontal: 6, borderRadius: 10, borderWidth: 1, margin : 3, justifyContent: "center", alignSelf: "center"}}>
+                    <View style={{paddingHorizontal: 5, borderRadius: 10, borderWidth: .5, borderColor: 'gray', margin : 5, justifyContent: "center", alignSelf: "center", width: 102}}>
                       <Image 
                         source={{uri: item.photoUrl}} 
                         style={globalStyles.artistImage}
@@ -116,19 +116,18 @@ const Exhibition = ({navigation}) => {
                 );
               }}
             />
-              <TouchableOpacity onPress={() => navigation.navigate('')}>
-                <View style={{
-                 // marginHorizontal: 5,
-                  paddingHorizontal: 5, 
-                  borderRadius: 10, 
-                  borderWidth: 1, 
+              <TouchableOpacity onPress={() => navigation.navigate('Artists')}>
+                <View 
+                style={{
+                  paddingHorizontal: 5,  
                   margin : 3, 
                   justifyContent: "center", 
                   alignSelf: "center",
                   width: 100,
                   height: 100
-                  }}>
-                  <Text style={{color: "#ceb89e", textAlign: "center"}}>Show All</Text>
+                  }}
+                  >
+                  <Text style={{color: "#ceb89e", textAlign: "center", fontSize: 25}}>Show All</Text>
                 </View>
               </TouchableOpacity>
               </ScrollView>

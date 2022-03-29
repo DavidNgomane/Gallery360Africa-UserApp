@@ -133,7 +133,13 @@ const globalStyles = StyleSheet.create({
     // MARKET & EXHIBITION STYLES
     homeBody: {
       flex: 6,
-      top: 25,
+    //   top: 25,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    homeBody1: {
+      flex: 6,
+        top: 25,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -141,7 +147,8 @@ const globalStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginVertical: 8,
-        flexDirection: "row"
+        flexDirection: "row",
+        paddingLeft: 10
     },
     artContainer: {
         width: '100%',
@@ -157,7 +164,7 @@ const globalStyles = StyleSheet.create({
     artistImage: {
         width: 100, 
         height: 100, 
-        //borderRadius: 10, 
+        borderRadius: 10, 
         //borderWidth: .5,
         borderColor: 'gray',
         alignSelf: "center"
@@ -168,11 +175,12 @@ const globalStyles = StyleSheet.create({
         borderRadius: 8,
         alignSelf: 'center',
         height: 20,
-        width: '90%',
-        bottom: 15
+        width: '100%',
+        bottom: 15,
+        paddingHorizontal: 3
       },
       ArtistName: {
-        color: "#000", 
+        color: "#ceb89e", 
         textAlign: "center", 
         // fontWeight: "bold"
     },
@@ -324,7 +332,7 @@ const globalStyles = StyleSheet.create({
     },
     secondBottomContainer: {
         width: '100%',
-        height: '95%',
+        height: '90%',
         marginVertical: '6%',
         alignSelf: 'center',
         backgroundColor: 'rgba(16,18,27,0.4)',
@@ -332,8 +340,9 @@ const globalStyles = StyleSheet.create({
         borderWidth: 1,
         shadowOpacity: 20,
         border: 1,
-        borderRadius: 10,
+        borderRadius: 20,
         flexDirection: 'column',
+        top: 50
     },
     secondBottomContainer1: {
         width: '80%',
@@ -350,9 +359,9 @@ const globalStyles = StyleSheet.create({
     },
     viewDescription: {
         alignSelf: 'flex-start',
-        marginHorizontal: 10,
+        marginHorizontal: 15,
         width: '90%',
-        top: 25
+        // top: 10
     },
     artistName: {
         fontWeight: 'bold',
@@ -375,10 +384,11 @@ const globalStyles = StyleSheet.create({
     price: {
         fontFamily: 'Poppins',
         alignSelf: 'flex-end',
-        fontSize: 22,
-        fontWeight: 'bold',
-        marginVertical: -25,
+        fontSize: 18,
+        // fontWeight: 'bold',
+        marginVertical: -45,
         color: '#F5F5F5',
+        paddingBottom: 10
     },
     cartIcon: {
         alignSelf: 'flex-end',
@@ -401,7 +411,6 @@ const globalStyles = StyleSheet.create({
         justifyContent: 'space-between',
         alignSelf: 'center',
     },
-
 
     // CART STYLES
     flatlistView: {

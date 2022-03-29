@@ -70,12 +70,14 @@ const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 7 / 5);
         />
       </SafeAreaView>
   </View>
-  
+   <Text style={{color: '#000', paddingLeft: 15, fontSize: 18}}>Artists</Text>
         <View style={globalStyles.homeFooter}>
+          
           <ScrollView horizontal={true}>
+
             <FlatList
               horizontal
-              // bounces={false}
+              bounces={false}
               showsHorizontalScrollIndicator={false}
               data={artist}
               keyExtractor={item => `${item.artistUid}`}
@@ -83,14 +85,14 @@ const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 7 / 5);
                 return (
                   <View>
                   <TouchableOpacity onPress={() => navigation.navigate('ArtistProfile', { description: item.description, artistUid: item.artistUid, photoUrl: item.photoUrl, artistName: item.artistName})}>
-                    <View style={{paddingHorizontal: 6, borderRadius: 10, borderWidth: 1, margin : 3, justifyContent: "center", alignSelf: "center"}}>
+                    <View style={{paddingHorizontal: 5, borderRadius: 10, borderWidth: .5, borderColor: 'gray', margin : 5, justifyContent: "center", alignSelf: "center", width: 102, height: 102}}>
                       <Image 
                         source={{uri: item.photoUrl}} 
                         style={globalStyles.artistImage}
                       />
                        <View style={globalStyles.artistNameContainer}>
                           <Text style={globalStyles.ArtistName} >{item.artistName}</Text>
-                          </View>
+                        </View>
                     </View>
                   </TouchableOpacity>
                   </View>
@@ -100,11 +102,11 @@ const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 7 / 5);
               <TouchableOpacity onPress={() => navigation.navigate('Artists')}>
                 <View 
                 style={{
-                 // marginHorizontal: 5,
                   paddingHorizontal: 5, 
-                  borderRadius: 10, 
-                  //borderWidth: 1, 
-                  margin : 3, 
+                  // borderRadius: 10, 
+                  // borderWidth: .5, 
+                  borderColor: 'gray',
+                  margin : 5, 
                   justifyContent: "center", 
                   alignSelf: "center",
                   width: 100,

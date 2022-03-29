@@ -282,41 +282,7 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
                     />
               
               <View style={globalStyles.topIconView}>
-                {/* <TouchableOpacity
-                  onPress={() => navigation.goBack(null)}
-                  style={globalStyles.topLeftIcon}
-                >
-                  <Entypo 
-                    name="chevron-thin-left"
-                    size={22}
-                    color={'#FFFFFF'}
-                    style={{alignSelf: 'center', marginVertical: 10}}
-                  />
-                </TouchableOpacity> */}
-                {/* <TouchableOpacity
-                  onPress={() => navigation.navigate('Cart', {Auid : artistUid, cartItem: items, uuid: uuid}, console.log(uuid))}
-                  style={globalStyles.cartIcon}
-                >
-                  <View style={[Platform.OS == 'android' ? globalStyles.iconContainer : null]}>
-                  {items > 0 ?
-                  (<View style={{
-                     position: 'absolute', height: 16, width: 16, borderRadius: 17, backgroundColor: 'rgba(95,197,123,0.9)', right:2,marginVertical:3, alignSelf:"flex-end", alignItems: 'center', justifyContent: 'center', zIndex: 2000,
-                   }}>
-                    <Text style={{ color: '#F5F5F5', fontWeight: 'bold', marginVertical:-10, fontSize:12 }}>
-                      {items}
-                    </Text>
-                    </View>): (<View></View>)
-                  }
-                    {setImage(item.ImageUid)}
-                    <MaterialCommunityIcons
-                      name="cart"
-                      size={24}
-                      color={'#FFFFFF'}
-                      style={{alignSelf: 'center', marginVertical:10}}
-                    />
-    
-            </View>
-                </TouchableOpacity> */}
+             
               </View>             
         
               <View style={globalStyles.uiContainer}>
@@ -419,8 +385,9 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
                         style={globalStyles.artistImg} 
                       />
                       </TouchableOpacity>
+
                       <View
-                        style={{marginHorizontal: 10, marginVertical: 6, width: '80%'}}
+                        style={{marginHorizontal: 10, marginVertical: 7, width: '80%'}}
                       >
                           <Text style={globalStyles.artistName}>{artistName}</Text>
                           <Text 
@@ -430,9 +397,11 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
                           </Text>
                     
                         <Text style={globalStyles.price}>{`R${item.price}.00`}</Text>
+
+                        {/* <Text style={{fontWeight:"bold", fontSize: 16, marginVertical:-5, color: '#F5F5F5'}}>(1080x1080)cm</Text> */}
                       </View>
+
                     </View>
-                      <Text style={{fontWeight:"bold", fontSize:16, alignSelf:"center",marginVertical:-20, color: '#F5F5F5'}}>(1080x1080)cm</Text>
                      
                     <View style={globalStyles.viewDescription}>
                       <Text 
