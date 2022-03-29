@@ -282,7 +282,7 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
                     />
               
               <View style={globalStyles.topIconView}>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   onPress={() => navigation.goBack(null)}
                   style={globalStyles.topLeftIcon}
                 >
@@ -292,8 +292,8 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
                     color={'#FFFFFF'}
                     style={{alignSelf: 'center', marginVertical: 10}}
                   />
-                </TouchableOpacity>
-                <TouchableOpacity
+                </TouchableOpacity> */}
+                {/* <TouchableOpacity
                   onPress={() => navigation.navigate('Cart', {Auid : artistUid, cartItem: items, uuid: uuid}, console.log(uuid))}
                   style={globalStyles.cartIcon}
                 >
@@ -307,7 +307,7 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
                     </Text>
                     </View>): (<View></View>)
                   }
-                    {/* {setImage(item.ImageUid)} */}
+                    {setImage(item.ImageUid)}
                     <MaterialCommunityIcons
                       name="cart"
                       size={24}
@@ -316,7 +316,7 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
                     />
     
             </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>             
         
               <View style={globalStyles.uiContainer}>

@@ -33,12 +33,14 @@ const fetchUsers = (search) => {
                      <Text style={styles.searchBtnText}>Search</Text>
                  </TouchableOpacity>
             </View>
+
             <View style={styles.searchTitleTextContainer}>
                 <Text style={styles.recentSearchText}>Recent Search</Text>
                 <TouchableOpacity >
                     <Text style={styles.clearAllBtnText}>Clear All</Text>
                 </TouchableOpacity>
             </View>
+            
             <SafeAreaView>
                 <FlatList
                 data={users}

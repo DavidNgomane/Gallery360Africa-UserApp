@@ -133,6 +133,7 @@ const globalStyles = StyleSheet.create({
     // MARKET & EXHIBITION STYLES
     homeBody: {
       flex: 6,
+      top: 25,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -381,13 +382,9 @@ const globalStyles = StyleSheet.create({
     },
     cartIcon: {
         alignSelf: 'flex-end',
-        borderWidth: 1,
-        border: 1,
-        borderRadius: 14,
-        borderColor: '#FFFFFF',
         width: 45,
         height: 45,
-        marginHorizontal: -20,
+        marginHorizontal: -10,
     },
     artistImg: {
         width: 50,

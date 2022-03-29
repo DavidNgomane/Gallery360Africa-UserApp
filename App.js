@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, Image } from 'react-native';
+import { View, TouchableOpacity, Image, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+
+// Styles
+import { globalStyles } from './src/assets/styles/GlobalStyles';
+
 // icons
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 // Import screens
 import Market from './src/screens/Market';
 import Exhibition from './src/screens/Exhibition';
@@ -113,6 +119,21 @@ const App = ({navigation}) => {
   const [User, setUser] = useState(null);
   const [fullName, setFullName] = useState(null);
 
+  const [items, SetItems] = useState(0);
+  const [image, setImage] = useState("");
+
+  const getCartItemNumber = () => {
+    const uuid = auth()?.currentUser?.uid;
+  
+    return firestore().collection("cartItem").doc(uuid).onSnapshot((snapShot1) => {
+      const getData = snapShot1.ref.collection("items").where("uuid", "==", uuid).onSnapshot((snapShot) => {
+      const cartItems = snapShot.size; 
+      // console.log(cartItems + "  this the number of item added to cart")
+      SetItems(cartItems);
+    })
+  })
+  }
+
 
     useEffect(() => {
       const unregister = auth().onAuthStateChanged(userExist=>{
@@ -148,7 +169,8 @@ const App = ({navigation}) => {
   }, [])
 
   useEffect(() => {
- 
+    getCartItemNumber();
+    return () => getCartItemNumber();
   },[])
 
 const uuid = auth()?.currentUser?.uid;
@@ -218,7 +240,35 @@ const uuid = auth()?.currentUser?.uid;
       }
     },}} name='ArtistProfile' component={ArtistProfile}/>
     
-			<Stack.Screen options={{headerShown: false}} name="ArtPreview" component={ArtPreview} />
+    <Stack.Screen options={({ navigation, headerTransparent }) => ({
+              headerTransparent: true, headerTintColor: '#fff', headerTitleStyle: '#fff',
+              headerRight: () => (
+                <TouchableOpacity
+                onPress={() => navigation.navigate('Cart', {cartItem: items, uuid: uuid}, console.log(uuid))}
+                style={globalStyles.cartIcon}
+              >
+                <View style={[Platform.OS == 'android' ? globalStyles.iconContainer : null]}>
+                {items > 0 ?
+                (<View style={{
+                   position: 'absolute', height: 16, width: 16, borderRadius: 17, backgroundColor: 'rgba(95,197,123,0.9)', right:2,marginVertical:3, alignSelf:"flex-end", alignItems: 'center', justifyContent: 'center', zIndex: 2000,
+                 }}>
+                  <Text style={{ color: '#F5F5F5', fontWeight: 'bold', marginVertical:-10, fontSize:12 }}>
+                    {items}
+                  </Text>
+                  </View>): (<View></View>)
+                }
+                  <MaterialCommunityIcons
+                    name="cart"
+                    size={28}
+                    color={'#FFFFFF'}
+                    style={{alignSelf: 'center', marginVertical:10}}
+                  />
+  
+          </View>
+              </TouchableOpacity>
+              ),
+            })} name="ArtPreview" component={ArtPreview} />
+
 			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='Cart' component={Cart} />
 			<Stack.Screen options={{headerShown: false}} name='PaymentSuccesful' component={PaymentSuccesful} />
 			<Stack.Screen options={{headerShown: false}} name='PaymentFailure' component={PaymentFailure} />

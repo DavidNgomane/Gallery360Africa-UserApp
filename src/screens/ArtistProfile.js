@@ -146,6 +146,7 @@ const ArtistProfile = ({route, navigation}) => {
     return () => followState();
     return () => unregister(); 
   }, [])
+
   return (
     <ImageBackground 
       source={imageBg} 
@@ -153,19 +154,8 @@ const ArtistProfile = ({route, navigation}) => {
       style={globalStyles.container}
     >
       <View style={styles.TopContainer}>
-        {/* <View style={{justifyContent: "center", height: 70}}>
-          <TouchableOpacity
-            onPress={() =>navigation.navigate("Home")}
-            style={styles.BackButton}
-          >
-            <Entypo
-              name="chevron-small-left"
-              size={40}
-              color={"#000"}
-            />
-          </TouchableOpacity>
-        </View> */}
-<View style={styles.VideoContainer}>
+       
+      <View style={styles.VideoContainer}>
           {/* <Image 
             source={{uri: 'https://images.unsplash.com/photo-1614315394848-b3375bf3f39c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8ODF8fHZpZGVvfGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60'}}
             style={{width: 325, height: 250, borderRadius: 15}}
@@ -180,7 +170,7 @@ const ArtistProfile = ({route, navigation}) => {
               style={{width: 325, height: 350, borderRadius: 15}}
            />
           </View>
-      </View>
+        </View>
                 <View style={styles.MiddleContainer}>
                   <View style={styles.listItem} >
                     <View style={{flexDirection: "row", width: '91%'}}>
@@ -254,8 +244,11 @@ const ArtistProfile = ({route, navigation}) => {
       </ImageBackground>
   );
 }
+
 const imageBg = require('../assets/images/home.png')
+
 export default ArtistProfile;
+
 const styles = StyleSheet.create({
   TopContainer: {
     top: 50
