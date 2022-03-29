@@ -68,11 +68,11 @@ const Artists = ({navigation}) => {
         <View style={styles.searchBarContainer}>
           <Ionicons style={{left:55, top:10}} name="search" size={25} color={'black'} />
                         
-            <TextInput
-              onChangeText={(search) => fetchUsers(search)}
+            {/* <TextInput
+              //onChangeText={}
               placeholder="Search"
               style={styles.searchInput}
-            />
+            /> */}
 
             <TouchableOpacity>
               <Text style={styles.searchBtnText}>Search</Text>

@@ -123,18 +123,6 @@ const App = ({navigation}) => {
   const [items, SetItems] = useState(0);
   const [image, setImage] = useState("");
 
-  const getCartItemNumber = () => {
-    const uuid = auth()?.currentUser?.uid;
-  
-    return firestore().collection("cartItem").doc(uuid).onSnapshot((snapShot1) => {
-      const getData = snapShot1.ref.collection("items").where("uuid", "==", uuid).onSnapshot((snapShot) => {
-      const cartItems = snapShot.size; 
-      // console.log(cartItems + "  this the number of item added to cart")
-      SetItems(cartItems);
-    })
-  })
-  }
-
 
     useEffect(() => {
       const unregister = auth().onAuthStateChanged(userExist=>{
@@ -168,11 +156,6 @@ const App = ({navigation}) => {
         unregister()
       }
   }, [])
-
-  useEffect(() => {
-    getCartItemNumber();
-    return () => getCartItemNumber();
-  },[])
 
 const uuid = auth()?.currentUser?.uid;
   
