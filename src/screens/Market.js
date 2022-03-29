@@ -12,12 +12,11 @@ const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 7 / 5);
 
   // 
   const [artist, setArtist] = useState([]);
+  const [artist1, setArtist1] = useState([]);
   
   const getArtist = () => {
-    return firestore().collection('artists').orderBy('artistName').limit(1).onSnapshot((snapShot) => {
+    return firestore().collection('artists').onSnapshot((snapShot) => {
       const allArtists = snapShot.docs.map(docSnap => docSnap.data());
-     
-     // orderBy(allArtists).limit(1);
       setArtist(allArtists)
     })
   }
@@ -28,6 +27,21 @@ const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 7 / 5);
       isMounted = false;
     }
   }, [])
+
+  const getArtist1 = () => {
+    return firestore().collection('artists').orderBy('artistName').limit(2).onSnapshot((snapShot) => {
+      const allArtists1 = snapShot.docs.map(docSnap => docSnap.data());
+      setArtist1(allArtists1)
+    })
+  }
+  useEffect(() => {
+    let isMounted = true;
+     getArtist1();
+    return () => {
+      isMounted = false;
+    }
+  }, [])
+
 
   //
   const [state, setState] = useState()
@@ -80,7 +94,7 @@ const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 7 / 5);
               horizontal
               bounces={false}
               showsHorizontalScrollIndicator={false}
-              data={artist}
+              data={artist1}
               keyExtractor={item => `${item.artistUid}`}
               renderItem={({item}) => {
                 return (
