@@ -65,6 +65,7 @@ const TabNavigator = () => {
       renderIndicator: () => null,
     }}
     screenOptions={{
+      tabBarPressColor: '#fff',
       headerTransparent: true,
       tabBarActiveTintColor: '#fff',
       tabBarInactiveTintColor: '#000',
