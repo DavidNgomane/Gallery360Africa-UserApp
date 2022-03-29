@@ -143,7 +143,7 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
         }).then((snapShot) => {
           Toast.show({
             type: 'success',
-            text2: 'Your item has been added to cart ',
+            text2: 'Your item has been added to cart',
          })
       }).catch((error) => alert(error));
       } catch (error) {
@@ -191,7 +191,7 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
       .then(() => {
         setFollowing(true) 
         Toast.show({
-          type: 'success ',
+          type: 'success',
           text2: `You're now Following ${artistName}`
         })
       }).catch((error) => {
