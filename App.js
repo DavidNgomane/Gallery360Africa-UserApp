@@ -54,10 +54,12 @@ const TabNavigator = () => {
         padding: 3,
         width: 160,
         marginLeft:  10,
+        //headerTransparent: true,
       },
       renderIndicator: () => null,
     }}
     screenOptions={{
+      headerTransparent: true,
       tabBarActiveTintColor: '#fff',
       tabBarInactiveTintColor: '#000',
       swipeEnabled: false,
