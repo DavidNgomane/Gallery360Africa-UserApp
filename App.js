@@ -78,6 +78,7 @@ const TabNavigator = () => {
   )
 }
 const App = ({navigation}) => {
+
   const toastConfig = {
     success: (props) => (
       <BaseToast
@@ -116,7 +117,7 @@ const App = ({navigation}) => {
 
   const [user, setuser] = useState('');
   const [uid, setUID] = useState("");
-  const [cartItem, setCartItem] = useState(null);
+  const [cartItem, setCartItem] = useState(0);
   const [User, setUser] = useState(null);
   const [fullName, setFullName] = useState(null);
 
@@ -138,14 +139,11 @@ const App = ({navigation}) => {
                 setFullName(uName);
               });
             
-                return firestore().collection("cartItem").doc(userExist.uid).onSnapshot((snapShot1) => {
-                  const getData = snapShot1.ref.collection("items").where("uuid", "==", userExist.uid).onSnapshot((snapShot) => {
+                return firestore().collection("cartItem").doc(userExist.uid).collection("items").where("uuid", "==", userExist.uid).onSnapshot((snapShot) => {
                   const cartItems = snapShot.size;
-                  // console.log(cartItems + "  this the number of item added to cart")
-                  setCartItem(cartItems);
-                })
+                  console.log(cartItems + "  this the number of item added to cart")
+                  setCartItem(cartItems); 
               })
-            
           }
             else {
               setuser("");
@@ -228,16 +226,16 @@ const uuid = auth()?.currentUser?.uid;
               headerTransparent: true, headerTintColor: '#fff', headerTitleStyle: '#fff',
               headerRight: () => (
                 <TouchableOpacity
-                onPress={() => navigation.navigate('Cart', {cartItem: items, uuid: uuid}, console.log(uuid))}
+                onPress={() => navigation.navigate('Cart', {cartItem: cartItem, uuid: uuid})}
                 style={globalStyles.cartIcon}
               >
                 <View style={[Platform.OS == 'android' ? globalStyles.iconContainer : null]}>
-                {items > 0 ?
+                {cartItem > 0 ?
                 (<View style={{
                    position: 'absolute', height: 16, width: 16, borderRadius: 17, backgroundColor: 'rgba(95,197,123,0.9)', right:2,marginVertical:3, alignSelf:"flex-end", alignItems: 'center', justifyContent: 'center', zIndex: 2000,
                  }}>
                   <Text style={{ color: '#F5F5F5', fontWeight: 'bold', marginVertical:-10, fontSize:12 }}>
-                    {items}
+                    {cartItem}
                   </Text>
                   </View>): (<View></View>)
                 }

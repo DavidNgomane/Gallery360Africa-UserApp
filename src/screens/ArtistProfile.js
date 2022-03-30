@@ -171,6 +171,7 @@ const ArtistProfile = ({route, navigation}) => {
            />
           </View>
         </View>
+        
                 <View style={styles.MiddleContainer}>
                   <View style={styles.listItem} >
                     <View style={{flexDirection: "row", width: '91%'}}>
@@ -204,20 +205,16 @@ const ArtistProfile = ({route, navigation}) => {
                       </View>
                     )
                     }
-                        {/* <TouchableOpacity >
-                          <Ionicons 
-                            name="md-person-add" size={24} 
-                            color={'#000'}
-                            style={{alignSelf: 'flex-end', marginVertical: -25, marginHorizontal: 70, bottom: 3}}
-                          />
-                        </TouchableOpacity> */}
+                      
                       </View>
                     </View>
-                    <View style={{width: '95%', padding: 5}}>
+
+                    <View style={{width: '95%', padding: 5, top: 15}}>
                       <Text style={{color: "#000000"}}>{description}</Text>
                     </View>
                   </View>
                 </View>
+
                 <View style={styles.BottomContainer}>
                   <Text style={styles.moreText}>More Works</Text>
                     <FlatList 
@@ -251,11 +248,11 @@ export default ArtistProfile;
 
 const styles = StyleSheet.create({
   TopContainer: {
-    top: 50
+    top: 70
   },
     MiddleContainer: {
         flex: 6,
-        top: 65
+        top: 100
         // backgroundColor: "red"
     },
     BottomContainer: {
