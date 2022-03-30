@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, Image, ImageBackground, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, Image, ImageBackground, StyleSheet, FlatList, TouchableOpacity, ScrollView, SafeAreaView } from "react-native";
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
 import { globalStyles } from "../assets/styles/GlobalStyles";
@@ -209,7 +209,7 @@ const ArtistProfile = ({route, navigation}) => {
                       </View>
                     </View>
 
-                    <View style={{width: '95%', padding: 5, top: 15}}>
+                    <View style={{width: '95%', top: 15}}>
                       <Text style={{color: "#000000"}}>{description}</Text>
                     </View>
                   </View>
@@ -217,26 +217,35 @@ const ArtistProfile = ({route, navigation}) => {
 
                 <View style={styles.BottomContainer}>
                   <Text style={styles.moreText}>More Works</Text>
-                    <FlatList 
-                      horizontal={true}
-                      data={art}
-                      keyExtractor={item => `${item.ImageUid}`}
-                      renderItem={({ item }) => {
-                        return(
-                          <View style={styles.listItem2} >
-                            <TouchableOpacity onPress={() => navigation.navigate('ArtPreview', {artistUid, likes: item.likes, price: item.price, description: item.description, artUrl: item.artUrl, artistPhoto: item.artistPhoto, artistName: item.artistName, ImageUid: item.ImageUid, artType: item.artType, description: description})} >
-                              <Image 
-                                source={{uri:item.artUrl}} 
-                                style={styles.img}
-                              />
-                              <View style={styles.priceView}>
-                                <Text style={styles.price} >R{item.price}</Text>
+                  <ScrollView
+                  horizontal>
+                        <SafeAreaView style={{flexDirection:'row'}}>
+                        <FlatList
+                          horizontal={true}
+                          data={art}
+                          keyExtractor={item => `${item.ImageUid}`}
+                          renderItem={({ item }) => {
+                            return(
+                              <View style={styles.listItem2} >
+                                <TouchableOpacity onPress={() => navigation.navigate('ArtPreview', {artistUid, likes: item.likes, price: item.price, description: item.description, artUrl: item.artUrl, artistPhoto: item.artistPhoto, artistName: item.artistName, ImageUid: item.ImageUid, artType: item.artType, description: description})} >
+                                  <Image
+                                    source={{uri:item.artUrl}}
+                                    style={styles.img}
+                                  />
+                                  <View style={styles.priceView}>
+                                    <Text style={styles.price} >{item.price}</Text>
+                                  </View>
+                                </TouchableOpacity>
                               </View>
-                            </TouchableOpacity>
-                          </View>
-                        )
-                      }}
-                    />
+                            )
+                          }}
+                        />
+                        <TouchableOpacity onPress={() => navigation.navigate('ArtWorks',  { description:description, artistUid: artistUid, photoUrl: photoUrl, artistName: artistName})} style={{width:120, height:150, borderWidth:2, borderColor:'gold', borderRadius:15, marginHorizontal:15, top:20, justifyContent:'center', alignItems:'center'}}>
+                           {/* <Text style={{fontSize:17, color:'black', fontWeight:'700'}}>+{size}</Text> */}
+                           <Text style={{color:'blue', fontSize:20, fontWeight:'700'}}>See All</Text>
+                        </TouchableOpacity>
+                        </SafeAreaView>
+                    </ScrollView>
                 </View>
       </ImageBackground>
   );
@@ -289,7 +298,7 @@ const styles = StyleSheet.create({
         width: '90%'
       },
       listItem: {
-        paddingTop: 20,
+        // paddingTop: 20,
         marginLeft: 15,
         width: '100%',
         height: 100,

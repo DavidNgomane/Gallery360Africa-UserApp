@@ -41,6 +41,7 @@ import Search from './src/screens/Search';
 import Notifications from './src/screens/Notifications';
 import TermsAndCondtions from './src/screens/TermsAndConditions';
 import Artists from './src/screens/Artists';
+import ArtWorks from './src/screens/ArtWorks';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -123,7 +124,6 @@ const App = ({navigation}) => {
 
   const [items, SetItems] = useState(0);
   const [image, setImage] = useState("");
-
 
     useEffect(() => {
       const unregister = auth().onAuthStateChanged(userExist=>{
@@ -215,12 +215,7 @@ const uuid = auth()?.currentUser?.uid;
           
         />
         
-			<Stack.Screen options={{headerShown: true,  headerTransparent: true,  navigationOptions: {
-      title: 'Flashcards',
-      headerBackTitleStyle: {
-       color: '#000'
-      }
-    },}} name='ArtistProfile' component={ArtistProfile}/>
+			<Stack.Screen options={{headerShown: true,  headerTransparent: true}} name='ArtistProfile' component={ArtistProfile}/>
     
     <Stack.Screen options={({ navigation, headerTransparent }) => ({
               headerTransparent: true, headerTintColor: '#fff', headerTitleStyle: '#fff',
@@ -262,6 +257,7 @@ const uuid = auth()?.currentUser?.uid;
 			<Stack.Screen options={{headerShown: true, headerTransparent: true}} name='Notifications' component={Notifications} />
 			<Stack.Screen options={{headerShown: true, headerTransparent: true}} name='TermsAndConditions' component={TermsAndCondtions} />
 			<Stack.Screen options={{headerShown: true, headerTransparent: true}} name='Artists' component={Artists} />
+      <Stack.Screen options={{headerShown: true, headerTransparent: true}} name='ArtWorks' component={ArtWorks} />
 			
       <Stack.Screen 
         options={{

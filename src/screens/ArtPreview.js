@@ -390,15 +390,23 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
                         style={{marginHorizontal: 10, marginVertical: 7, width: '80%'}}
                       >
                           <Text style={globalStyles.artistName}>{artistName}</Text>
-                          <Text 
-                            style={{fontFamily: 'Poppins', color: '#F5F5F5'}}
-                          >
-                            {item.artType}
-                          </Text>
-                    
-                        <Text style={globalStyles.price}>{`R${item.price}.00`}</Text>
 
-                        {/* <Text style={{fontWeight:"bold", fontSize: 16, marginVertical:-5, color: '#F5F5F5'}}>(1080x1080)cm</Text> */}
+                          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                              <Text 
+                              style={{fontFamily: 'Poppins', color: '#F5F5F5'}}
+                            >
+                              {item.artType}
+                            </Text>
+
+                            <Text 
+                              style={{fontFamily: 'Poppins', color: '#F5F5F5', paddingTop: 0, fontWeight: 'bold'}}
+                            >
+                              {`R${item.price}.00`}
+                            </Text>
+                            
+                          </View>
+                          
+                          <Text style={{fontSize: 11, paddingTop: 3, color: '#F5F5F5'}}>{`(${item.artSize}) cm`}</Text>
                       </View>
 
                     </View>

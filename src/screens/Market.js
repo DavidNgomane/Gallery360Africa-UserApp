@@ -29,7 +29,7 @@ const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 7 / 5);
   }, [])
 
   const getArtist1 = () => {
-    return firestore().collection('artists').orderBy('artistName').limit(2).onSnapshot((snapShot) => {
+    return firestore().collection('artists').orderBy('artistName').limit(3).onSnapshot((snapShot) => {
       const allArtists1 = snapShot.docs.map(docSnap => docSnap.data());
       setArtist1(allArtists1)
     })
