@@ -74,8 +74,13 @@ const DeliveryAddress = ({navigation}) => {
           renderItem={({item})=>{
             return(
               <SafeAreaView>
+<<<<<<< Updated upstream
                   <TouchableOpacity  onPress={() => navigation.navigate('PaymentForm')}>
                   <Item address={item.address} location={item.location} city={item.city} />
+=======
+                  <TouchableOpacity  onPress={() => navigation.navigate('CardInformation', {uuid: uuid})}>
+                  <Item province={item.province} streetName={item.streetName} city={item.city} />
+>>>>>>> Stashed changes
                   </TouchableOpacity>
               </SafeAreaView>
             );

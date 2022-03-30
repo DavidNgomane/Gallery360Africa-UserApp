@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint ."
-  },
+    },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.16.1",
     "@react-native-firebase/app": "^14.5.0",
@@ -18,7 +18,18 @@
     "@react-navigation/material-top-tabs": "^6.1.1",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
+<<<<<<< Updated upstream
+=======
+    "@reduxjs/toolkit": "^1.8.0",
+    "@stripe/stripe-react-native": "^0.5.0",
+    "axios": "^0.26.1",
+    "body-parser": "^1.19.2",
+    "consolidate": "^0.16.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+>>>>>>> Stashed changes
     "formik": "^2.2.9",
+    "paypal-rest-sdk": "^1.8.1",
     "react": "17.0.2",
     "react-native": "0.67.2",
     "react-native-image-picker": "^4.7.3",
@@ -29,6 +40,13 @@
     "react-native-screens": "^3.11.0",
     "react-native-tab-view": "^3.1.1",
     "react-native-vector-icons": "^9.0.0",
+<<<<<<< Updated upstream
+=======
+    "react-native-webview": "^11.18.0",
+    "react-native-youtube-iframe": "^2.2.2",
+    "react-redux": "^7.2.6",
+    "redux": "^4.1.2",
+>>>>>>> Stashed changes
     "yup": "^0.32.11"
   },
   "devDependencies": {

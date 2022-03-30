@@ -12,6 +12,13 @@ target 'Gallery360' do
     :hermes_enabled => false
   )
 
+<<<<<<< Updated upstream
+=======
+  pod 'react-native-maps', :path => '../node_modules/react-native-maps'
+
+  pod 'stripe-react-native', :path => '../node_modules/@stripe/stripe-react-native'
+
+>>>>>>> Stashed changes
   target 'Gallery360Tests' do
     inherit! :complete
     # Pods for testing
