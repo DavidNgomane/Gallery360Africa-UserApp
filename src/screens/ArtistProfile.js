@@ -162,12 +162,8 @@ const ArtistProfile = ({route, navigation}) => {
       <View style={styles.TopContainer}>
        
       <View style={styles.VideoContainer}>
-          {/* <Image 
-            source={{uri: 'https://images.unsplash.com/photo-1614315394848-b3375bf3f39c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8ODF8fHZpZGVvfGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60'}}
-            style={{width: 325, height: 250, borderRadius: 15}}
-          /> */}
            <WebView
-              source={{html: '<iframe width="100%" height="50%" src="https://www.youtube.com/embed/cqyziA30whE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'}}
+              source={{html: '<iframe width="100%" height="50%" src="https://www.youtube.com/embed/FHfIeu3Vnrc" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'}}
               videoId={'84WIaK3bl_s'}
               style={{width: 325, height: 10, borderRadius: 15}}
            />
@@ -190,23 +186,21 @@ const ArtistProfile = ({route, navigation}) => {
                         {following == artistUid ? (
                       <View>
                           <TouchableOpacity 
-                            style={{alignSelf: 'flex-end', marginVertical: -25, marginHorizontal: 70, bottom: 3}}
+                            style={{alignSelf: 'flex-end', marginVertical: -25, marginHorizontal: 70, bottom: 10}}
                             title="following"
                             onPress={() => onUnFollowing()}
                           > 
-                          <Text style={{color: '#dc143c', fontSize: 20}}>Unfollow</Text> 
-                          {/* <Entypo name="remove-user" size={30} color={'#40e0d0'}/> */}
+                          <Text style={{color: '#dc143c', fontSize: 16}}>Unfollow</Text> 
                         </TouchableOpacity>
                       </View>
                     ) : (
                       <View>
                         <TouchableOpacity 
-                            style={{alignSelf: 'flex-end', marginVertical: -25, marginHorizontal: 70, bottom: 3}}
+                            style={{alignSelf: 'flex-end', marginVertical: -25, marginHorizontal: 70, bottom: 10}}
                             title="following"
                             onPress={() => onFollow()}
                             >  
-                             <Text style={{color: '#deb887', fontSize: 20}}>Follow</Text>     
-                         {/* <Entypo name="add-user" size={30} color={'black'}/> */}
+                             <Text style={{color: '#deb887', fontSize: 16}}>Follow</Text>     
                           </TouchableOpacity>
                       </View>
                     )
@@ -246,9 +240,21 @@ const ArtistProfile = ({route, navigation}) => {
                             )
                           }}
                         />
-                        <TouchableOpacity onPress={() => navigation.navigate('ArtWorks',  { description:description, artistUid: artistUid, photoUrl: photoUrl, artistName: artistName})} style={{width:120, height:150, borderWidth:2, borderColor:'gold', borderRadius:15, marginHorizontal:15, top:20, justifyContent:'center', alignItems:'center'}}>
-                           {/* <Text style={{fontSize:17, color:'black', fontWeight:'700'}}>+{size}</Text> */}
-                           <Text style={{color:'blue', fontSize:20, fontWeight:'700'}}>See All</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('ArtWorks',  { description:description, artistUid: artistUid, photoUrl: photoUrl, artistName: artistName})} 
+                          style={{
+                            borderWidth: 1,
+                            borderColor: 'gray',
+                            width:120, 
+                            height:150,
+                            borderRadius:15, 
+                            marginHorizontal:15, 
+                            top:20, 
+                            justifyContent:'center', 
+                            alignItems:'center'
+                            }}
+                            >
+                           <Text style={{fontSize: 18, color:'gray'}}> +{size}</Text>
+                           {/* <Text style={{color:'blue', fontSize:20, fontWeight:'700'}}>See All</Text> */}
                         </TouchableOpacity>
                         </SafeAreaView>
                     </ScrollView>
@@ -263,7 +269,7 @@ export default ArtistProfile;
 
 const styles = StyleSheet.create({
   TopContainer: {
-    top: 70,
+    top: 50,
     flex: 2,
   },
     MiddleContainer: {
@@ -337,7 +343,7 @@ const styles = StyleSheet.create({
       VideoContainer: {
         borderRadius: 15, 
         width: 325, 
-        height: 500, 
+        height: 490, 
         backgroundColor: "blue", 
         alignSelf: "center",
         marginTop: 10

@@ -1,44 +1,151 @@
 import React, { useState } from 'react';
-import {View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, Image, KeyboardAvoidingView} from 'react-native';
+import {
+  View, 
+  Text, 
+  TextInput, 
+  TouchableOpacity, 
+  StyleSheet, 
+  Dimensions, 
+  Image, 
+  KeyboardAvoidingView, 
+  Modal,
+  ActivityIndicator,
+  SafeAreaView
+} from 'react-native';
+
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Feather from "react-native-vector-icons/Feather";
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import firestore from '@react-native-firebase/firestore';
+import WebView from 'react-native-webview';
 
 const PaymentForm = ({route, navigation}) => {
 
   const { uuid } = route.params;
 
-    const [name, setName] = useState('');
-    const [cardNumber, setCardNumber] = useState('');
-    const [expiration, setExpiration] = useState('');
-    const [cvv, setCvv] = useState('')
 
-    const submitForm = () => {
-      if(name == '' || cardNumber == '' || expiration == '' || cvv == '') {
-        alert('Fill in all fields')
-      } else {
-        navigation.navigate('PaymentSuccesful')
+  const [showGateway, setShowGateway] = useState(false);
+  const [prog, setProg] = useState(false);
+  const [progClr, setProgClr] = useState('#000');
 
-        return(
-          firestore().collection('paymentDetails').add({
-            name: name,
-            cardNumber: cardNumber,
-            expiration: expiration,
-            cvv: cvv,
-          })
-          .catch((error) => {
-            alert(error);
-          })
-        )
-      }
+  async function _onApprove(data, actions) {
+    let order = await actions.order.capture();
+    console.log(order);
+    window.ReactNativeWebView &&
+      window.ReactNativeWebView.postMessage(JSON.stringify(order));
+    return order;
+}
+function _onError(err) {
+    console.log(err);
+    let errObj = {
+      err: err,
+      status: "FAILED",
+    };
+    window.ReactNativeWebView &&
+      window.ReactNativeWebView.postMessage(JSON.stringify(errObj));
+}
+
+function onMessage(e) {
+  let data = e.nativeEvent.data;
+  setShowGateway(false);
+  console.log(data);
+}
+
+    // const [name, setName] = useState('');
+    // const [cardNumber, setCardNumber] = useState('');
+    // const [expiration, setExpiration] = useState('');
+    // const [cvv, setCvv] = useState('')
+
+    // const submitForm = () => {
+    //   if(name == '' || cardNumber == '' || expiration == '' || cvv == '') {
+    //     alert('Fill in all fields')
+    //   } else {
+    //     navigation.navigate('PaymentSuccesful')
+
+    //     return(
+    //       firestore().collection('paymentDetails').add({
+    //         name: name,
+    //         cardNumber: cardNumber,
+    //         expiration: expiration,
+    //         cvv: cvv,
+    //       })
+    //       .catch((error) => {
+    //         alert(error);
+    //       })
+    //     )
+    //   }
       
-    }
+    // }
 
   return (
     <KeyboardAvoidingView 
-        style={globalStyles.cardContainer} 
-        // behavior="position"
+        style={globalStyles.cardContainer} // behavior="position"
     >
+
+<SafeAreaView style={{flex: 1}}>
+  
+      <View style={styles.container}>
+        <View style={styles.btnCon}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => setShowGateway(true)}>
+            <Text style={styles.btnTxt}>Pay Using PayPal</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {showGateway ? (
+        <Modal
+          visible={showGateway}
+          onDismiss={() => setShowGateway(false)}
+          onRequestClose={() => setShowGateway(false)}
+          animationType={"fade"}
+          transparent>
+          <View style={styles.webViewCon}>
+            <View style={styles.wbHead}>
+              <TouchableOpacity
+                style={{padding: 13}}
+                onPress={() => setShowGateway(false)}>
+                <Feather name={'x'} size={24} />
+              </TouchableOpacity>
+              <Text
+                style={{
+                  flex: 1,
+                  textAlign: 'center',
+                  fontSize: 16,
+                  fontWeight: 'bold',
+                  color: '#00457C',
+                }}>
+                PayPal GateWay
+              </Text>
+              <View style={{padding: 13, opacity: prog ? 1 : 0}}>
+                <ActivityIndicator size={24} color={progClr} />
+              </View>
+            </View>
+
+            <WebView
+              source={{uri: 'https://www.google.com'}}
+              onMessage={onMessage}
+              style={{flex: 1}}
+              onLoadStart={() => {
+                setProg(true);
+                setProgClr('#000');
+              }}
+              onLoadProgress={() => {
+                setProg(true);
+                setProgClr('#00457C');
+              }}
+              onLoadEnd={() => {
+                setProg(false);
+              }}
+              onLoad={() => {
+                setProg(false);
+              }}
+            />
+          </View>
+        </Modal>
+      ) : null}
+    </SafeAreaView>
         {/* <View>
             <View style={styles.backButton}>
             <MaterialIcons 
@@ -49,7 +156,7 @@ const PaymentForm = ({route, navigation}) => {
          </View>
         </View> */}
 
-        <View style={globalStyles.body}>
+        {/* <View style={globalStyles.body}>
             <Image
                 source={require('../assets/images/card.png')}
                 style={styles.imageBack}  
@@ -111,7 +218,7 @@ const PaymentForm = ({route, navigation}) => {
                     <Text style={styles.buttonTextStyle}>Pay ZAR 350000.00</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </View> */}
 
     
      
@@ -194,6 +301,12 @@ const PaymentForm = ({route, navigation}) => {
 export default PaymentForm;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
 
       payButton: {
          width: 300,
@@ -290,6 +403,40 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         alignItems: 'center',
         marginTop: 30,     
+    },
+
+
+
+
+    btnCon: {
+      height: 45,
+      width: '70%',
+      elevation: 1,
+      backgroundColor: '#00457C',
+      borderRadius: 3,
+    },
+    btn: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    btnTxt: {
+      color: '#fff',
+      fontSize: 18,
+    },
+    webViewCon: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+    },
+    wbHead: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: '#f9f9f9',
+      zIndex: 25,
+      elevation: 2,
     },
   
   });

@@ -1,34 +1,109 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, ImageBackground, Image, StyleSheet, FlatList, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ImageBackground, Image, StyleSheet, FlatList, ScrollView, Dimensions } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import { SafeAreaView } from "react-native-safe-area-context";
+import { globalStyles } from "../assets/styles/GlobalStyles";
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Carousel from 'react-native-snap-carousel'
+
 export default function ArtWorks({route}){
-    const [artWork, setArtWork] = useState();
-     const { artistUid, photoUrl, artistName, description } = route.params;
-  const getArtwork = () => {
+
+  const SLIDER_WIDTH = Dimensions.get('window').width;
+  const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.9);
+  const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 10 / 5);
+
+  const [artist, setArtist] = useState([]);
+  const { artistUid, photoUrl, artistName, description } = route.params;
+  
+  const getArtist = () => {
     return firestore().collection('Market').where('ArtistUid', '==', artistUid ).onSnapshot((snapShot) => {
-      const allArtwork = snapShot.docs.map(docSnap => docSnap.data());
-      console.log(allArtwork, 'this is all artwork')
-      setArtWork(allArtwork)
+      const allArtists = snapShot.docs.map(docSnap => docSnap.data());
+      
+      setArtist(allArtists)
     })
   }
   useEffect(() => {
     let isMounted = true;
-     getArtwork();
+     getArtist();
     return () => {
       isMounted = false;
     }
   }, [])
-    return(
-        <View>
-            <ImageBackground resizeMode="cover" style={{width:'100%', height:'100%', }} source={require('../assets/images/home.png')}>
-                    <SafeAreaView >
-                        <FlatList
+
+  const [state, setState] = useState()
+
+  const _renderItem = ({item, index}) => {
+    return (
+      <View>
+        <TouchableOpacity 
+          onPress={() => navigation.navigate('ArtistProfile', { description: item.description, artistUid: item.artistUid, photoUrl: item.photoUrl, artistName: item.artistName})}>
+          <Image
+            source={{uri: item.artUrl}}
+            style={{width: ITEM_WIDTH, height: ITEM_HEIGHT, borderRadius: 16}}
+          />
+          <View style={{
+            backgroundColor: '#fff', 
+            height: 65, 
+            position: 'absolute', 
+            borderRadius: 16, 
+            bottom: 8, left: 8, 
+            right: 8, 
+            justifyContent: 'center'
+            }}
+            >
+            <Text style={globalStyles.artNameTxt}>{item.artName}</Text>
+            <Text style={globalStyles.artTypeTxt}>{item.description}</Text>
+          </View>
+        
+        </TouchableOpacity>
+      </View>
+    )
+  }
+ 
+    return (
+      <View  style={globalStyles.container}>
+
+      {/* <View style={styles.searchBarContainer}>
+        <Ionicons style={{left:55, top:10}} name="search" size={25} color={'black'} />
+                      
+          <TextInput
+            //onChangeText={}
+            placeholder="Search"
+            style={styles.searchInput}
+          />
+
+          <TouchableOpacity>
+            <Text style={styles.searchBtnText}>Search</Text>
+          </TouchableOpacity>
+      </View> */}
+
+      <View style={globalStyles.homeBody1}>
+        <SafeAreaView style={{
+            width: '100%',
+            alignItems: 'center',
+            alignSelf: 'center',
+          }}
+        >
+          <Carousel
+            data = {artist}
+            sliderWidth={SLIDER_WIDTH}
+            itemWidth={ITEM_WIDTH}
+            renderItem= {_renderItem}
+            onSnapToItem={(index) => setState({ index })}
+            useScrollView={true}
+          />
+        </SafeAreaView>
+      </View>
+ 
+         
+
+                    {/* <FlatList
                         data={artWork}
                         scrollEnabled
                         keyExtractor={(item, index)=> index.toString()}
                         showsVerticalScrollIndicator
                         renderItem={({item})=>{
+
                             return(
                             <View
                             style={{flex:5, top:75, height: 325, width:'100%', }}>
@@ -54,9 +129,32 @@ export default function ArtWorks({route}){
                                     </View>
                             </View>
                             )}}
-                            />
-                    </SafeAreaView>
-            </ImageBackground>
+                            /> */}
+                   
+           
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+  searchInput:{
+    width: '70%',
+    height:50,
+    borderColor:'black',
+    borderWidth:0.5,
+    borderRadius: 7,
+    paddingHorizontal: 50, 
+    color: 'black',
+    //backgroundColor:'#fff'
+},
+searchBarContainer:{
+    flexDirection:'row',
+    justifyContent:'space-around',
+    top: 70
+},
+searchBtnText:{
+    color:'#FF5353',
+    top:10,
+    fontSize:15
+},
+})

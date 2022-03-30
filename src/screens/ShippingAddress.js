@@ -1,4 +1,4 @@
-import { ImageBackground, StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import React, { useState } from 'react';
 import { globalStyles } from '../assets/styles/GlobalStyles';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -91,13 +91,8 @@ const ShippingAddress = ({navigation, route}) => {
     })
 }
   return (
-    <ImageBackground
-      source={require('../assets/images/home.png')}
-      style={globalStyles.container}
-      resizeMode='stretch'
-    >
-
-      <View style={styles.body}>
+    
+      <KeyboardAvoidingView style={styles.body}>
         <TextInput
                 style={styles.textField}
                 value={recipientName}
@@ -142,17 +137,14 @@ const ShippingAddress = ({navigation, route}) => {
                 placeholderTextColor="#22180E"
                 keyboardType="numeric"
             />
-      </View>
 
-      <View style={styles.shippingFooter}>
-        <TouchableOpacity
+          <TouchableOpacity
             onPress={validate}
-            style={{backgroundColor:'black', width:'80%', height:50, borderRadius:20, bottom: 15}}>
+            style={{backgroundColor:'black', width:'80%', height:50, borderRadius:20, bottom: 15, marginTop: 35}}>
             <Text style={{color:'white', textAlign:'center', fontSize:14, top:15, }}>Save Address</Text>
           </TouchableOpacity>
-      </View>
-     
-    </ImageBackground>
+      </KeyboardAvoidingView>
+      
   );
 };
 

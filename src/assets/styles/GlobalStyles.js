@@ -139,7 +139,7 @@ const globalStyles = StyleSheet.create({
     },
     homeBody1: {
       flex: 6,
-        top: 25,
+      top: 10,
       alignItems: 'center',
       justifyContent: 'center',
     },

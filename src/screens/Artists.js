@@ -8,8 +8,8 @@ import Carousel from 'react-native-snap-carousel'
 const Artists = ({navigation}) => {
 
   const SLIDER_WIDTH = Dimensions.get('window').width;
-  const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
-  const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 9 / 5);
+  const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.9);
+  const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 10 / 5);
 
   const [artist, setArtist] = useState([]);
   
@@ -50,7 +50,8 @@ const Artists = ({navigation}) => {
             }}
             >
             <Text style={globalStyles.artNameTxt}>{item.artistName}</Text>
-            <Text style={globalStyles.artTypeTxt}>{item.email}</Text>
+            <Text style={globalStyles.artTypeTxt}>Artist</Text>
+            {/* <Text style={globalStyles.artTypeTxt}>{item.email}</Text> */}
           </View>
         
         </TouchableOpacity>
@@ -65,7 +66,8 @@ const Artists = ({navigation}) => {
         style={globalStyles.container}
     >
       <View  style={globalStyles.container}>
-        <View style={styles.searchBarContainer}>
+
+        {/* <View style={styles.searchBarContainer}>
           <Ionicons style={{left:55, top:10}} name="search" size={25} color={'black'} />
                         
             <TextInput
@@ -77,7 +79,7 @@ const Artists = ({navigation}) => {
             <TouchableOpacity>
               <Text style={styles.searchBtnText}>Search</Text>
             </TouchableOpacity>
-        </View>
+        </View> */}
 
         <View style={globalStyles.homeBody1}>
           <SafeAreaView style={{

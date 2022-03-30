@@ -12,6 +12,7 @@ const Exhibition = ({navigation}) => {
 
   const [artist, setArtist] = useState(null);
 
+
   const getArtist = () => {
     return firestore().collection('artists').orderBy('artistName').limit(3).onSnapshot((snapShot) => {
       const allArtists = snapShot.docs.map(docSnap => docSnap.data());
@@ -119,15 +120,19 @@ const Exhibition = ({navigation}) => {
               <TouchableOpacity onPress={() => navigation.navigate('Artists')}>
                 <View 
                 style={{
+                  borderWidth: 1,
+                  borderColor: '#f5f5f5',
+                  borderRadius: 10,
                   paddingHorizontal: 5,  
-                  margin : 3, 
+                  //borderColor: 'gray',
+                  margin : 5, 
                   justifyContent: "center", 
                   alignSelf: "center",
                   width: 100,
                   height: 100
                   }}
                   >
-                  <Text style={{color: "#ceb89e", textAlign: "center", fontSize: 25}}>Show All</Text>
+                  <Text style={{color: "gray", textAlign: "center", fontSize: 15}}>Show {'\n'}All</Text>
                 </View>
               </TouchableOpacity>
               </ScrollView>

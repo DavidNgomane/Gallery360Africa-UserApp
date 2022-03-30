@@ -51,6 +51,8 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator
     tabBarOptions={{
+      elevation: 0,
+		marginBottom: 5,
       tabStyle: {
         height: 45,
         minHeight: 0,
@@ -61,7 +63,6 @@ const TabNavigator = () => {
         padding: 3,
         width: 160,
         marginLeft:  10,
-        //headerTransparent: true,
       },
       renderIndicator: () => null,
     }}
