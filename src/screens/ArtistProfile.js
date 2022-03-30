@@ -8,6 +8,7 @@ import { Toast } from "react-native-toast-message/lib/src/Toast";
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import YoutubePlayer from 'react-native-youtube-iframe';
+import WebView from 'react-native-webview';
 
 const ArtistProfile = ({route, navigation}) => {
 
@@ -17,6 +18,7 @@ const ArtistProfile = ({route, navigation}) => {
   const [following, setFollowing] = useState("");
   const [photoURL, setPhotoURL] = useState(null);
   const [FullName, setFullName] = useState(null);
+  const [size, setSize] = useState(0);
 
   const { artistUid, photoUrl, artistName, description } = route.params;
 
@@ -32,9 +34,11 @@ const ArtistProfile = ({route, navigation}) => {
       setPlaying(false);
     }
   };
+
   const togglePlaying = () => {
     setPlaying((prev) => !prev);
   };
+
   const seekBackAndForth = (control) => {
     console.log('currentTime');
     controlRef.current?.getCurrentTime().then((currentTime) => {
@@ -43,10 +47,12 @@ const ArtistProfile = ({route, navigation}) => {
         : controlRef.current?.seekTo(currentTime - 15, true);
     });
   };
+
   const muteVideo = () => setMute(!isMute);
   const ControlIcon = ({name, onPress}) => (
-    <Icon onPress={onPress} name={name} size={40} color="#fff" />
+    <Icon onPress={onPress} name={name} size={30} color="#fff" />
   );
+
   // 
   const[art, setArt] = useState(null)
   const getArt = () => {
@@ -160,14 +166,10 @@ const ArtistProfile = ({route, navigation}) => {
             source={{uri: 'https://images.unsplash.com/photo-1614315394848-b3375bf3f39c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8ODF8fHZpZGVvfGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60'}}
             style={{width: 325, height: 250, borderRadius: 15}}
           /> */}
-           <YoutubePlayer
-              height={300}
-              play={true}
-              ref={controlRef}
-              play={playing}
-              mute={isMute}
+           <WebView
+              source={{html: '<iframe width="100%" height="50%" src="https://www.youtube.com/embed/cqyziA30whE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'}}
               videoId={'84WIaK3bl_s'}
-              style={{width: 325, height: 350, borderRadius: 15}}
+              style={{width: 325, height: 10, borderRadius: 15}}
            />
           </View>
         </View>
@@ -175,10 +177,12 @@ const ArtistProfile = ({route, navigation}) => {
                 <View style={styles.MiddleContainer}>
                   <View style={styles.listItem} >
                     <View style={{flexDirection: "row", width: '91%'}}>
+
                       <Image 
                         source={{uri: `${photoUrl}`}} 
                         style={styles.img2}
                       />
+
                       <View style={{width: '100%'}}>
                         <Text style={{ color: "#000000", marginLeft: 10, top: 6, fontSize: 20}}>{artistName}</Text>
                         <Text style={{ color: "#ceb89e", marginLeft: 10, top: 3}}>Artist</Text>
@@ -190,7 +194,8 @@ const ArtistProfile = ({route, navigation}) => {
                             title="following"
                             onPress={() => onUnFollowing()}
                           > 
-                          <Entypo name="remove-user" size={30} color={'#40e0d0'}/>
+                          <Text style={{color: '#dc143c', fontSize: 20}}>Unfollow</Text> 
+                          {/* <Entypo name="remove-user" size={30} color={'#40e0d0'}/> */}
                         </TouchableOpacity>
                       </View>
                     ) : (
@@ -199,8 +204,9 @@ const ArtistProfile = ({route, navigation}) => {
                             style={{alignSelf: 'flex-end', marginVertical: -25, marginHorizontal: 70, bottom: 3}}
                             title="following"
                             onPress={() => onFollow()}
-                            >      
-                         <Entypo name="add-user" size={30} color={'black'}/>
+                            >  
+                             <Text style={{color: '#deb887', fontSize: 20}}>Follow</Text>     
+                         {/* <Entypo name="add-user" size={30} color={'black'}/> */}
                           </TouchableOpacity>
                       </View>
                     )
@@ -257,15 +263,17 @@ export default ArtistProfile;
 
 const styles = StyleSheet.create({
   TopContainer: {
-    top: 70
+    top: 70,
+    flex: 2,
   },
     MiddleContainer: {
-        flex: 6,
-        top: 100
+        flex: 2,
+        top: 90
         // backgroundColor: "red"
     },
     BottomContainer: {
-       top: 10
+      flex: 2,
+       top: 20
     },
     moreText: {
         color: "#000000",
@@ -329,8 +337,8 @@ const styles = StyleSheet.create({
       VideoContainer: {
         borderRadius: 15, 
         width: 325, 
-        height: 170, 
-        backgroundColor: "gray", 
+        height: 500, 
+        backgroundColor: "blue", 
         alignSelf: "center",
         marginTop: 10
     }

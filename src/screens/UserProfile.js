@@ -16,6 +16,21 @@ const background = require("../assets/images/home.png")
 
 export default function UserProfile({route, navigation}) {
 
+  const signoutUser = async () => {
+    try{
+        await auth().signOut().then(() => {
+          Toast.show({
+            type: 'error',
+            text1: 'Hello',
+            text2: 'You have signed out!',
+         })
+           navigation.replace("SignIn")
+        }).catch((error) => alert(error))
+    }catch(e){
+      console.log(e)
+    }
+  }
+
   const [modalOpen, setModalOpen] = useState("");
   const [userName, setUserName] = useState("")
   const [imageUri, setimageUri] = useState("");
@@ -33,8 +48,6 @@ export default function UserProfile({route, navigation}) {
 
   await ImagePicker.launchImageLibrary(options, (response) => {
 
-     
-        
        if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.error) {
@@ -140,7 +153,8 @@ useEffect(() =>{
                             flexDirection:"row", 
                             alignSelf:"center",
                             alignItems:"center", 
-                            borderRadius:20
+                            borderRadius: 20,
+                            marginVertical: 15
                             }}
                             >
                           <MaterialCommunityIcons
@@ -149,11 +163,60 @@ useEffect(() =>{
                               color={'#0E1822'}
                               style={{ marginHorizontal: 10, overflow:"hidden",  color:"#0E1822"}}
                             />
-                          <Text style={{marginHorizontal:10,  color:"#0E1822"}}>My Cart</Text>
-                          <Entypo name="chevron-small-right" size={24} style={{marginVertical:-10, marginHorizontal:"47%",  color:"#0E1822"}}/>
+                          <Text style={{marginHorizontal: 65, color:"#0E1822", fontSize: 16, fontWeight: '600'}}>My Cart</Text>
+                          {/* <Entypo name="chevron-small-right" size={24} style={{marginVertical:-10, marginHorizontal:"47%",  color:"#0E1822"}}/> */}
                         </TouchableOpacity>
 
                         <TouchableOpacity 
+                          onPress={() => navigation.navigate('TermsAndConditions')} 
+                          style={{
+                            //top: 70, 
+                            alignSelf: 'center', 
+                            backgroundColor: '#E3E3E3', 
+                            width:"80%", 
+                            height:70,  
+                            justifyContent:'center', 
+                            alignItems: 'center', 
+                            paddingHorizontal: 20, 
+                            borderRadius: 20,
+                          }}
+                          >
+                          <Text style={{color: '#0E1822', fontSize: 16, fontWeight: '600' }}>Terms and Conditions</Text>
+                      </TouchableOpacity>
+
+                      <View 
+                        style={{ 
+                          alignSelf: 'center', 
+                          backgroundColor: '#E3E3E3', 
+                          width: '80%', height:60, 
+                          justifyContent:'center', 
+                          alignItems: 'center', 
+                          paddingHorizontal: 20, 
+                          borderRadius: 20, 
+                          marginVertical: 15
+                          }}
+                          >
+                          <Text style={{color: '#0E1822', fontSize: 16, fontWeight: '600' }}>App Version</Text>
+                          <Text style={{color: 'gray', fontSize: 12,}}>v1.0.0</Text>
+                      </View>
+
+                      <TouchableOpacity 
+                          style={{ 
+                            alignSelf: 'center', 
+                            backgroundColor: '#E3E3E3', 
+                            width:"80%", 
+                            height:70, 
+                            justifyContent:'center', 
+                            alignItems: 'center', 
+                            paddingHorizontal: 20, 
+                            borderRadius: 20, 
+                          }}
+                          onPress={signoutUser}
+                      >
+                          <Text style={{color: '#0E1822', fontSize: 16, fontWeight: '600' }}>Logout</Text>
+                      </TouchableOpacity>
+
+                        {/* <TouchableOpacity 
                           onPress={() => navigation.navigate('Notifications')} 
                           style={{
                             backgroundColor:"#E3E3E3", 
@@ -174,9 +237,9 @@ useEffect(() =>{
                           />
                           <Text style={{marginHorizontal:10, color:"#0E1822"}}>Notifications</Text>
                           <Entypo name="chevron-small-right" size={24} style={{marginVertical:-10, marginHorizontal:"37%", color:"#0E1822"}}/>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
-                      <TouchableOpacity 
+                      {/* <TouchableOpacity 
                         onPress={() => navigation.navigate('UserSettings')} 
                         style={{
                           backgroundColor:"#E3E3E3",
@@ -196,7 +259,7 @@ useEffect(() =>{
                         />
                         <Text style={{marginHorizontal:10, color:"#0E1822"}}>Settings</Text>
                         <Entypo name="chevron-small-right" size={24} style={{marginVertical:-10, marginHorizontal:"47%",  color:"#0E1822"}}/>
-                      </TouchableOpacity>
+                      </TouchableOpacity> */}
 
                     </View>
                     </View>
@@ -208,34 +271,34 @@ useEffect(() =>{
 const styles= StyleSheet.create({
 
 backgroundImg:{
-   width:'100%',
-   height:'100%',
+  width:'100%',
+  height:'100%',
 },
 
 profileImg:{
-   width:200,
-   height:200, 
-   borderRadius:100, 
-   bottom:85
+  width:200,
+  height:200, 
+  borderRadius:100, 
+  bottom:85
 },
 
 profileImgContainer:{    
-     width:'80%',
-     height: 215,
-     borderRadius:15,
-     backgroundColor:'#E3E3E3',
-     alignSelf:'center',
-     alignItems:'center',
-     top:65
+  width:'80%',
+  height: 215,
+  borderRadius:15,
+  backgroundColor:'#E3E3E3',
+  alignSelf:'center',
+  alignItems:'center',
+  top: 30
 },
 
 topLeftIcon: {
-        borderWidth: 1,
-        borderRadius: 14,
-        borderColor: '#0E1822',
-        width: 45,
-        height: 45,
-        margin:25
+  borderWidth: 1,
+  borderRadius: 14,
+  borderColor: '#0E1822',
+  width: 45,
+  height: 45,
+  margin:25
 },
 
 userNameText:{
@@ -260,7 +323,7 @@ btnText:{
 },
 
 optionsContainer:{
-  top: 85
+  top: 35
 },
 
 modalContainer:{

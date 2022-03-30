@@ -319,6 +319,7 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
                       </View>
                     )
                     }
+
                   <TouchableOpacity 
                     style={{marginVertical: 12}}
                     onPress={() => setModalVisible(true)} 
@@ -355,7 +356,7 @@ return firestore().collection("likes").where("artistUid", "==", artistUid).onSna
                  </View>
                        
                   </View>
-                  <TouchableOpacity style={{marginVertical: 12}} 
+                  <TouchableOpacity style={{marginVertical: 12, bottom: 8}} 
                   
                     onPress={() =>  { return addToCart(item.artUrl, item.artType, item.price, item.ArtistUid, item.ImageUid)}}>
                     <MaterialIcons

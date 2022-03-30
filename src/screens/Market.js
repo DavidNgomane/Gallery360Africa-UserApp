@@ -117,9 +117,7 @@ const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 7 / 5);
               <TouchableOpacity onPress={() => navigation.navigate('Artists')}>
                 <View 
                 style={{
-                  paddingHorizontal: 5, 
-                  // borderRadius: 10, 
-                  // borderWidth: .5, 
+                  paddingHorizontal: 5,  
                   borderColor: 'gray',
                   margin : 5, 
                   justifyContent: "center", 
@@ -128,7 +126,7 @@ const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 7 / 5);
                   height: 100
                   }}
                   >
-                  <Text style={{color: "#ceb89e", textAlign: "center", fontSize: 25}}>Show All</Text>
+                  <Text style={{color: "gray", textAlign: "center", fontSize: 25}}>Show All</Text>
                 </View>
               </TouchableOpacity>
               </ScrollView>

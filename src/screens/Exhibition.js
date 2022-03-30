@@ -13,7 +13,7 @@ const Exhibition = ({navigation}) => {
   const [artist, setArtist] = useState(null);
 
   const getArtist = () => {
-    return firestore().collection('artists').onSnapshot((snapShot) => {
+    return firestore().collection('artists').orderBy('artistName').limit(3).onSnapshot((snapShot) => {
       const allArtists = snapShot.docs.map(docSnap => docSnap.data());
       setArtist(allArtists);
     })

@@ -179,13 +179,13 @@ const uuid = auth()?.currentUser?.uid;
 
               headerTitleAlign: 'left', 
               headerTitleStyle: {
-                color: '#ceb89e'
+                color: '#000'
               },
             
             headerBackVisible: false,
             headerShadowVisible: false,
             
-            title: `${fullName}`,
+            title: `Hi ${fullName}`,
             headerRight: () => (
               <View style={{flexDirection: 'row', width: 95, justifyContent: 'space-between'}}>
 

@@ -180,7 +180,7 @@ const globalStyles = StyleSheet.create({
         paddingHorizontal: 3
       },
       ArtistName: {
-        color: "#ceb89e", 
+        color: "gray", 
         textAlign: "center", 
         // fontWeight: "bold"
     },
@@ -198,8 +198,8 @@ const globalStyles = StyleSheet.create({
     },
     artNameTxt: {
         fontSize: 23, 
-        fontWeight: 'bold', 
-        color: '#ceb89e', 
+        //fontWeight: 'bold', 
+        color: '#000', 
         paddingHorizontal: 20
     },
     artTypeTxt: {
